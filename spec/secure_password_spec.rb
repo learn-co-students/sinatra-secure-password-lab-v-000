@@ -74,7 +74,7 @@ describe 'App' do
     it "responds to authenticate method from has_secure_password" do
       @user = User.new("username" => "test", "password" => "1234")
       @user.save
-      expect(@user.authenticate("1234")).to be_true
+      expect(@user.authenticate("1234")).to be_truthy
     end
   end
 
