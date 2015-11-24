@@ -12,5 +12,6 @@ gem 'require_all'
 group :development do
 	gem "pry"
 	gem "sqlite3"
+  gem "rspec"
 	gem "tux"
 end
