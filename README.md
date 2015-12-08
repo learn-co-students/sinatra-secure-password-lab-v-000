@@ -23,6 +23,9 @@ We've got a basic Sinatra MVC application for our bank. In our `application_cont
 + `get '/failure'` renders a `failure.erb` page. This will be accessed if there is an error logging in or signing up. 
 + `get '/logout'` clears the session data and redirects to the home page.
 
+The **Helper Methods** at the bottom of the controller are part of Sinatra's configurations for helper methods. Do not worry about the intricacies of how they work. Just know they are methods that allow us to add logic to our views. You automagically have access to those methods in the view.
+
+
 We've also stubbed out a user model in `app/models/user.rb` that inherits from `ActiveRecord::Base`. 
 
 Fork and clone this repository and run `bundle install` to get started! Preview your work by running `shotgun` and navigating to http://localhost:9393 in your browser. 
