@@ -31,7 +31,9 @@ We've also stubbed out a user model in `app/models/user.rb` that inherits from `
 Fork and clone this repository and run `bundle install` to get started! Preview your work by running `shotgun` and navigating to http://localhost:9393 in your browser. 
 
 ## To Do
-Get the tests to pass. You'll need to use 'bcrypt' to salt your password and make sure that it is encrypted. 
+Get the tests to pass. You'll need to use 'bcrypt' to salt your password and make sure that it is encrypted. '
+
+You'll also need to create a users table. A user should have a username and password.
 
 ## Bonus
 
