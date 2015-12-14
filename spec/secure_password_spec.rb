@@ -18,16 +18,19 @@ describe 'App' do
 
     it "displays the failure page if no username is given" do
       post '/signup', {"username" => "", "password" => "hello"}
+      follow_redirect!
       expect(last_response.body).to include('Flatiron Bank Error')
     end
 
     it "displays the failure page if no password is given" do
       post '/signup', {"username" => "", "password" => "hello"}
+      follow_redirect!
       expect(last_response.body).to include('Flatiron Bank Error')
     end
 
     it "displays the log in page if username and password is given" do
       post '/signup', {"username" => "avi", "password" => "I<3Ruby"}
+      follow_redirect!
       expect(last_response.body).to include('Login')
     end
 
@@ -42,23 +45,28 @@ describe 'App' do
 
     it "displays the failure page if no username is given" do
       post '/login', {"username" => "", "password" => "I<3Ruby"}
+      follow_redirect!
       expect(last_response.body).to include('Flatiron Bank Error')
       expect(session[:id]).to be(nil)
     end
 
     it "displays the failure page if no password is given" do
       post '/login', {"username" => "avi", "password" => ""}
+      follow_redirect!
       expect(last_response.body).to include('Flatiron Bank Error')
       expect(session[:id]).to be(nil)
     end
 
     it "displays the user's account page if username and password is given" do
+
       user = User.new(username: "avi", password: "I<3Ruby")
       user.save
       post '/login', {"username" => "avi", "password" => "I<3Ruby"}
+      follow_redirect!
       expect(last_response.body).to include('Welcome')
       expect(last_response.body).to include('avi')
-      expect(session[:id]).to not_be(nil)
+      binding.pry
+      expect(session[:id]).to_not be(nil)
     end
   end
 
@@ -71,9 +79,8 @@ describe 'App' do
 
   describe "User Model" do
     it "responds to authenticate method from has_secure_password" do
-      @user = User.new("username" => "test", "password" => "1234")
-      @user.save
-      expect(@user.authenticate("1234")).to be_truthy
+      @user = User.create(:username => "test123", :password => "test")
+      expect(@user.authenticate("test")).to be_truthy
     end
   end
 
