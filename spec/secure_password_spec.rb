@@ -12,53 +12,52 @@ describe 'App' do
 
     it "displays Sign Up Page" do
       get '/signup'
-      expect(last_response).to include('Username:')
-      expect(last_response).to include('Password:')
+      expect(last_response.body).to include('Username:')
+      expect(last_response.body).to include('Password:')
     end
 
     it "displays the failure page if no username is given" do
       post '/signup', {"username" => "", "password" => "hello"}
-      expect(last_response).to include('Flatiron Bank Error')
+      expect(last_response.body).to include('Flatiron Bank Error')
     end
 
     it "displays the failure page if no password is given" do
       post '/signup', {"username" => "", "password" => "hello"}
-      expect(last_response).to include('Flatiron Bank Error')
+      expect(last_response.body).to include('Flatiron Bank Error')
     end
 
     it "displays the log in page if username and password is given" do
       post '/signup', {"username" => "avi", "password" => "I<3Ruby"}
-      expect(last_response).to include('Login')
+      expect(last_response.body).to include('Login')
     end
 
   end
 
   describe "Logging In" do
-    it "displays Sign Up Page" do
+    it "displays Log In Page" do
       get '/login'
-      expect(last_response).to include('Username:')
-      expect(last_response).to include('Password:')
+      expect(last_response.body).to include('Username:')
+      expect(last_response.body).to include('Password:')
     end
 
     it "displays the failure page if no username is given" do
       post '/login', {"username" => "", "password" => "I<3Ruby"}
-      follow_redirect!
-      expect(last_response).to include('Flatiron Bank Error')
+      expect(last_response.body).to include('Flatiron Bank Error')
       expect(session[:id]).to be(nil)
     end
 
     it "displays the failure page if no password is given" do
       post '/login', {"username" => "avi", "password" => ""}
-      follow_redirect!
-      expect(last_response).to include('Flatiron Bank Error')
+      expect(last_response.body).to include('Flatiron Bank Error')
       expect(session[:id]).to be(nil)
     end
 
     it "displays the user's account page if username and password is given" do
+      user = User.new(username: "avi", password: "I<3Ruby")
+      user.save
       post '/login', {"username" => "avi", "password" => "I<3Ruby"}
-      follow_redirect!
-      expect(last_response).to include('Welcome')
-      expect(last_response).to include('avi')
+      expect(last_response.body).to include('Welcome')
+      expect(last_response.body).to include('avi')
       expect(session[:id]).to not_be(nil)
     end
   end
