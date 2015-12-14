@@ -7,6 +7,8 @@ gem "sinatra-activerecord"
 gem "rake"
 gem "bcrypt"
 gem 'require_all'
+gem 'pry'
+gem 'capybara'
 
 
 group :development do
