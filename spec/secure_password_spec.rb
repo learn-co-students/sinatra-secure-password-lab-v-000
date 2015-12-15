@@ -65,7 +65,6 @@ describe 'App' do
       follow_redirect!
       expect(last_response.body).to include('Welcome')
       expect(last_response.body).to include('avi')
-      binding.pry
       expect(session[:id]).to_not be(nil)
     end
   end
