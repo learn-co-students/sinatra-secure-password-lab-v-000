@@ -1,5 +1,7 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<%if logged_in?%>
+  <p>Welcome<%=current_user.username%></p>
+<%end%>
 
 <p><a href="/logout">Log Out</a></p>
