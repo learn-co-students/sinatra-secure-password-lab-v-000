@@ -3,4 +3,10 @@
 <p>We are currently working on your account.</p>
 <p>Username: <%= current_user.username %></p>
 
+<form action="/transaction" method="post">
+  <input type="text" name="withdrawal" placeholder="Withdrawal" style="padding:10px"><br>
+  <input type="text" name="deposit" placeholder="Deposit" style="padding:10px"><br>
+  <input type="submit" value="Submit">
+</form>
+
 <p><a href="/logout">Log Out</a></p>

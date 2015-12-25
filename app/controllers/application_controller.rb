@@ -17,11 +17,11 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    if !blank_form?
-      user = User.create(username: params[:username], password: params[:password])
-      redirect "/login"
-    else
+    if blank_form?
       redirect "/failure"
+    else
+      user = User.create(username: params[:username], password: params[:password], balance: 0)
+      redirect "/login"
     end
   end
 
@@ -30,21 +30,40 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    user = User.find_by(username: params[:username])
-    if user && user.authenticate(params[:password])
-      session[:id] = user.id
-      redirect "/success"
-    else
+    if blank_form?
       redirect "/failure"
+    else
+      user = User.find_by(username: params[:username])
+      if user && user.authenticate(params[:password])
+        session[:id] = user.id
+        redirect "/success"
+      end
     end
   end
 
   get "/success" do
     if logged_in?
-      erb :account
+      redirect "/account"
     else
       redirect "/failure"
     end
+  end
+
+  get "/account" do
+    erb :account
+  end
+
+  post "/transaction" do
+    if enough_funds?
+      User.complete_transaction(session, params)
+      redirect "/balance"
+    else
+      redirect "/failure"
+    end
+  end
+
+  get "/balance" do
+    erb :balance
   end
 
   get "/failure" do
@@ -66,7 +85,11 @@ class ApplicationController < Sinatra::Base
     end
 
     def blank_form?
-      params.values.any?{|info| info.empty?}
+      params.values.any?{|login_field| login_field.empty?}
+    end
+
+    def enough_funds?
+      !params[:deposit].empty? || current_user.balance >= params[:withdrawal].to_i
     end
   end
 
