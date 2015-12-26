@@ -20,7 +20,7 @@ class ApplicationController < Sinatra::Base
     if blank_form?
       redirect "/failure"
     else
-      user = User.create(username: params[:username], password: params[:password], balance: 0)
+      user = User.create(params[:post])
       redirect "/login"
     end
   end
@@ -33,8 +33,8 @@ class ApplicationController < Sinatra::Base
     if blank_form?
       redirect "/failure"
     else
-      user = User.find_by(username: params[:username])
-      if user && user.authenticate(params[:password])
+      user = User.find_by(username: params[:post][:username])
+      if user && user.authenticate(params[:post][:password])
         session[:id] = user.id
         redirect "/success"
       end
@@ -89,7 +89,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def enough_funds?
-      !params[:deposit].empty? || current_user.balance >= params[:withdrawal].to_i
+      !params[:post][:deposit].empty? || current_user.balance >= params[:post][:withdrawal].to_i
     end
   end
 
