@@ -7,6 +7,7 @@ gem "sinatra-activerecord"
 gem "rake"
 gem "bcrypt"
 gem 'require_all'
+gem "shotgun"
 
 
 group :development do
