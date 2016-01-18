@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require 'pry'
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -16,24 +17,74 @@ class ApplicationController < Sinatra::Base
     erb :signup
   end
 
+  get "/error" do
+    erb :error
+  end
+
   post "/signup" do
-    #your code here!
+    if params[:username] == "" || params[:username] == ""
+      redirect "/error"
+    else
+      @user = User.new(username: params[:username], password: params[:password], balance: 0)
+      @user.save
+      redirect '/login'
+    end
   end
 
 
   get "/login" do
-    erb :login
+    if logged_in?
+      redirect "/success"
+    else
+      erb :login
+    end
   end
 
   post "/login" do
-    #your code here!
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      session[:id] = @user[:id]
+      redirect '/success'
+    else
+      redirect "/failure"
+    end
   end
 
   get "/success" do
+    @user = User.find_by_id(session[:user_id])
     if logged_in?
       erb :success
     else
+      binding.pry
       redirect "/login"
+    end
+  end
+
+  get "/dep_with" do 
+    @user = User.find_by_id(session[:user_id])
+    if logged_in?
+      erb :dep_with
+    else
+      redirect "/login"
+    end
+  end
+
+  post "/dep_with" do
+    @user = User.find_by_id(session[:user_id])
+    if logged_in?
+      if (@user[:balance] + params[:deposit].to_i) > 0
+        @user[:balance] += params[:deposit].to_i
+        @user.save
+      end
+      binding.pry
+      if params[:withdraw] != "" && (params[:withdraw].to_i - @user[:balance]) < 0
+        @user[:balance] -= params[:withdraw].to_i
+        @user.save
+        redirect "/login"
+      else
+        binding.pry
+        redirect "/login"
+      end
     end
   end
 
@@ -46,6 +97,8 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+
+  private
   helpers do
     def logged_in?
       !!session[:id]
@@ -55,5 +108,4 @@ class ApplicationController < Sinatra::Base
       User.find(session[:id])
     end
   end
-
 end
