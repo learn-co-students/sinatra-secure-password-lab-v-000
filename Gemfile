@@ -5,6 +5,8 @@ gem "sinatra"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem "rake"
+gem "rspec"
+gem "learn-co"
 gem "bcrypt"
 gem 'require_all'
 
