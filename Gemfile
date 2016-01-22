@@ -7,10 +7,11 @@ gem "sinatra-activerecord"
 gem "rake"
 gem "bcrypt"
 gem 'require_all'
+gem "pry"
+gem 'money'
 
 
 group :development do
-	gem "pry"
 	gem "sqlite3"
   gem "rspec"
 	gem "tux"
