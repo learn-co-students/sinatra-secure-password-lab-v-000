@@ -9,15 +9,15 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "password_security"
   end
 
-  get "/" do
+  get "/" do #root page or index page rendering
     erb :index
   end
 
-  get "/signup" do
+  get "/signup" do #signup page for new users
     erb :signup
   end
 
-  post "/signup" do
+  post "/signup" do #if username/password is blank send to error page else create new user and redirect to login
     if params[:username]=="" || params[:password]==""
       redirect "/failure"
     else
@@ -33,11 +33,11 @@ class ApplicationController < Sinatra::Base
   end
 
 
-  get "/login" do
+  get "/login" do #login page rendering
     erb :login
   end
 
-  post "/login" do
+  post "/login" do #process the login page and a session id to keep track of the logged in user
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:id] = user.id
@@ -48,7 +48,7 @@ class ApplicationController < Sinatra::Base
     
   end
 
-  get "/success" do
+  get "/success" do #if user successfully logs in, they are redirected to the account page else back to login page
     if logged_in?
       @user = User.find_by(sessions[:id])
       erb :account
