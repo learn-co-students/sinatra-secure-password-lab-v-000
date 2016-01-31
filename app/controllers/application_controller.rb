@@ -17,7 +17,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    user = User.new(username: params[:username], password: params[:password])
+    user = User.new(username: params[:username], password: params[:password], balance: 0)
     if user.save
       redirect '/login'
     else
@@ -55,6 +55,40 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  get '/deposit' do
+    if logged_in?
+      erb :deposit
+    else
+      redirect "/login"
+    end
+  end
+
+  get '/withdrawal' do
+    if logged_in?
+      erb :withdrawal
+    else
+      redirect "/login"
+    end
+  end
+
+  post '/deposit' do
+    amount = params[:deposit].to_i
+    user = current_user
+    user.update(balance: user.deposit(amount))
+    erb :deposit
+  end
+
+  post '/withdrawal' do
+    amount = params[:withdrawal].to_i
+    user = current_user
+    if user.balance >= amount
+      user.update(balance: user.withdrawal(amount))
+      erb :withdrawal
+    else
+      erb :withdrawal_error
+    end
   end
 
   helpers do
