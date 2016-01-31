@@ -1,8 +1,17 @@
 <h1>Welcome</h1>
-<h2><%= current_user.username %></h2>
+<h2><%= @user.username %></h2>
 
 <p>We are currently working on your account.</p>
 
+$<%= @user.balance.to_d %>
 
+<form method="POST" action="/account">
+<input id="hidden" type="hidden" name="_method" value="patch">
+  <label>Deposit: $</label>
+<input type="number" name="deposit" placeholder="amount" value="0.00">
+<label>Withdraw: $</label>
+<input type="number" name="withdraw" placeholder="amount" value="0.00">
+  <input type="submit" value="Complete">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
