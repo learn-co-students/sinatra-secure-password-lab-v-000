@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe 'App' do
   describe "GET '/'" do
     it "returns a 200 status code" do
