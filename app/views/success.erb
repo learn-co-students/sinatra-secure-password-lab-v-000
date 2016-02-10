@@ -1,0 +1,10 @@
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <% if helpers.logged_in? %>
+    <h1>Welcome, <%= helpers.current_user.username %></h1>
+  <% end %>
+</body>
+</html>
