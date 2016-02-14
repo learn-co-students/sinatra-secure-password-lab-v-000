@@ -47,6 +47,19 @@ class ApplicationController < Sinatra::Base
       redirect "/login"
     end
   end
+  
+  post "/account/deposit" do 
+    if logged_in? 
+      deposit(params[:amount])
+      erb :success
+    else
+      redirect "/login"
+    end
+  end
+  
+  get "/success" do 
+    erb :success
+  end
 
   get "/failure" do
     erb :failure
@@ -64,6 +77,17 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:id])
+    end
+    
+    def deposit(amount)
+      if amount.to_f
+        user = User.find(session[:id])
+        user.balance += amount.to_f
+        user.save
+        session[:notice] = "Successfully completed deposit of $#{amount}."
+      else
+        session[:error] = "Please enter a valid amount."
+      end
     end
   end
 
