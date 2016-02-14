@@ -17,7 +17,12 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here!
+    user = User.new(username: params[:username], password: params[:password])
+    if user.save
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
   end
 
 
@@ -26,15 +31,50 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    #your code here!
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:id] = user.id
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
-  get "/success" do
+  get "/account" do
     if logged_in?
-      erb :success
+      erb :account
     else
       redirect "/login"
     end
+  end
+  
+  post "/account/deposit" do 
+    if logged_in? 
+      puts params[:amount]
+      if deposit(params[:amount]) 
+        erb :success
+      else
+        redirect "/account"
+      end
+    else
+      redirect "/login"
+    end
+  end
+  
+  post "/account/withdrawal" do 
+    if logged_in?
+      if withdraw(params[:amount])
+        erb :success
+      else
+        redirect "/account"
+      end
+    else
+      redirect "/login"
+    end
+  end
+  
+  get "/success" do 
+    erb :success
   end
 
   get "/failure" do
@@ -53,6 +93,38 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:id])
+    end
+    
+    def deposit(amount)
+      puts amount
+      if amount.to_f > 0.0
+        user = current_user
+        user.balance += amount.to_f
+        user.save
+        session[:error] = nil
+        session[:notice] = "Successfully completed deposit of $#{amount}."
+      else
+        session[:error] = "Please enter a valid amount."
+        false
+      end
+    end
+    
+    def withdraw(amount)
+      if amount.to_f > 0.0
+        if amount.to_f < current_user.balance
+          user = current_user
+          user.balance -= amount.to_f
+          user.save
+          session[:error] = nil
+          session[:notice] = "Successfully completed withdrawal of $#{amount}."
+        else
+          session[:error] = "Insufficient funds to complete withdrawal."
+          false
+        end
+      else
+        session[:error] = "Please enter a valid amount."
+        false
+      end
     end
   end
 
