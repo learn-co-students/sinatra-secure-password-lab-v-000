@@ -50,8 +50,24 @@ class ApplicationController < Sinatra::Base
   
   post "/account/deposit" do 
     if logged_in? 
-      deposit(params[:amount])
-      erb :success
+      puts params[:amount]
+      if deposit(params[:amount]) 
+        erb :success
+      else
+        redirect "/account"
+      end
+    else
+      redirect "/login"
+    end
+  end
+  
+  post "/account/withdrawal" do 
+    if logged_in?
+      if withdraw(params[:amount])
+        erb :success
+      else
+        redirect "/account"
+      end
     else
       redirect "/login"
     end
@@ -80,13 +96,34 @@ class ApplicationController < Sinatra::Base
     end
     
     def deposit(amount)
-      if amount.to_f
-        user = User.find(session[:id])
+      puts amount
+      if amount.to_f > 0.0
+        user = current_user
         user.balance += amount.to_f
         user.save
+        session[:error] = nil
         session[:notice] = "Successfully completed deposit of $#{amount}."
       else
         session[:error] = "Please enter a valid amount."
+        false
+      end
+    end
+    
+    def withdraw(amount)
+      if amount.to_f > 0.0
+        if amount.to_f < current_user.balance
+          user = current_user
+          user.balance -= amount.to_f
+          user.save
+          session[:error] = nil
+          session[:notice] = "Successfully completed withdrawal of $#{amount}."
+        else
+          session[:error] = "Insufficient funds to complete withdrawal."
+          false
+        end
+      else
+        session[:error] = "Please enter a valid amount."
+        false
       end
     end
   end

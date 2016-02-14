@@ -1,10 +1,17 @@
 <h1>Welcome <%= current_user.username %>!</h1>
-
+<% if session[:error] %>
+<h2 style="color:red"><%= session[:error] %></h2>
+<% end %>
 <h2>Current Balance: $<%= current_user.balance %></h2>
 <h3>Make a Deposit:</h3>
 <form method="post" action="/account/deposit">
   <p><label for="amount">Amount: </label><input type="text" name="amount"></p>  
   <p><input type="submit" value="Make Deposit"></p>
+</form>
+<h3>Make a Withdrawal:</h3>
+<form method="post" action="/account/withdrawal">
+  <p><label for="amount">Amount: </label><input type="text" name="amount"></p>
+  <p><input type="submit" value="Make Withrdrawal"></p>
 </form>
 
 <p><a href="/logout">Log Out</a></p>
