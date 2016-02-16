@@ -63,6 +63,7 @@ describe 'App' do
       user.save
       post '/login', {"username" => "avi", "password" => "I<3Ruby"}
       follow_redirect!
+      
       expect(last_response.body).to include('Welcome')
       expect(last_response.body).to include('avi')
       expect(session[:id]).to_not be(nil)
