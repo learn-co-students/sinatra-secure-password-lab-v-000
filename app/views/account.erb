@@ -1,5 +1,15 @@
-<h1>Welcome</h1>
+<h1>Welcome <% if logged_in? %>
+  <%= current_user.username %></h1>
+  <h3>Your Balance</h3>
+  <%= current_user.balance.to_s %>
 
-<p>We are currently working on your account.</p>
+  <form action="/action" method="post">
+    <input type="text" name="amount" value="0.00"><br>
+    <input type="radio" name="transaction" value="deposit" checked> Deposit<br>
+    <input type="radio" name="transaction" value="withdraw"> Withdraw<br>
+    <input type="submit" name="submit" value="Submit">
+  </form>
+
+  <% end %>
 
 <p><a href="/logout">Log Out</a></p>
