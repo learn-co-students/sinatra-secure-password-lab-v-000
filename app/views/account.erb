@@ -1,5 +1,20 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= @user.username %></h1>
+
+<h2>Your Balance: <%= @user.balance %></h2>
 
 <p>We are currently working on your account.</p>
+
+<form action="/deposit" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <h2><label>Make a Deposit: <input type="tel" name="deposit_amount"></label></h2>
+  <input type="submit" value="Deposit Funds">
+</form>
+
+
+<form action="/withdraw" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <h2><label>Make a Widthrawl: <input type="tel" name="withdraw_amount"></label></h2>
+  <input type="submit" value="Withdraw Funds">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
