@@ -9,7 +9,8 @@ gem "bcrypt"
 gem 'require_all'
 gem 'pry'
 gem 'capybara'
-
+gem "rack_session_access"
+gem 'rack-test'
 
 group :development do
 	gem "pry"
