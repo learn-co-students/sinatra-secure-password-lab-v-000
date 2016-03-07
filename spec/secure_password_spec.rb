@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'App' do
+  include Rack::Test::Methods
+
   describe "GET '/'" do
     it "returns a 200 status code" do
       get '/'
@@ -44,35 +46,41 @@ describe 'App' do
     end
 
     it "displays the failure page if no username is given" do
-      post '/login', {"username" => "", "password" => "I<3Ruby"}
-      follow_redirect!
-      expect(last_response.body).to include('Flatiron Bank Error')
-      expect(session[:id]).to be(nil)
+
+      visit '/login'
+      fill_in "username", with: ""
+      fill_in "password", with: "test"
+      click_button "Log In"
+      expect(page.body).to include('Flatiron Bank Error')
+      expect{page.get_rack_session_key("user_id")}.to raise_error(KeyError)
     end
 
     it "displays the failure page if no password is given" do
-      post '/login', {"username" => "avi", "password" => ""}
-      follow_redirect!
-      expect(last_response.body).to include('Flatiron Bank Error')
-      expect(session[:id]).to be(nil)
+      visit '/login'
+      fill_in "username", with: "sophie"
+      fill_in "password", with: ""
+      click_button "Log In"
+      expect(page.body).to include('Flatiron Bank Error')
+      expect(page.current_path).to eq("/failure")
+      expect{page.get_rack_session_key("user_id")}.to raise_error(KeyError)
     end
 
     it "displays the user's account page if username and password is given" do
-
-      user = User.new(username: "avi", password: "I<3Ruby")
-      user.save
-      post '/login', {"username" => "avi", "password" => "I<3Ruby"}
-      follow_redirect!
-      expect(last_response.body).to include('Welcome')
-      expect(last_response.body).to include('avi')
-      expect(session[:id]).to_not be(nil)
+      @user = User.create(:username => "penelope", :password => "puppies")
+      visit '/login'
+      fill_in "username", :with => "student1"
+      fill_in "password", :with => "test"
+      click_button "Log In"
+      expect(page.current_path).to eq('/account')
+      expect(page.status_code).to eq(200)
+      expect(page.body).to include("We are currently working on your account.")
     end
   end
 
   describe "GET '/logout'" do
     it "clears the session" do
       get '/logout'
-      expect(session[:id]).to be(nil)
+      expect{page.get_rack_session_key("user_id")}.to raise_error(KeyError)
     end
   end
 
