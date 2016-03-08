@@ -68,8 +68,8 @@ describe 'App' do
     it "displays the user's account page if username and password is given" do
       @user = User.create(:username => "penelope", :password => "puppies")
       visit '/login'
-      fill_in "username", :with => "student1"
-      fill_in "password", :with => "test"
+      fill_in "username", :with => "penelope"
+      fill_in "password", :with => "puppies"
       click_button "Log In"
       expect(page.current_path).to eq('/account')
       expect(page.status_code).to eq(200)
