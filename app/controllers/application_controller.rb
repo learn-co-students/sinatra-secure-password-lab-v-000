@@ -18,12 +18,26 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
+     if params[:username]=="" || params[:password]==""
+       redirect '/failure'
+     end
 
+    user = User.new(username: params[:username], password: params[:password])
+    if user.save
+      redirect '/login'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    # @user = User.find(session[:user_id])
+    @user = current_user
+    if logged_in?
+      erb :account
+    else
+      redirect '/failure'
+    end
   end
 
 
@@ -33,15 +47,51 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
-  end
-
-  get "/success" do
-    if logged_in?
-      erb :success
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect '/account'
     else
-      redirect "/login"
+      redirect '/failure'
     end
   end
+
+  post '/transfer' do
+    user = current_user
+
+    if user && !logged_in?
+      redirect '/failure'
+    end
+
+    if params[:transfer_type]=="Deposit"
+      user.balance += params[:amount].to_i
+      user.save
+    elsif params[:transfer_type]=="Withdrawal"
+      if params[:amount].to_i <= user.balance
+        user.balance -= params[:amount].to_i
+        user.save
+      else
+        redirect '/insufficient'
+      end
+    else
+      redirect '/failure'
+    end
+
+    redirect '/account'
+
+  end
+
+  get '/insufficient' do
+    erb :insufficient
+  end
+
+  # get "/success" do
+  #   if logged_in?
+  #     erb :success
+  #   else
+  #     redirect "/login"
+  #   end
+  # end
 
   get "/failure" do
     erb :failure

@@ -1,5 +1,15 @@
 <h1>Welcome</h1>
 
 <p>We are currently working on your account.</p>
+<p>Also,</p><br>
+<p>Current Balance: $<%= @user.balance  %></p>
+
+<h4>Transactions</h4>
+<form method='POST' action='/transfer'>
+  Value: <input type='text' name='amount'><br>
+  Type: <input type='radio' name='transfer_type' value='Deposit'>Deposit
+  <input type='radio' name='transfer_type' value='Withdrawal'>Withdrawal<br>
+  <input type='submit' value='Submit'>
+</form>
 
 <p><a href="/logout">Log Out</a></p>
