@@ -28,8 +28,33 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/account' do
+    if !logged_in?
+      redirect '/login'
+    else
+      @user = User.find(session[:user_id])
+      erb :account
+    end
+  end
+
+  post '/account' do
+    @error = false
     @user = User.find(session[:user_id])
-    erb :account
+    # binding.pry
+    bank_action = params.keys[0]
+    if bank_action == "deposit"
+      @user.balance += params[bank_action].to_f
+      @user.save
+      redirect '/account'
+    elsif bank_action == "withdrawal"
+      if @user.balance < params[bank_action].to_f
+        @error = true
+        erb :account
+      else
+        @user.balance -= params[bank_action].to_f
+        @user.save
+        redirect '/account'
+      end
+    end
   end
 
 
@@ -42,7 +67,6 @@ class ApplicationController < Sinatra::Base
       redirect '/failure'
     else
       user = User.find_by(username: params[:username])
-      binding.pry
       if user && user.authenticate(params[:password])
         session[:user_id] = user.id
         redirect '/account'
