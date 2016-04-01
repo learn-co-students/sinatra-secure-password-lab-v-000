@@ -37,6 +37,8 @@ You'll also need to create a users table. A user should have a username and pass
 
 ## Bonus
 
-Add a migration that gives the user model a balance (should start for any user at $0), and add funcitonality on the account page to make deposits and withdrawals. A user should never be able to withdraw more money than they have in their accout.
+Add a migration that gives the user model a balance (should start for any user at $0), and add funcitonality on the account page to make deposits and withdrawals. A user should never be able to withdraw more money than they have in their account.
 
-<a href='https://learn.co/lessons/sinatra-secure-password-lab' data-visibility='hidden'>View this lesson on Learn.co</a>
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-secure-password-lab' title='Secure Password Lab'>Secure Password Lab</a> on Learn.co and start learning to code for free.</p>
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-secure-password-lab'>Secure Password Lab </a> on Learn.co and start learning to code for free.</p>
