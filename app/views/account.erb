@@ -1,5 +1,19 @@
-<h1>Welcome</h1>
-
+<h1>Welcome <%= current_user.username %></h1>
+<% if @error %>
+<p>Cannot withdraw that amount from your account</p>
+<% end %>
+<p>You're current balance is <%= current_user.balance %> </p>
 <p>We are currently working on your account.</p>
 
+<p>Would you like to make a deposit or a withdrawal?</p>
+
+<form action="/account" method="post">
+  <p><input type="text" name="deposit"></p>
+  <input type="submit" value="Deposit">
+</form>
+
+<form action="/account" method="post">
+  <p><input type="text" name="withdrawal"></p>
+  <input type="submit" value="Withdrawal">
+</form>
 <p><a href="/logout">Log Out</a></p>
