@@ -27,7 +27,16 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
+    current_user
+    erb :account
+  end
+
+  post '/account' do
+   current_user.balance += params[:deposit].to_f if params[:deposit] !=nil
+   current_user.balance -= params[:withdraw].to_f if params[:withdraw] !=nil && current_user.balance > params[:withdraw].to_f
+   
+   current_user.save
+
     erb :account
   end
 
