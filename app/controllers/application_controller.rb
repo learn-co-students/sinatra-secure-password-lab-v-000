@@ -32,12 +32,20 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/account' do
-   current_user.balance += params[:deposit].to_f if params[:deposit] !=nil
-   current_user.balance -= params[:withdraw].to_f if params[:withdraw] !=nil && current_user.balance > params[:withdraw].to_f
-   
-   current_user.save
+    #raise params.inspect
+    if !params[:deposit].empty?
+      balance = (current_user.balance += params[:deposit].to_f)
+      current_user.update(balance: balance)
+      redirect "/account"
+      
+    elsif !params[:withdraw].empty? && (current_user.balance > params[:withdraw].to_f)
+      balance = (current_user.balance -= params[:withdraw].to_f)
+      current_user.update(balance: balance) 
+      redirect "/account"
 
-    erb :account
+    else
+      redirect "/account"
+    end
   end
 
 
@@ -81,5 +89,4 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
   end
-
 end
