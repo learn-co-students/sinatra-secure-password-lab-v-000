@@ -5,8 +5,19 @@
 
 
   <h1>Welcome to Your Secure Account Information, <%= current_user.username%></h1>
-  <p>Account Balance: </p>
-  <p>Account Transactions: </p>
-   
+  <h3>Account Balance: <%= @user.balance %></h3>
+  <br>
+  <br>
+  <h3>Account Transactions: </h3>
+  <form method="POST" action="/account">
+    <label>Enter Deposit Amount:</label>
+      <input type="text" name="deposit" placeholder="Deposit Amount:">
+      <input type="submit" value="Make Deposit">
+    <br>
+    <br>    
+    <label>Enter Withdrawal Amount:</label>
+      <input type="text" name="withdrawal" placeholder="Withdrawal Amount:">
+      <input type="submit" value="Make Withdrawal">
+  </form>
   <p><a href="/logout">Log Out</a></p>
  

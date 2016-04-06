@@ -54,7 +54,23 @@ class ApplicationController < Sinatra::Base
    end
 
   get '/account' do
-    # @user = current_user
+    @user = current_user
+    erb :account
+  end
+
+  post '/account' do
+    @user = current_user
+    @bal = @user.balance
+    @wd = params[:withdrawal].to_i
+    @dep = params[:deposit].to_i
+    if @wd > 0
+      @bal = @bal - @wd unless @wd > @bal
+      @user.save
+    elsif @dep > 0
+      @bal = @bal + @dep
+    end
+    @user.balance = @bal
+    @user.save
     erb :account
   end
 
