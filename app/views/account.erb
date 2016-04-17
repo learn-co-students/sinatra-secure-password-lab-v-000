@@ -1,5 +1,12 @@
 <h1>Welcome</h1>
 
 <p>We are currently working on your account.</p>
+<p>Your Balance: $<%= @user.balance %></p>
+<form method="post" action'/account'>
+  <input type="hidden" name="_method" value="patch">
+  <input type="number" name="amount" min="1" step="any" placeholder="Amount"/>
+  <input type="submit" name="deposit" value="Deposit">
+  <input type="submit" name="withdraw" value="Withdraw">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
