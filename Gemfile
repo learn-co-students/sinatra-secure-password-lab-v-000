@@ -10,6 +10,7 @@ gem 'require_all'
 gem 'capybara'
 gem "rack_session_access"
 gem 'rack-test'
+gem 'pry'
 
 group :development do
   gem "pry"
