@@ -1,5 +1,9 @@
 require "./config/environment"
 require "./app/models/user"
+
+#debugger
+require 'pry'
+
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -9,6 +13,9 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
+    #debugger
+    # binding.pry
+
     erb :index
   end
 
