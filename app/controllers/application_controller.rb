@@ -34,9 +34,22 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-  # post '/account-change' do
+  post '/account' do
+    @user = User.find(session[:user_id])
+    @name = @user.username
+    @balance = @user.balance
+    amount = params[:amount].to_i
 
-  # end
+    if params[:method] == "Withdrawl" && @balance > amount
+      @balance -= amount
+    elsif params[:method] == "Deposit"
+      @user.balance += amount
+    else
+      redirect '/failure'
+    end
+
+    erb :account
+  end
 
   get "/login" do
     erb :login
