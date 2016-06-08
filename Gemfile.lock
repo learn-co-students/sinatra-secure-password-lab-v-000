@@ -73,6 +73,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.0)
+    shotgun (0.9.1)
+      rack (>= 1.0)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -107,6 +109,7 @@ DEPENDENCIES
   rake
   require_all
   rspec
+  shotgun
   sinatra
   sinatra-activerecord
   sqlite3
