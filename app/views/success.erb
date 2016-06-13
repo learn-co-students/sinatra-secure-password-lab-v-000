@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<h1>Welcome, <%= current_user.username%> </h1>
+<p>Continue to your account:<a href="/account"><%= current_user.username%>Account</a></p>
+
+<p><a href="/logout">Log Out</a></p>
+</body>
+</html>
