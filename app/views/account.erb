@@ -1,5 +1,12 @@
-<h1>Welcome</h1>
+<h1>Welcome, <%= @user.username %></h1>
 
+<!--
+<% if @user.balance == nil %>
+  <p>Current Balance: $0 </p>
+<% else %>
+  <p>Current Balance: $<%= @user.balance %></p>
+<% end %>
+-->
 <p>We are currently working on your account.</p>
 
 <p><a href="/logout">Log Out</a></p>
