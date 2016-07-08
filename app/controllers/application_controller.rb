@@ -18,11 +18,8 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    # binding.pry 
-    @user = User.new(:username => params[:username], :password => params[:password])
-    @user.save
-    # why does the failure page not show up with user.save since the username was blank?
       if params[:username] != "" && params[:password] != ""
+            @user = User.create(:username => params[:username], :password_digest => params[:password])
           redirect "/login"
       else
           redirect "/failure"
@@ -41,8 +38,8 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     @user = User.find_by(username: params[:username])
-    if params[:username] != "" && @user.authenticate(params[:password]) 
-      session[:user_id] = @user.id
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id 
       redirect '/account'
     else 
       redirect '/failure'
