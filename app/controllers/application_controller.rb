@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require 'pry'
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -17,8 +18,15 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    # binding.pry 
+    @user = User.new(:username => params[:username], :password => params[:password])
+    @user.save
+    # why does the failure page not show up with user.save since the username was blank?
+      if params[:username] != "" && params[:password] != ""
+          redirect "/login"
+      else
+          redirect "/failure"
+      end
   end
 
   get '/account' do
@@ -26,13 +34,21 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-
   get "/login" do
     erb :login
   end
+  # binding.pry
 
+         
+ 
   post "/login" do
-    ##your code here
+    # user = User.find(username: params[:username], password: params[:password])
+    # session[:user_id] = user.id
+    if params[:username] != "" && params[:password] != ""
+      erb :account 
+    else 
+      redirect '/failure'
+    end 
   end
 
   get "/success" do
