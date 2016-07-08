@@ -10,6 +10,7 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     erb :index
+
   end
 
   get "/signup" do
@@ -17,8 +18,12 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    user = User.new(:username => params[:username], :password => params[:password])
+    if user.save
+      redirect '/login'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/account' do
