@@ -19,7 +19,7 @@ We've got a basic Sinatra MVC application for our bank. In our `application_cont
 + `get "/" do` renders an `index.erb` file with links to signup or login. 
 + `get '/signup'` renders a form to create a new user. The form includes fields form `username` and `password`. 
 + `get '/login'` renders a form for logging in.
-+ `get '/account'` renders a `account.erb` page, which should be displayed once a user successfully logs in
++ `get '/account'` renders an `account.erb` page, which should be displayed once a user successfully logs in.
 + `get '/failure'` renders a `failure.erb` page. This will be accessed if there is an error logging in or signing up. 
 + `get '/logout'` clears the session data and redirects to the home page.
 
@@ -42,3 +42,5 @@ Add a migration that gives the user model a balance (should start for any user a
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-secure-password-lab' title='Secure Password Lab'>Secure Password Lab</a> on Learn.co and start learning to code for free.</p>
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/sinatra-secure-password-lab'>Secure Password Lab </a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/sinatra-secure-password-lab'>Secure Password Lab </a> on Learn.co and start learning to code for free.</p>

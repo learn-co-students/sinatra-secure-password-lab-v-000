@@ -25,7 +25,7 @@ describe 'App' do
     end
 
     it "displays the failure page if no password is given" do
-      post '/signup', {"username" => "avi", "password" => ""}
+      post '/signup', {"username" => "username", "password" => ""}
       follow_redirect!
       expect(last_response.body).to include('Flatiron Bank Error')
     end
@@ -46,7 +46,6 @@ describe 'App' do
     end
 
     it "displays the failure page if no username is given" do
-
       visit '/login'
       fill_in "username", with: ""
       fill_in "password", with: "test"
