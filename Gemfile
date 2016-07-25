@@ -1,19 +1,21 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem "sinatra"
-gem "activerecord"
-gem "sinatra-activerecord"
-gem "rake"
-gem "bcrypt"
+gem 'sinatra'
+gem 'activerecord'
+gem 'sinatra-activerecord'
+gem 'rake'
+gem 'bcrypt'
 gem 'require_all'
 gem 'capybara'
-gem "rack_session_access"
+gem 'rack_session_access'
 gem 'rack-test'
+gem 'money'
 
 group :development do
-  gem "pry"
-  gem "sqlite3"
-  gem "rspec"
-  gem "tux"
+  gem 'pry'
+  gem 'sqlite3'
+  gem 'rspec'
+  gem 'tux'
+  gem 'shotgun'
 end
