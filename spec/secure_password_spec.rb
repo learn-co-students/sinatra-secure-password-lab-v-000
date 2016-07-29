@@ -65,7 +65,7 @@ describe 'App' do
     end
 
     it "displays the user's account page if username and password is given" do
-      @user = User.new(username: 'penelope', password: 'puppies')
+      @user = User.create(username: 'penelope', password: 'puppies')
       visit '/login'
       fill_in 'username', with: 'penelope'
       fill_in 'password', with: 'puppies'
