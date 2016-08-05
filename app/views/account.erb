@@ -1,5 +1,17 @@
 <h1>Welcome</h1>
+<h2>We are currently working on your account.</h2>
+<% if logged_in? %>
+  <p><%= current_user.balance %></p>
 
-<p>We are currently working on your account.</p>
+  <form action="/deposit" method="post">
+    <p>Enter amount to deposit: <input type="number" step="0.01" name="deposit_amount" value="0.0"></p>
+    <input type="submit" value="Deposit">
+  </form>
 
-<p><a href="/logout">Log Out</a></p>
+  <form action="/withdraw" method="post">
+    <p>Enter amount to withdraw: <input type="number" step="0.01" name="withdraw_amount" value="0.0"></p>
+    <input type="submit" value="Withdraw">
+  </form>
+
+  <p><a href="/logout">Log Out</a></p>
+<% end %>
