@@ -19,7 +19,7 @@ We've got a basic Sinatra MVC application for our bank. In our `application_cont
 We have five actions defined: 
 
 + `get "/" do` renders an `index.erb` file with links to signup or login. 
-+ `get '/signup'` renders a form to create a new user. The form includes fields form `username` and `password`. 
++ `get '/signup'` renders a form to create a new user. The form includes fields for `username` and `password`. 
 + `get '/login'` renders a form for logging in.
 + `get '/account'` renders an `account.erb` page, which should be displayed once a user successfully logs in.
 + `get '/failure'` renders a `failure.erb` page. This will be accessed if there is an error logging in or signing up. 
