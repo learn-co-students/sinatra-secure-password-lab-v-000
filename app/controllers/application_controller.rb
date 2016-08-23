@@ -37,6 +37,7 @@ class ApplicationController < Sinatra::Base
   get "/login" do
     erb :login
   end
+  #this is a test of why it won't submit properly
 
   post "/login" do
     @user = User.find_by(username: params[:username])
@@ -45,7 +46,7 @@ class ApplicationController < Sinatra::Base
        redirect to "/account"
      else
 
-       
+
        redirect to "/failure"
      end
   end
