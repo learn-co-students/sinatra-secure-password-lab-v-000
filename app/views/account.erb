@@ -11,7 +11,8 @@
   <p>Would you like to make a deposit or withdrawl today?</p>
   <h3>Widthdraw</h3>
 <form method="post" action="/account">
-  Amount: <input type="number" min="0" max="10000" step=".01" name="withdraw" placeholder="0.00"/>
+  <input id="hidden" type="hidden" name="_method" value="patch">
+    Amount: <input type="number" min="0" max="10000" step=".01" name="withdraw" placeholder="0.00"/>
   <input type="submit" value="Withdraw"/>
 </form>
 <% end %>

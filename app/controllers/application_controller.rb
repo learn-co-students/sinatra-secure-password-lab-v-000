@@ -30,7 +30,7 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-  post '/account' do
+  patch '/account' do
     @withdrawl_amount = params[:withdraw].to_f
     @deposit_amount = params[:deposit].to_f
     update_balance
