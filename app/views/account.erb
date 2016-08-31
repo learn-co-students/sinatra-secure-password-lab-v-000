@@ -1,5 +1,26 @@
 <h1>Welcome</h1>
+<h2>We are currently working on your account.</h2>
 
-<p>We are currently working on your account.</p>
+<p>Balance: $<%= @user.balance %></p>
+<% if @user.balance == 0 %>
+  <p> Please make a deposit soon! </p>
+<% elsif @user.balance < 0 %>
+  <p> Your account is currently overdrawn by $<%= 0 - @user.balance %></p>
+  <p> Please make a deposit soon! </p>
+<% else %>
+  <p>Would you like to make a deposit or withdrawl today?</p>
+  <h3>Widthdraw</h3>
+<form method="post" action="/account">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+    Amount: <input type="number" min="0" max="10000" step=".01" name="withdraw" placeholder="0.00"/>
+  <input type="submit" value="Withdraw"/>
+</form>
+<% end %>
+<h3>Deposit</h3>
+<form method="post" action="/account">
+  Amount: <input type="number" min="0" max="10000" step=".01" name="deposit" placeholder="0.00"/>
+  <input type="submit" value="Deposit"/>
+</form>
+
 
 <p><a href="/logout">Log Out</a></p>
