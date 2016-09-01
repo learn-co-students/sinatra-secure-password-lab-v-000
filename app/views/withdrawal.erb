@@ -1,0 +1,9 @@
+<h1>Web Withdrawal</h1>
+
+<form action="/withdrawal" method="POST">
+  <p>Account Balance: $<%= current_user.balance.to_s %></p>  
+  
+  <label for="amount">Withdrawal Amount: </label>
+  <input type="text" name="amount"><br>
+  <input type="submit" value="Make Withdrawal">
+</form>

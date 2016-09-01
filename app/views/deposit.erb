@@ -1,0 +1,9 @@
+<h1>Digital Deposit</h1>
+
+<form action="/deposit" method="POST">
+  <p>Account Balance: $<%= current_user.balance.to_s %></p>  
+  
+  <label for="amount">Deposit Amount: </label>
+  <input type="text" name="amount"><br>
+  <input type="submit" value="Make Deposit">
+</form>
