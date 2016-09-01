@@ -1,13 +1,13 @@
 <h1>Welcome <%= current_user.username.capitalize %> </h1> 
-
+<h1>Your Balance is  $<%= current_user.balance %>  </h1>
 
 <p>We are currently working on your account.</p>
   Add a migration that gives the user model a balance (should start for any user at $0), and add functionality on the account page to make deposits and withdrawals. A user should never be able to withdraw more money than they have in their account.<br><br>
 
   <form action="/account" method="POST">
-  Deposit Money <input type="deposit" name="username" placeholder="Deposit Amount $"> <br><br>
-  Withdraw Money <input type="withdrawal" name="password" placeholder="Withdrawal Amount $"><br><br>
-
+  Deposit Money <input type="text" name="deposit" placeholder="Deposit Amount $"> <br><br>
+  Withdraw Money <input type="text" name="withdraw" placeholder="Withdrawal Amount $"><br><br>
+  <input type="submit" value="Submit Request">
   </form>
 
 <p><a href="/logout">Log Out</a></p>
