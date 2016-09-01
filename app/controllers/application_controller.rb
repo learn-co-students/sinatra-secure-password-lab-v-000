@@ -68,6 +68,24 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  get '/deposit' do
+    erb :deposit
+  end
+
+  post '/deposit' do
+    deposit
+    erb :account
+  end
+
+  get '/withdrawal' do
+    erb :withdrawal
+  end
+
+  post '/withdrawal' do
+    withdrawal
+    erb :account
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]
@@ -75,6 +93,29 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:user_id])
+    end
+
+    def deposit
+      @user = current_user
+      amount = params[:amount].to_f
+      balance = @user.balance.to_f
+      balance += amount
+      @user.balance = balance
+      @user.save
+    end
+
+    # this code smells
+    def withdrawal
+      @user = current_user
+      amount = params[:amount].to_f
+      balance = @user.balance.to_f
+      if amount <= balance
+        balance -= amount
+      else
+        redirect '/failure'
+      end
+      @user.balance = balance
+      @user.save
     end
   end
 
