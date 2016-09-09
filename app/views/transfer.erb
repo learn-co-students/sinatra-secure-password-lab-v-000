@@ -1,0 +1,11 @@
+<h3>Current Balance: $<%= @user.balance %></h3>
+
+<h4>Enter desired amount next to Deposit or Withdrawal, then press their respected Submit button to execute transation.</h4>
+
+<form action="/deposit" method="POST">
+  <p>Deposit amount: $ <input type="decimal" name="deposit" placeholder="0.00"></p><input type="submit" value=" Submit Deposit">
+</form>
+
+<form action="/withdrawal" method="POST">
+  <p>Withdrawal amount: $ <input type="decimal" name="withdrawal" placeholder="0.00"></p><input type="submit" value=" Submit Withdrawal">
+</form>

@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require 'pry'
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -9,7 +10,11 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :index
+    if logged_in?
+      redirect '/account'
+    else
+      erb :index
+    end
   end
 
   get "/signup" do
@@ -18,7 +23,12 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    if params[:username].empty? || params[:password].empty?
+      redirect '/failure'
+    else
+      user = User.create(:username => params[:username], :password => params[:password])
+      redirect '/login'
+    end
   end
 
   get '/account' do
@@ -33,6 +43,14 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(:username => params[:username])
+
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   get "/success" do
@@ -50,6 +68,31 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  get '/transfer' do
+    @user = User.find(session[:user_id])
+    erb :transfer
+  end
+
+  post '/deposit' do
+    @user = User.find(session[:user_id])
+    @deposit = params[:deposit].to_f
+    @user.balance = @user.balance + @deposit
+    @user.save
+    erb :completed_deposit
+  end
+
+  post '/withdrawal' do
+    @user = User.find(session[:user_id])
+    @withdrawal = params[:withdrawal].to_f
+    if @withdrawal > @user.balance
+      redirect '/failure'
+    else
+      @user.balance = @user.balance - @withdrawal
+      @user.save
+      erb :completed_withdrawal
+    end
   end
 
   helpers do
