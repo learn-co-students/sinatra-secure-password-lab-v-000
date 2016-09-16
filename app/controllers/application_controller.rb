@@ -6,6 +6,7 @@ class ApplicationController < Sinatra::Base
     set :views, "app/views"
     enable :sessions
     set :session_secret, "password_security"
+
   end
 
   get "/" do
@@ -17,8 +18,14 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
 
+    if params[:username] == "" || params[:password] == ""
+      redirect to "/failure"
+    else
+    user = User.create(:username => params[:username], :password => params[:password])
+
+      redirect to "/login"
+    end
   end
 
   get '/account' do
@@ -27,19 +34,30 @@ class ApplicationController < Sinatra::Base
   end
 
 
+
   get "/login" do
     erb :login
   end
+  #this is a test of why it won't submit properly
 
   post "/login" do
-    ##your code here
+    @user = User.find_by(username: params[:username])
+     if @user && @user.authenticate(params[:password])
+       session[:user_id] = @user.id
+       
+       redirect to "/account"
+     else
+
+
+       redirect to "/failure"
+     end
   end
 
   get "/success" do
     if logged_in?
       erb :success
     else
-      redirect "/login"
+      redirect to "/login"
     end
   end
 
@@ -49,7 +67,7 @@ class ApplicationController < Sinatra::Base
 
   get "/logout" do
     session.clear
-    redirect "/"
+    redirect to "/"
   end
 
   helpers do
