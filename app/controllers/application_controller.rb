@@ -60,13 +60,13 @@ class ApplicationController < Sinatra::Base
 
   post '/account' do
     @user = current_user
-    @bal = @user.balance
+    @bal = @user.balance || 0
     @wd = params[:withdrawal].to_i
     @dep = params[:deposit].to_i
     if @wd > 0
       @bal = @bal - @wd unless @wd > @bal
       @user.save
-    elsif @dep > 0
+    elsif @dep > 0 
       @bal = @bal + @dep
     end
     @user.balance = @bal
