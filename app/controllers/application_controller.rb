@@ -19,6 +19,7 @@ class ApplicationController < Sinatra::Base
 
   post '/signup' do
     user = User.new(:username => params[:username], :password => params[:password])
+    user.balance = 0
     if 
       params[:username] == ""
       redirect '/failure'
@@ -60,7 +61,7 @@ class ApplicationController < Sinatra::Base
 
   post '/account' do
     @user = current_user
-    @bal = @user.balance || 0
+    @bal = @user.balance
     @wd = params[:withdrawal].to_i
     @dep = params[:deposit].to_i
     if @wd > 0
