@@ -1,8 +1,6 @@
-<h1>Welcome <%=@user.username%></h1>
+<h1>WELCOME <%=@user.username.upcase %></h1>
 
-<p>Your current balance is: <%=@user.balance%></p>
-<a href="/withdrawal">Click here to make a withdrawal</a></br>
-<a href="/deposit">Click here to make a deposit</a>
-
+<h3>Your current balance is: $<%=@user.balance%></h3>
+<p>To make a transaction <a href="/transaction">click here</a></p>
 <p><a href="/logout">Log Out</a></p>
 <p>We are currently working on your account.</p>

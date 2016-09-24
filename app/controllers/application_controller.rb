@@ -45,32 +45,29 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/withdrawal' do
-    erb :withdrawal if current_user
+  get '/transaction' do
+    erb :transaction if current_user
   end
 
-  post '/withdrawal' do
+  post '/transaction' do
     @user = current_user
+    @deposit = params[:deposit].to_f
     @withdrawal = params[:withdrawal].to_f
-    if @withdrawal <= @user.balance
-      updated = @user.balance -= @withdrawal
+    if @deposit != 0
+      updated = @user.balance += @deposit
       @user.update(balance: updated)
-      erb :show_withdrawal
+      erb :show_transaction
+    elsif @withdrawal != 0
+      if (@user.balance - @withdrawal) >= 0
+        updated = @user.balance -= @withdrawal
+        @user.update(balance: updated)
+        erb :show_transaction
+      else
+        erb :transaction
+      end
     else
       redirect '/account'
     end
-  end
-
-  get '/deposit' do
-    erb :deposit if current_user
-  end
-
-  post '/deposit' do
-    @user = current_user
-    @deposit = params[:deposit].to_f
-    updated = @user.balance += @deposit
-    @user.update(balance: updated)
-    erb :show_deposit
   end
 
   get "/success" do
