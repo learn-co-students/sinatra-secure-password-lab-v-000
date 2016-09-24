@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require "pry"
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -30,7 +31,6 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-
   get "/login" do
     erb :login
   end
@@ -43,6 +43,34 @@ class ApplicationController < Sinatra::Base
     else
       redirect '/failure'
     end
+  end
+
+  get '/withdrawal' do
+    erb :withdrawal if current_user
+  end
+
+  post '/withdrawal' do
+    @user = current_user
+    @withdrawal = params[:withdrawal].to_f
+    if @withdrawal <= @user.balance
+      updated = @user.balance -= @withdrawal
+      @user.update(balance: updated)
+      erb :show_withdrawal
+    else
+      redirect '/account'
+    end
+  end
+
+  get '/deposit' do
+    erb :deposit if current_user
+  end
+
+  post '/deposit' do
+    @user = current_user
+    @deposit = params[:deposit].to_f
+    updated = @user.balance += @deposit
+    @user.update(balance: updated)
+    erb :show_deposit
   end
 
   get "/success" do
