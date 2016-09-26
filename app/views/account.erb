@@ -2,4 +2,18 @@
 
 <p>We are currently working on your account.</p>
 
+<p>Your balance is <%= current_user.balance %></p>
+
+<form method="POST" action="/account/withdraw">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="number" name="withdraw" value="Deposit amount" min="0">
+  <input type="submit" value="Withdraw">
+</form>
+
+<form method="POST" action="/account/deposit">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="number" name="deposit" value="Deposit amount" min="0">
+  <input type="submit" value="Deposit">
+</form>
+
 <p><a href="/logout">Log Out</a></p>
