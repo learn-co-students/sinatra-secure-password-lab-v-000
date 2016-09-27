@@ -1,5 +1,13 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<p>We are currently working on your account.<p>
 
+<p>Your current balance is <%=@user.balance%>.</p>
+<br>
+<p>To make a deposit enter a positive number, to make a withdrawal enter a negative number.</p>
+<form method="post" action="/account">
+<input type="number" name="amount" id="amount">
+<input type="submit" value="submit">
+</form>
+<br>
 <p><a href="/logout">Log Out</a></p>
