@@ -1,5 +1,18 @@
 <h1>Welcome</h1>
 
 <p>We are currently working on your account.</p>
+<p>Welcome <%= @user.username %></p>
+<p>Your account balance is: <%= @user.balance %></p>
+
+<h3>Make a Deposit or Withdrawal</h3>
+<form action="/account/transaction" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <p>Amount: <input type="number" min="0.01" step="0.01" name="amount"></p>
+  <p>Transaction Type: 
+    Deposit <input type="radio" name="type" value="deposit" checked="checked">
+    Withdrawal <input type="radio" name="type" value="withdrawal">
+  </p>
+  <input id="submit" type="submit">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
