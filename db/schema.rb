@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20161107042110) do
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
+    t.float  "balance",         default: 0.0
   end
 
 end
