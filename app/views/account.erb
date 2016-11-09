@@ -1,5 +1,31 @@
-<h1>Welcome</h1>
+<% if logged_in? %>
+  <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+  <p>We are currently working on <%= current_user.username %>'s account.</p>
 
-<p><a href="/logout">Log Out</a></p>
+  <h2>Your Balance: <%= current_user.balance %></h2>
+
+  <form action="/deposit" method="post">
+    <p>
+      <label for="deposit">Deposit </label>
+      <input type="number" name="deposit">
+      <input type="submit" value="Deposit">
+    </p>
+  </form>
+
+  <form action="/withdraw" method="post">
+    <p>
+      <label for="withdraw">Withdraw </label>
+      <input type="number" name="withdraw">
+      <input type="submit" value="Withdraw">
+    </p>
+  </form>
+
+  <p><a href="/logout">Log Out</a></p>
+
+<% else %>
+
+  <h1>Please Log In First</h1>
+  <p><a href="/">Home</a></p>
+
+<% end %>

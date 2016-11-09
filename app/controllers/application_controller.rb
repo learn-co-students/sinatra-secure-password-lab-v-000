@@ -20,10 +20,10 @@ class ApplicationController < Sinatra::Base
     if params[:username] == ""
       redirect "/failure"
     else
-      user = User.new(username: params[:username], password: params[:password])
+      user = User.new(username: params[:username], password: params[:password], balance: 0.00)
       if user.save
         session[:user_id] = user.id
-        redirect '/login'
+        redirect '/account'
       else
         redirect "/failure"
       end
@@ -65,6 +65,24 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  post "/deposit" do
+    user = current_user
+    balance = user.balance + params[:deposit].to_i
+    user.update(balance: balance)
+    redirect '/account'
+  end
+
+  post "/withdraw" do
+    user = current_user
+    if user.balance >= params[:withdraw].to_i
+      balance = user.balance - params[:withdraw].to_i
+      user.update(balance: balance)
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   helpers do
