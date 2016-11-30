@@ -1,6 +1,6 @@
 # Secure Password Lab
 
-## Stuff
+## Stuff (LE: bhollan)
 
 ## Objectives
 
