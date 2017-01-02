@@ -2,4 +2,19 @@
 
 <p>We are currently working on your account.</p>
 
+Your balance is <%= @balance %>.
+
+<h3>Deposit</h3>
+<form action="/deposit" method="POST">
+  <input type="number" name="Deposit_Amount" placeholder="deposit amount:">
+  <input type="submit" value="Make deposit">
+</form>
+
+<h3>Withdraw</h3>
+<form action="/withdraw" method="POST">
+  <input type="number" name="Withdrawal_Amount" placeholder="withdrawal amount:" max="<%= @balance %>">
+  <!-- is it wrong to validate balance in the browser rather than down at the db? vulnerable to attack? -->
+  <input type="submit" value="Make withdrawal">
+</form>
+
 <p><a href="/logout">Log Out</a></p>
