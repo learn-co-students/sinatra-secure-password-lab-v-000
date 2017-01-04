@@ -12,7 +12,8 @@ gem 'rack_session_access'
 gem 'rack-test'
 gem 'shotgun'
 
-group :development do
+group :development, :test do
+  gem 'rb-readline'
   gem 'pry'
   gem 'sqlite3'
   gem 'rspec'
