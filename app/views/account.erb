@@ -1,5 +1,16 @@
 <h1>Welcome</h1>
 
 <p>We are currently working on your account.</p>
+<p>Your current account balance is: $<%= current_user.balance %></p>
 
+<form action="/deposit" method="post">
+  Deposit: $<input id="deposit" type="number" name="deposit">
+  <input id="Deposit" type="submit" value="Deposit">
+</form>
+<br>
+<form action="/withdrawal" method="post">
+  Withdrawal: $<input id="withdrawal" type="number" name="withdrawal">
+  <input id="Withdrawal" type="submit" value="Withdrawal">
+</form>
+<br>
 <p><a href="/logout">Log Out</a></p>
