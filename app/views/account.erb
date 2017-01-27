@@ -1,6 +1,20 @@
 <h1>Welcome</h1>
 
-<h2>Your Balance:</h2>
-<% if current_user.balance  %>
+<h2>Your Balance is: $<%= @user.balance %></h2>
+<p>We are currently working on your account.</p>
+
+<form method="POST" action="/deposit">
+  <p>Make a Deposit: <input type="text" name="deposit" value="amount"></p>
+  <input type="submit" name="submit" value="Submit Deposit">
+</form>
+
+<form method="POST" action="/withdrawal">
+  <p>Make a Withdrawal: <input type="text" name="withdrawal" value="amount"></p>
+  <input type="submit" name="submit" value="Submit Withdrawal">
+</form>
+
+<% if @insufficient_funds %>
+  <h2>You do not have the balance to make that withdrawal.</h2>
+<% end %>
 
 <p><a href="/logout">Log Out</a></p>
