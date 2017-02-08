@@ -1,9 +1,9 @@
 <h1>Welcome</h1>
 
 
-<p>We are currently working on your account.</p>
+<p style="display:none">We are currently working on your account.</p>
 
-<%= @user.balance %>
+<p>Current Balance: <span style="color:green"><%= @user.balance %></span></p>
 <form action="/deposit" method="post">
 <p>Deposit: <input type="text" name="deposit_amount" id="deposit_amount" />
 <input type="submit" name="submit" id="submit" /></p>
