@@ -1,5 +1,16 @@
-<h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+  <h1>Welcome <%=@user.username%></h1>
+  <h3>We are currently working on your account.</h3>
 
-<p><a href="/logout">Log Out</a></p>
+  <h3>Your Balance: <%=@user.balance%></h3>
+  <h3>Below, you can make a withdrawal or deposit:</h3>
+  <form method="post" action="/deposit">
+    <h4>Deposit Amount: <input type="text" name="deposit_amount"></h4>
+    <input type="submit" value="deposit">
+  </form>
+  <form method="post" action="/withdrawal">
+    <h4>Withdrawal Amount: <input type="text" name="withdrawal_amount"></h4>
+    <input type="submit" value="withdraw">
+  </form>
+  <br><br>
+  <a href="/logout">Log Out</a>
