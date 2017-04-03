@@ -4,4 +4,10 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true
 
+  after_initialize :init
+
+  def init
+    self.balance ||= 0.00
+  end
+
 end

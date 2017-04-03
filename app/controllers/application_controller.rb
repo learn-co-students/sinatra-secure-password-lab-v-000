@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require 'pry'
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -35,6 +36,25 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  post '/deposit' do
+    deposit = params[:deposit].to_i
+    user = current_user
+    if deposit > 0
+      user.balance += deposit
+      user.save
+    end
+    redirect '/account'
+  end
+
+  post '/withdraw' do
+    withdraw = params[:withdraw].to_i
+    user = current_user
+    if withdraw > 0 && withdraw < user.balance
+      user.balance -= withdraw
+      user.save
+    end
+    redirect '/account'
+  end
 
   get "/login" do
     erb :login
