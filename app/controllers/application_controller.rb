@@ -38,10 +38,10 @@ class ApplicationController < Sinatra::Base
     erb :no_funds
   end
 
-
   post '/account' do
     @user = User.find(session[:user_id])
       @user.balance = @user.balance + params[:deposit].to_f
+      @user.save
       if @user.balance > params[:withdrawal].to_f
         @user.balance = @user.balance - params[:withdrawal].to_f
         @user.save
