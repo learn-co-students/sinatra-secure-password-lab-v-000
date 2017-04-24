@@ -2,4 +2,19 @@
 
 <p>We are currently working on your account.</p>
 
+<h2>Welcome <%= @user.username%></h2>
+<h3>Account Balance: <%= @user.balance %></h3>
+<hr>
+<h1>Make a Deposit</h1>
+<form class="" action="/deposit/<%= @user.id %>" method="post">
+  <p>Enter deposit amount: <input type="text" name="deposit" value=""></p>
+  <input type="submit" name="" value="submit">
+</form>
+<hr>
+<h1>Make a Withdraw</h1>
+<form class="" action="/withdraw/<%= @user.id %>" method="post">
+  <p>Enter withdraw amount: <input type="text" name="withdraw" value=""></p>
+  <input type="submit" name="" value="submit">
+</form>
+
 <p><a href="/logout">Log Out</a></p>
