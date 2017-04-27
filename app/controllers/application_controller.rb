@@ -18,12 +18,46 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    if params[:username] == "" ||  params[:password] == ""
+      redirect '/failure'
+    else
+      @user = User.create(username: params[:username], password: params[:password])
+      redirect '/login'
+      # redirect '/login'
+    end
   end
+
 
   get '/account' do
     @user = User.find(session[:user_id])
     erb :account
+  end
+
+  post '/users/:id/deposit' do
+    @user = User.find(session[:user_id])
+    @deposit = params[:deposit].to_i
+    @user.deposit(@deposit)
+    # raise params[:deposit].inspect
+    # raise @user.valid?.inspect
+    # @user.balance = @user.balance + @deposit
+    #
+    # @user.save
+    # "Your transaction is successful"
+    # "Your current balance is #{@user.balance}"
+  end
+
+  post '/users/:id/withdrawal' do
+    @user = User.find(session[:user_id])
+    @withdrawal = params[:withdrawal].to_i
+    @user.withdrawal(@withdrawal)
+    # if @user.balance >= @withdrawal
+    #   @user.balance = @user.balance - @withdrawal
+    #   @user.save
+    #   "Your transaction is successful"
+    #   "Your current balance is #{@user.balance}"
+    # else
+    #   "This transaction can't be completed."
+    # end
   end
 
 
@@ -32,7 +66,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect to "/account"
+    else
+      redirect to "/failure"
+    end
   end
 
   get "/success" do
