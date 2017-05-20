@@ -18,12 +18,22 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    user = User.new(username: params["username"], password_digest: params["password"])
+    if user.username != "" && user.password != "" && user.save
+      session[:user_id] = user.id
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    if logged_in?
+      @user = User.find(session[:user_id])
+      erb :account
+    else
+      redirect '/failure'
+    end
   end
 
 
@@ -33,13 +43,13 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
-  end
+    user = User.find_by(username: params["username"]).try(:authenticate, params["password"])
 
-  get "/success" do
-    if logged_in?
-      erb :success
+    if user
+      session[:user_id] = user.id
+      redirect '/account'
     else
-      redirect "/login"
+      redirect '/failure'
     end
   end
 
