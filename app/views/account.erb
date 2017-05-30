@@ -1,5 +1,15 @@
 <h1>Welcome</h1>
-
 <p>We are currently working on your account.</p>
+<%user = current_user
+if logged_in? and user%>
+<h3>Balance: $<%= user.balance%></h3>
+<form action="/transaction" method="POST">
+  <input type="text" placeholder="$$$" name="amount"></input>
+  <input type="submit" value="Deposit" name="deposit" />
+  <input type="submit" value="Withdraw" name="withdraw" />
+</form>
+<% else %>
+<p><a href="/login">Log In</a></p>
+<% end %>
 
 <p><a href="/logout">Log Out</a></p>
