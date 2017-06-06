@@ -1,11 +1,13 @@
 require "./config/environment"
 require "./app/models/user"
+require 'sinatra/flash'
 class ApplicationController < Sinatra::Base
 
   configure do
     set :views, "app/views"
     enable :sessions
     set :session_secret, "password_security"
+    register Sinatra::Flash
   end
 
   get "/" do
@@ -17,13 +19,21 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    user = User.new(username: params[:username], password: params[:password])
+    if user.save
+      redirect '/login'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    @user = current_user
+    if logged_in?
+      erb :account
+    else
+      redirect '/login'
+    end
   end
 
 
@@ -32,7 +42,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   get "/success" do
@@ -52,14 +68,26 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  patch '/account' do
+    @user = current_user
+    amount = params[:amount].to_f
+    if params[:commit] == 'Deposit'
+      User.update(@user.id, balance: @user.balance += amount)
+    elsif params[:commit] == 'Withdraw' && @user.balance >= amount
+      User.update(@user.id, balance: @user.balance -= amount)
+    else
+      flash[:warning] = "Insufficient Funds"
+    end
+    redirect to '/account'
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]
     end
 
     def current_user
-      User.find(session[:user_id])
+      @current_user ||= User.find(session[:user_id])
     end
   end
-
 end
