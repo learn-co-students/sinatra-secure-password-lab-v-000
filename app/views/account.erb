@@ -1,5 +1,14 @@
-<h1>Welcome</h1>
-
+<h1>Welcome, <%= @user.username %></h1>
 <p>We are currently working on your account.</p>
+<p>Your account balance is <%= @user.balance %></p>
+  <form method='post' action='/account'>
+  <input type="hidden" value="patch" name="_method">
+  <label for='deposit'>Amount: </label>
+    <input type='text' name='amount' id='amount' />
+  <input type='submit' name='commit' value='Deposit' />
+  <input type='submit' name='commit' value='Withdraw' />
+</form><br>
+<h5><%= flash[:warning] %></h5>
+
 
 <p><a href="/logout">Log Out</a></p>
