@@ -55,7 +55,9 @@ class ApplicationController < Sinatra::Base
 
   post '/deposit' do
     if logged_in?
-      User.update(session[:user_id], :balance => session[:balance] + params[:deposit].to_f)
+      user = User.find(session[:user_id])
+      user.balance = user.balance + params[:deposit].to_f
+      user.save
       user = User.find(session[:user_id])
       session[:balance] = user.balance
       erb :account
@@ -75,8 +77,9 @@ class ApplicationController < Sinatra::Base
   post '/withdrawal' do
     if logged_in?
       user = User.find(session[:user_id])
-      if @user.balance >= params[:withdrawal].to_f
-        User.update(session[:user_id], :balance => session[:balance] - params[:withdrawal].to_f)
+      if user.balance >= params[:withdrawal].to_f
+        user.balance = user.balance - params[:withdrawal].to_f
+        user.save
         user = User.find(session[:user_id])
         session[:balance] = user.balance
         erb :account
