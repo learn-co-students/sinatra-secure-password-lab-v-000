@@ -17,34 +17,100 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
+    user = User.find_by(:username => params[:username])
+    if !!user
+      redirect "/usererror"
+    end
 
+    if params[:username].size > 0
+      user = User.new(:username => params[:username], :password => params[:password])
+        if user.save
+          redirect "/login"
+        else
+          redirect "/failure"
+        end
+    else
+      redirect "/failure"
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    if logged_in?
+      user = User.find(session[:user_id])
+      session[:username] = user.username
+      session[:balance] = user.balance
+      erb :account
+    else
+      redirect "/"
+    end
   end
 
+  get "/deposit" do
+    if logged_in?
+      erb :deposit
+    else
+      redirect '/'
+    end
+  end
+
+  post '/deposit' do
+    if logged_in?
+      user = User.find(session[:user_id])
+      user.balance = user.balance + params[:deposit].to_f
+      user.save
+      user = User.find(session[:user_id])
+      session[:balance] = user.balance
+      erb :account
+    else
+      redirect "/"
+    end
+  end
+
+  get "/withdrawal" do
+    if logged_in?
+      erb :withdrawal
+    else
+      redirect '/'
+    end
+  end
+
+  post '/withdrawal' do
+    if logged_in?
+      user = User.find(session[:user_id])
+      if user.balance >= params[:withdrawal].to_f
+        user.balance = user.balance - params[:withdrawal].to_f
+        user.save
+        user = User.find(session[:user_id])
+        session[:balance] = user.balance
+        erb :account
+      else
+        redirect "/account"
+      end
+    else
+      redirect "/"
+    end
+  end
 
   get "/login" do
     erb :login
   end
 
   post "/login" do
-    ##your code here
-  end
-
-  get "/success" do
-    if logged_in?
-      erb :success
+    user = User.find_by(:username => params[:username])
+    if user && user.authenticate(params[:password])
+       session[:user_id] = user.id
+       redirect "/account"
     else
-      redirect "/login"
+       redirect "/failure"
     end
   end
 
   get "/failure" do
     erb :failure
+  end
+
+  get "/usererror" do
+    erb :usererror
   end
 
   get "/logout" do
