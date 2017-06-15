@@ -17,27 +17,76 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-      if params[:username].size > 0
-        user = User.new(:username => params[:username], :password => params[:password])
-          if user.save
-            redirect "/login"
-          else
-            redirect "/failure"
-          end
-      else
-        redirect "/failure"
-      end
+    user = User.find_by(:username => params[:username])
+    if !!user
+      redirect "/usererror"
+    end
+
+    if params[:username].size > 0
+      user = User.new(:username => params[:username], :password => params[:password])
+        if user.save
+          redirect "/login"
+        else
+          redirect "/failure"
+        end
+    else
+      redirect "/failure"
+    end
   end
 
   get '/account' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      user = User.find(session[:user_id])
+      session[:username] = user.username
+      session[:balance] = user.balance
       erb :account
     else
       redirect "/"
     end
   end
 
+  get "/deposit" do
+    if logged_in?
+      erb :deposit
+    else
+      redirect '/'
+    end
+  end
+
+  post '/deposit' do
+    if logged_in?
+      User.update(session[:user_id], :balance => session[:balance] + params[:deposit].to_f)
+      user = User.find(session[:user_id])
+      session[:balance] = user.balance
+      erb :account
+    else
+      redirect "/"
+    end
+  end
+
+  get "/withdrawal" do
+    if logged_in?
+      erb :withdrawal
+    else
+      redirect '/'
+    end
+  end
+
+  post '/withdrawal' do
+    if logged_in?
+      user = User.find(session[:user_id])
+      if @user.balance >= params[:withdrawal].to_f
+        User.update(session[:user_id], :balance => session[:balance] - params[:withdrawal].to_f)
+        user = User.find(session[:user_id])
+        session[:balance] = user.balance
+        erb :account
+      else
+        redirect "/account"
+      end
+    else
+      redirect "/"
+    end
+  end
 
   get "/login" do
     erb :login
@@ -53,15 +102,12 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get "/success" do    if logged_in?
-      erb :success
-    else
-      redirect "/login"
-    end
-  end
-
   get "/failure" do
     erb :failure
+  end
+
+  get "/usererror" do
+    erb :usererror
   end
 
   get "/logout" do

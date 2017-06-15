@@ -1,5 +1,9 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= session[:username] %></h1>
 
-<p>We are currently working on your account.</p>
+<p><h3>Your Balance is <%= session[:balance] %></h3></p>
+
+<p><a href="/deposit">Make A Deposit</a></p>
+
+<p><a href="/withdrawal">Make A Withdrawal</a></p>
 
 <p><a href="/logout">Log Out</a></p>
