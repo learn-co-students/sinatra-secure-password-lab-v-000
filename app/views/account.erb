@@ -1,5 +1,10 @@
-<h1>Welcome</h1>
+<h1>Welcome, <%= @user.username %> </h1>
 
+<!-- BONUS
+Add a migration that gives the user model a balance (should start for any user at $0) - DONE
+and add functionality on the account page to make deposits and withdrawals.
+A user should never be able to withdraw more money than they have in their account. -->
 <p>We are currently working on your account.</p>
+
 
 <p><a href="/logout">Log Out</a></p>
