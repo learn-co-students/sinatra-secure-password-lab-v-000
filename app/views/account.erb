@@ -1,5 +1,17 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= @user.username.capitalize %>!</h1>
 
 <p>We are currently working on your account.</p>
+<p>Balance: $<%= @user.balance %></p>
+<form action="/withdraw" method="post">
+  <input type="hidden" id="hidden" name="_method" value="patch">
+  <p>Withdraw: <input type="text" name="withdraw"></p>
+  <input type="submit" name="" value="Withdraw">
+</form>
+<form action="/deposit" method="post">
+  <input type="hidden" id="hidden" name="_method" value="patch">
+  <p>Deposit: <input type="text" name="deposit"</p>
+  <input type="submit" name="" value="Deposit">
+</form>
+
 
 <p><a href="/logout">Log Out</a></p>
