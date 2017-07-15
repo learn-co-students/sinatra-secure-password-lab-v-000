@@ -2,4 +2,16 @@
 
 <p>We are currently working on your account.</p>
 
+<h2>Your balance is currently: <%= @user.balance %></h2>
+
+<h3>Withdrawals/Deposits</h3>
+<form class="" action="/account" method="post">
+<input id="hidden" type="hidden" name="_method" value="patch">
+<label for="deposit">Deposit</label>
+<input type="integer" name="deposit">
+<label for="withdrawal">Withdrawal</label>
+<input type="integer" name="withdrawal">
+<input type="submit" name="" value="Submit">
+</form>
+
 <p><a href="/logout">Log Out</a></p>
