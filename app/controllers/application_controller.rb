@@ -32,19 +32,19 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-  post '/account' do
+  patch '/account' do
     @user = User.find(session[:user_id])
-    if params[:withdrawal].empty? && params[:withdrawal].to_i.is_a?(Integer)
+    if params[:withdrawal].to_i.is_a?(Integer)
       if (@user.balance - params[:withdrawal].to_i) > 0
         @user.balance -= params[:withdrawal].to_i
         @user.save
       end
     end
-    if params[:deposit].empty? && params[:withdrawal].to_i.is_a(Integer)
+    if params[:deposit].to_i.is_a?(Integer)
         @user.balance += params[:deposit].to_i
         @user.save
     end
-    erb :account
+    redirect '/account'
   end
 
 
