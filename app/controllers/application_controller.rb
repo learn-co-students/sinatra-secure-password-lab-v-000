@@ -18,7 +18,14 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    @user = User.find_by(username: params[:username], password: params[:password])
+      if @user && !@user.id.nil?
+        session[:user_id] = @user.id
+        redirect ("/account")
+      else
+    #If there is no match, render the error page.
+      erb :failure
+      end
   end
 
   get '/account' do
