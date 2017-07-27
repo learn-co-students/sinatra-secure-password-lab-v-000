@@ -1,7 +1,6 @@
 <h1>Welcome <%= @user.username %></h1>
 
-<p>Your Current Balance: $<%= @user.balance %>0</p>
-
+<p>Your New Balance: $<%= @user.balance %>0</p>
 <form action="/account" method="POST" >
   Please indicate deposit amount: $<input type="text" name="deposit"><br>
   Please indicate withdrawal amount: $<input type="text" name="withdrawal"><br>
@@ -9,3 +8,5 @@
 </form>
 
 <p><a href="/logout">Log Out</a></p>
+
+<!--Will add new balance, but does not save to instance-->
