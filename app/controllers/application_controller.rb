@@ -35,9 +35,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    @user = User.find_by(username: params[:username]).try(:authenticate, params[:password])
-
-    if @user 
+    if @user = User.find_by(username: params[:username]).try(:authenticate, params[:password]) 
       session[:user_id] = @user.id
       redirect to '/account'
     end
@@ -60,6 +58,14 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  post '/deposit' do
+    @user = current_user
+    @user.balance += params[:deposit].to_f
+    @user.save
+    
+    redirect '/account'
   end
 
   helpers do
