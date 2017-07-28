@@ -2,4 +2,22 @@
 
 <p>We are currently working on your account.</p>
 
+<div>
+  <h3> Hello, <%= @user.username %> </h3>
+  <p> Your current balance is: <%= @user.balance %> </p>
+  <br>
+  <div>
+    <form action="/deposit" method="POST">
+      <div>
+        <label for="deposit">Deposit Amount: </label>
+        <input type="number" name="deposit" id="deposit" placeholder="$0.00">
+      </div>
+      <br>
+
+      <input type="submit" name="submit" value="Deposit">
+    </form>
+  </div>
+</div>
+
+
 <p><a href="/logout">Log Out</a></p>
