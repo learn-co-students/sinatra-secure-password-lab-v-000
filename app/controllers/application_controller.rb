@@ -17,7 +17,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    binding.pry
+    #when empty, values are ""
     if params[:username] == "" || params[:password] == ""
       redirect to '/failure'
     else
