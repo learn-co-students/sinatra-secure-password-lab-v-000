@@ -30,9 +30,25 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
+  patch '/account' do
+    @user = User.find_by_id(session[:user_id])
+    deposit = params[:deposit].to_i
+    if @user.balance >= params[:withdrawl].to_i
+      withdrawl = params[:withdrawl].to_i
+    else
+      redirect '/error'
+    end
+    @user.balance = @user.balance + deposit - withdrawl
+    @user.save
+    erb :account
+  end
 
   get "/login" do
     erb :login
+  end
+
+  get '/error' do
+    erb :error
   end
 
   post "/login" do
