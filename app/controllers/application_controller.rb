@@ -74,6 +74,20 @@ class ApplicationController < Sinatra::Base
     erb :failure
   end
 
+  get "/deposit" do
+    @user = User.find(session[:user_id])
+
+    binding.pry
+
+    erb :deposit
+  end
+
+  get "/withdrawal" do
+    @user = User.find(session[:user_id])
+    
+    erb :withdrawal
+  end
+
   get "/logout" do
     session.clear
     redirect "/"
