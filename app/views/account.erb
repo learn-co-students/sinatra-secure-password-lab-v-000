@@ -1,5 +1,11 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= @user.username %></h1>
 
-<p>We are currently working on your account.</p>
+<h3>Current Balance</h3>
 
+  <p>
+    <input type="text" value="<%= @user.balance %>">
+    <a href="/deposit">Deposit</a> <a href="/withdraw">Withdraw</a>
+  </p>
+
+  <p>We are currently working on your account.</p>
 <p><a href="/logout">Log Out</a></p>
