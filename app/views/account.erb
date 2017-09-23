@@ -3,9 +3,11 @@
 <h3>Current Balance</h3>
 
   <p>
-    <input type="text" value="<%= @user.balance %>">
-    <a href="/deposit">Deposit</a> <a href="/withdrawal">Withdrawal</a>
+    <label for=balance><%= @user.balance %></label>
   </p>
 
+  <p>
+    <a href="/deposit">Deposit</a> <a href="/withdrawal">Withdrawal</a>
+  </p>
   <p>We are currently working on your account.</p>
 <p><a href="/logout">Log Out</a></p>
