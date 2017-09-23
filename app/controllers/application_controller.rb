@@ -1,4 +1,3 @@
-require "pry"
 require "./config/environment"
 require "./app/models/user"
 class ApplicationController < Sinatra::Base
@@ -18,34 +17,21 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-    # @user = User.new(username: params[:username],
-    #                  password_digest: params[:password])
-    #
-    # if @user.save
-    #  session[:user_id] = user.id
-    #   redirect '/account'
-    # else
-    #   redirect '/failure'
-    # end
-    #
-    # or
-    if params[:username].empty?
+    if params[:username].empty? || params[:password].empty?
       redirect '/failure'
     else
       user = User.new(username: params[:username],
                        password: params[:password])
       user.save
-      session[:user_id] = user.id
-      redirect '/account'
+      redirect '/login'
     end
   end
 
   get '/account' do
     @user = User.find(session[:user_id])
+
     erb :account
   end
-
 
   get "/login" do
     erb :login
@@ -77,15 +63,36 @@ class ApplicationController < Sinatra::Base
   get "/deposit" do
     @user = User.find(session[:user_id])
 
-    binding.pry
-
     erb :deposit
+  end
+
+  post '/deposit' do
+    @user = User.find(session[:user_id])
+
+    depo = params[:depo_amount]
+    @user.deposit(depo)
+
+    erb :account
   end
 
   get "/withdrawal" do
     @user = User.find(session[:user_id])
-    
+
     erb :withdrawal
+  end
+
+  post '/withdrawal' do
+    @user = User.find(session[:user_id])
+
+    withdrawal = params[:withdrawal_amount]
+
+
+    if withdrawal > @user.balance
+      erb :withdrawal
+    else
+      @user.withdrawal(withdrawal)
+      erb :account
+    end
   end
 
   get "/logout" do

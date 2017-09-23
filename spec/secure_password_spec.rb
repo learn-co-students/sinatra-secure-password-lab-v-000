@@ -88,6 +88,11 @@ describe 'App' do
       @user = User.create(:username => "test123", :password => "test")
       expect(@user.authenticate("test")).to be_truthy
     end
+
+    it "has an initial balance of $0" do
+      @user = User.create(:username => "test123", :password => "text")
+      expect(@user.balance).to eq(0)
+    end
   end
 
 end

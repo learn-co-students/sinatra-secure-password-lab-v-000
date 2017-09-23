@@ -1,8 +1,10 @@
 <h1>Make Your Withdrawal Here</h1>
 
-<form method="post" action="/account">
+<form method="post" action="/withdrawal">
   <h3>Current Balance: <%= @user.balance %></h3>
   <p>
-    Withdrawal amount: <input type="text">
+    Withdraw: <input type="text" name="withdrawal_amount">
   </p>
+
+  <button type="submit">Withdraw</button>
 </form>

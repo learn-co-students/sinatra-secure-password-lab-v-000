@@ -10,9 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922230850) do
+ActiveRecord::Schema.define(version: 20170923024819) do
 
-# Could not dump table "users" because of following StandardError
-#   Unknown type 'real' for column 'balance'
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.float "balance", default: 0.0
+  end
 
 end
