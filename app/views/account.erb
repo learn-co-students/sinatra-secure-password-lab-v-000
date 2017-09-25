@@ -1,5 +1,17 @@
-<h1>Welcome</h1>
+<h1>Account Portal</h1>
 
-<p>We are currently working on your account.</p>
+<h3>Welcome, <%= @user.username%></h3>
 
-<p><a href="/logout">Log Out</a></p>
+<div class="container">
+	<h3>Current Balance: <%=@user.balance%></h3>
+
+<br>
+	<div class="btn-group" role="group" aria-label="Basic example">
+	  <a href="/withdraw" class="btn btn-info" role="button">Withdraw</a>
+		<a href="/deposit" class="btn btn-info" role="button">Deposit</a>
+		<a href="/logout" class="btn btn-info" role="button">Logout</a>
+	</div>
+</div>
+
+<br>
+<br>

@@ -1,0 +1,8 @@
+<h1>Withdraw</h1>
+<br>
+<h3>How much do you want to withdraw?</h3>
+<h3>Total in account: <%= @user.balance%></h3>
+<form action= "/account" method= "POST" >
+	<label>Withdraw Amount:</label><input type="text" name="withdraw">
+	<input type="submit" value="Submit">
+</form>
