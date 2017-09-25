@@ -1,20 +1,17 @@
-<h1>Welcome</h1>
+<h1>Account Portal</h1>
 
-<h3>Current Balance: <%=@user.balance%></h3>
+<h3>Welcome, <%= @user.username%></h3>
 
+<div class="container">
+	<h3>Current Balance: <%=@user.balance%></h3>
 
-<div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Change Balance
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Deposit</a></li>
-    <li><a href="#">Withdraw</a></li>
-  </ul>
-</div
+<br>
+	<div class="btn-group" role="group" aria-label="Basic example">
+	  <a href="/withdraw" class="btn btn-info" role="button">Withdraw</a>
+		<a href="/deposit" class="btn btn-info" role="button">Deposit</a>
+		<a href="/logout" class="btn btn-info" role="button">Logout</a>
+	</div>
+</div>
 
-
-<p>We are currently working on your account.</p>
-
-
-
-<p><a href="/logout">Log Out</a></p>
+<br>
+<br>

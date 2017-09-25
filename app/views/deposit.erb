@@ -1,0 +1,8 @@
+<h1>Deposit</h1>
+<br>
+<h3>How much do you want to deposit?</h3>
+<h3>Total in account: <%= @user.balance%></h3>
+<form action= "/account" method= "POST" >
+	<label>Deposit Amount:</label><input type="text" name="deposit">
+	<input type="submit" value="Submit">
+</form>

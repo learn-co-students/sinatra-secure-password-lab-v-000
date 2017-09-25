@@ -33,9 +33,6 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-  post '/account' do
-
-  end
 
 
   get "/login" do
@@ -63,8 +60,31 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  post '/account' do
+    if params[:withdraw]
+      redirect '/failure' if params[:withdraw].to_f > current_user.balance
+      User.update(current_user.id, :balance => (current_user.balance - params[:withdraw].to_f)) 
+      
+    else
+       User.update(current_user.id, :balance => (current_user.balance + params[:deposit].to_f))
+    end
+    @user = current_user
+    erb :account
+  end
+
   get "/failure" do
     erb :failure
+  end
+
+  get '/withdraw' do
+    redirect '/failure' unless logged_in?
+    @user = current_user
+    erb :withdraw
+  end
+
+  get '/deposit' do
+    @user = current_user
+    erb :deposit
   end
 
   get "/logout" do
