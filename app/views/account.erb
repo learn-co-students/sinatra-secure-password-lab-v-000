@@ -1,4 +1,30 @@
-<h1>Welcome</h1>
+
+
+<h1>Welcome <%= @user.username %>!</h1>
+
+<h4>Your current balance is
+  <% if @user.balance == nil %>
+    0
+  <% else %>
+    <%= @user.balance %>
+  <% end %>
+  dollars.</h4><br>
+
+<h4>Please enter the amount you would like to deposit:</h4>
+
+<form action='/deposit' method="POST">
+  <label for="amount">Amount: </label>
+  <input id="amount" type="number" name="amount" placeholder="Amount">
+  <p><input type="submit" value="Submit"</p>
+</form><br>
+
+<h4>Please enter the amount you would like to withdraw:</h4>
+
+<form action='/withdrawal' method="POST">
+  <label for="amount">Amount: </label>
+  <input id="amount" type="number" name="amount" placeholder="Amount">
+  <p><input type="submit" value="Submit"</p>
+</form><br>
 
 <p>We are currently working on your account.</p>
 

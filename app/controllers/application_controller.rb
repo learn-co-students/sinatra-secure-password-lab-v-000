@@ -1,5 +1,7 @@
+require "pry"
 require "./config/environment"
 require "./app/models/user"
+
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -17,7 +19,12 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
+    @user = User.new(username: params[:username], password: params[:password])
+    if @user.username != "" && @user.save
+      redirect '/login'
+    else
+      redirect '/failure'
+    end
 
   end
 
@@ -32,7 +39,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   get "/success" do
@@ -50,6 +63,30 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  post "/deposit" do
+    @user = User.find(session[:user_id])
+    if @user.balance == nil
+      @user.update(balance: params[:amount].to_i)
+    else
+      @user.update(balance: (params[:amount].to_i + @user.balance))
+    end
+    redirect '/account'
+  end
+
+  post "/withdrawal" do
+    @user = User.find(session[:user_id])
+    if @user.balance == nil || @user.balance == 0 || @user.balance < params[:amount].to_i
+      redirect '/insufficient_funds'
+    else
+      @user.update(balance: (@user.balance - params[:amount].to_i))
+    end
+    redirect '/account'
+  end
+
+  get "/insufficient_funds" do
+    erb :insufficient_funds
   end
 
   helpers do
