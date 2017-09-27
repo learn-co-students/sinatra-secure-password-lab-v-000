@@ -12,12 +12,12 @@ if ActiveRecord::Migrator.needs_migration?
   raise 'Migrations are pending. Run `rake db:migrate SINATRA_ENV=test` to resolve the issue.'
 end
 
+
 ApplicationController.configure do |app|
   app.use RackSessionAccess::Middleware
 end
 
 RSpec.configure do |config|
-
   config.include Rack::Test::Methods
   config.include Capybara::DSL
 
@@ -30,6 +30,8 @@ def app
 end
 
 Capybara.app = app
+
+ActiveRecord::Base.logger.level = 1
 
 # def session
 #   last_request.env['rack.session']

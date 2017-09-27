@@ -1,0 +1,10 @@
+<h1>Make Your Deposit Here</h1>
+
+<form method="post" action="/deposit">
+  <h3>Current Balance: <%= @user.balance %></h3>
+  <p>
+    Deposit: <input type="text" name="depo_amount">
+  </p>
+
+  <button type="submit">Deposit</button>
+</form>
