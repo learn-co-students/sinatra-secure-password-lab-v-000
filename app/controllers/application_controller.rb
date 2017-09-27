@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require 'rack-flash'
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -7,6 +8,7 @@ class ApplicationController < Sinatra::Base
     enable :sessions
     set :session_secret, "password_security"
   end
+  use Rack::Flash
 
   get "/" do
     erb :index
@@ -69,8 +71,10 @@ class ApplicationController < Sinatra::Base
   post '/deposit' do
     @user = User.find(session[:user_id])
 
-    depo = params[:depo_amount]
+    depo = params[:depo_amount].to_i
     @user.deposit(depo)
+
+    flash[:message] = "The deposited of $#{params[:depo_amount]} was successful."
 
     erb :account
   end
@@ -84,12 +88,13 @@ class ApplicationController < Sinatra::Base
   post '/withdrawal' do
     @user = User.find(session[:user_id])
 
-    withdrawal = params[:withdrawal_amount]
-
+    withdrawal = params[:withdrawal_amount].to_i
 
     if withdrawal > @user.balance
-      erb :withdrawal
+      flash[:message] = "Transaction could not be processed."
+      erb :account
     else
+      flash[:message] = "The withdrawal of $#{params[:withdrawal_amount]} was successful."
       @user.withdrawal(withdrawal)
       erb :account
     end

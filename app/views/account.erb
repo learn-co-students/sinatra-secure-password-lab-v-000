@@ -1,3 +1,7 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
 <h1>Welcome <%= @user.username %></h1>
 
 <h3>Current Balance</h3>
