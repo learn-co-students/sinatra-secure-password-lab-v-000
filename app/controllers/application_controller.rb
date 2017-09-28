@@ -23,13 +23,21 @@ class ApplicationController < Sinatra::Base
     # else
     #   redirect "/failure"
     # end
+    ## above will not work. does not specify if username or password is empty string
 
-    if params[:username] == "" || params[:password] == ""
-      redirect "/failure"
-    else
+    if params[:username] != "" && params[:password] != ""
       User.create(:username => params[:username], :password => params[:password])
       redirect "/login"
+    else
+      redirect "/failure"
     end
+
+    # if params[:username] == "" || params[:password] == ""
+    #   redirect "/failure"
+    # else
+    #   User.create(:username => params[:username], :password => params[:password])
+    #   redirect "/login"
+    # end
   end
 
   get '/account' do
