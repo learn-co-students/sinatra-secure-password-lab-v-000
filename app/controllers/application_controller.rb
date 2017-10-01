@@ -19,6 +19,15 @@ class ApplicationController < Sinatra::Base
   post "/signup" do
     #your code here
 
+    redirect "/failure" if params[:username] == ""
+
+    user = User.new(:username => params[:username], :password => params[:password])
+    if  user.save #if it's savable under the has_secure_password macro
+      redirect "/login"  #saves the user and redirect them to /login
+    else
+      redirect "/failure"
+    end
+
   end
 
   get '/account' do
@@ -33,6 +42,15 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    # binding.pry
+    user = User.find_by(:username => params[:username])
+    #tracy is awesome!
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
   get "/success" do
