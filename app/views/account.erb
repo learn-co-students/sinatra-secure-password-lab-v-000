@@ -1,5 +1,11 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
-
+<%if logged_in?%>
+Your balance is $<%=current_user.balance.to_f%>.
+<p>
+  You can <a href='/deposit'>deposit</a> or <a href='/withdraw'>withdraw</a> funds.
+</p>
 <p><a href="/logout">Log Out</a></p>
+<%else%>
+Please <a href='/login'>log in.</a>
+<%end%>
