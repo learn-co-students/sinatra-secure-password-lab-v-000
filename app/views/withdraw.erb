@@ -1,0 +1,7 @@
+<h1>Withdraw Money</h1>
+<p>You currently have a balance of $<%=current_user.balance%> available for withdrawal.</p>
+<form action='/withdraw' method='post'>
+  <label for="withdraw">Enter the amount you'd like to deposit:</label>
+  <input type="number" step="0.01" name="withdraw" id="withdraw"/>
+  <input type="submit" id="withdraw" value="Withdraw" />
+</form>
