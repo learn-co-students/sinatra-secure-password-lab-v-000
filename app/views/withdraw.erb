@@ -1,0 +1,8 @@
+<h3>Put in withdrawal amount here.</h3>
+<p>Current Balance: $<%=sprintf("%.2f", @user.balance) %></p>
+
+<form action="/account" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="number" step="0.01" name="withdrawal" value="0.00">
+  <button type="submit" name="button">Withdraw</button>
+</form>
