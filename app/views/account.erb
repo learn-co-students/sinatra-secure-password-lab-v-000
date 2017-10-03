@@ -1,5 +1,9 @@
-<h1>Welcome</h1>
+<h2>Welcome <%=@user.username%>,</h2>
 
-<p>We are currently working on your account.</p>
+<p>Your current balance is: $<%=sprintf("%.2f", @user.balance)%></p>
+
+<a href="/account/deposit">Deposit</a>
+<br>
+<a href="/account/withdraw">Withdraw</a>
 
 <p><a href="/logout">Log Out</a></p>
