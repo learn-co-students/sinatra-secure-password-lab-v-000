@@ -20,15 +20,15 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
       user = User.create(:username => params[:username], :password => params[:password])
-      #binding.pry
       if user.save && user.username != ""
-          redirect "/account"
+          redirect "/login"
       else
           redirect "/failure"
       end
   end
 
   get '/account' do
+
     @user = User.find(session[:user_id])
     erb :account
   end
