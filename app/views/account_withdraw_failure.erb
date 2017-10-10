@@ -1,9 +1,10 @@
-<p>We are currently working on your account.</p>
 
 <% if logged_in? %>
 
   <h1>Welcome <%=current_user.username%></h1>
   <h3>Your Balance: <%=current_user.balance.to_s%></h3>
+
+  <p style="color: red"> You do not have enough money in your account. Please enter a valid withdrawal amount.</p>
 
   <form action="/deposit" method="post">
     <input id="hidden" type="hidden" name="_method" value="patch">
