@@ -18,7 +18,7 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     user = User.new(username: params[:username], password: params[:password])
-    puts params
+
     if user.save
       redirect "/login"
     else
@@ -36,8 +36,6 @@ class ApplicationController < Sinatra::Base
 
   post '/account' do
     user = User.find(session[:user_id])
-    amountw = params[:withdrawal]
-    amountd = params[:deposit]
     if params[:withdrawal] != ""
       user.balance -= params[:withdrawal].to_f
       if user.balance > 0
@@ -47,7 +45,6 @@ class ApplicationController < Sinatra::Base
       user.balance += params[:deposit].to_f
       User.update(user.id, balance: user.balance)
     end
-    puts user.balance
     redirect '/account'
   end
 
