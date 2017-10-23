@@ -1,5 +1,8 @@
 require "./config/environment"
 require "./app/models/user"
+require "pry"
+require "bcrypt"
+
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -17,8 +20,12 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    user = User.new(:username => params[:username], :password => params[:password])
+    if user.save
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
   end
 
   get '/account' do
@@ -32,12 +39,19 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect '/success'
+    else
+      redirect '/failure'
+    end
+
   end
 
   get "/success" do
     if logged_in?
-      erb :success
+      redirect '/account'
     else
       redirect "/login"
     end
@@ -50,6 +64,45 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  get "/deposit" do #gets the balance from the user, and adds to it any amount
+    @user = User.find_by(id: session[:user_id])
+    if @user && logged_in?
+      erb :deposit
+    else
+      redirect "/failure"
+    end
+  end
+
+  post "/deposit" do
+    user = User.find_by(id: session[:user_id])
+    if user && logged_in?
+      user.update(balance: user.balance + params[:deposit_amount].to_i)
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
+
+  end
+
+  get "/withdrawl" do #gets the balance from the user and subtracts to it any amount less than the balance
+    @user = User.find_by(id: session[:user_id])
+    if @user && logged_in?
+      erb :withdrawl
+    else
+      redirect "/failure"
+    end
+  end
+
+  post "/withdrawl" do
+    user = User.find_by(id: session[:user_id])
+    if user && logged_in?
+      user.update(balance: user.balance - params[:withdrawl_amount].to_i)
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
   helpers do
