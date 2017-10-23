@@ -1,0 +1,7 @@
+<h1>Make a Withdrawl</h1>
+
+<p>Current Balance: $<%= @user.balance %></p>
+  <form action="/withdrawl" method="POST">
+    <p>Enter Withdrawl Amount: <input type="number" name="withdrawl_amount" min="0" max=<%=@user.balance %> ></p>
+    <input type="submit" name="submit">
+  </form>
