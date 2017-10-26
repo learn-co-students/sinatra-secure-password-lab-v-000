@@ -1,5 +1,7 @@
 require "./config/environment"
 require "./app/models/user"
+require 'pry'
+
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -7,7 +9,7 @@ class ApplicationController < Sinatra::Base
     enable :sessions
     set :session_secret, "password_security"
   end
-
+#ask about the password_digest thing!! and how can they comepare the password hash to the database if one of them has been encrypted. Can different people have the same username?
   get "/" do
     erb :index
   end
@@ -17,8 +19,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+      if params[:username] == "" || params[:password] == ""
+        redirect to '/failure'
+      else
+        user = User.new(username: params[:username], password: params[:password])
+        user.save
+        redirect to '/login'
+      end
   end
 
   get '/account' do
@@ -32,7 +39,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+
+    user = User.find_by(username: params[:username])
+    if user
+      redirect '/success'
+    else
+      redirect '/failure'
+    end
   end
 
   get "/success" do
