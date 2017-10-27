@@ -1,5 +1,15 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<h3>Your Current Balance: <%= current_user.balance %></h3>
+
+<form action="/account" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  Enter Amount to Deposit or Withdraw:
+  <input type="number" name="deposit" placeholder="deposit">
+  <input type="number" name="withdraw" placeholder="withdraw">
+  <input type="submit" value="Authorize Transaction">
+  
+
+</form>
 
 <p><a href="/logout">Log Out</a></p>
