@@ -1,5 +1,8 @@
 require 'bundler'
 Bundler.require
+require 'bcrypt'
+require 'pry'
+require 'money'
 
 configure :development do
 	set :database, {adapter: "sqlite3", database: "db/database.sqlite3"}

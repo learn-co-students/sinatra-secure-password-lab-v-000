@@ -1,7 +1,7 @@
 require "./config/environment"
 require "./app/models/user"
 class ApplicationController < Sinatra::Base
-
+             
   configure do
     set :views, "app/views"
     enable :sessions
@@ -17,30 +17,33 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    user = User.new(username: params[:username], password: params[:password]) if filled_out(params)
+    user ? (redirect '/account') : (redirect '/failure')
+    binding.pry
+    user.save
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
+    @user = current_user
+    @balance = Money.new((@user.balance * 100).to_s).format
     erb :account
-  end
-
+  end 
 
   get "/login" do
     erb :login
-  end
+  end 
 
   post "/login" do
-    ##your code here
-  end
+    redirect "/failure" if !filled_out(params)
+    user = User.find_by(username: params[:username])
+     if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect "/account"
+     end 
+  end 
 
   get "/success" do
-    if logged_in?
-      erb :success
-    else
-      redirect "/login"
-    end
+    logged_in? ? (erb :success) : (redirect "/login")
   end
 
   get "/failure" do
@@ -52,6 +55,16 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  post "/deposit" do
+    current_user.deposit(params[:deposit])
+    redirect "/account"
+  end
+
+  post "/withdraw" do
+    current_user.withdraw(params[:withdrawal])
+    redirect "/account"
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]
@@ -59,6 +72,10 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:user_id])
+    end
+
+    def filled_out(params)
+      params.all? {|k,v| v != ""}
     end
   end
 
