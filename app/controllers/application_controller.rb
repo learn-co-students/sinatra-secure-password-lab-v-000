@@ -28,9 +28,41 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
+    @user = current_user
     erb :account
   end
+
+  get '/account/deposit' do
+    @user = current_user
+    erb :deposit
+  end
+
+  post '/account/deposit' do
+    @user = current_user
+    @user.balance += params[:deposit_amount].to_f
+    @user.save
+    redirect to '/account'
+  end
+
+  get '/account/withdraw' do
+    # binding.pry
+    @user = current_user
+    erb :withdraw
+  end
+
+  post '/account/withdraw' do
+    @user = current_user
+    if @user.balance > params[:withdraw_amount].to_f
+      @user.balance -= params[:withdraw_amount].to_f
+      @user.save
+      # binding.pry
+      redirect to '/account'
+    else
+      redirect to '/failure'
+    end
+
+  end
+
 
 
   get "/login" do
@@ -47,10 +79,8 @@ class ApplicationController < Sinatra::Base
       session[:user_id] = user.id
       redirect to '/account'
     else
-
       redirect to '/failure'
     end
-
   end
 
   get "/success" do
@@ -87,5 +117,4 @@ class ApplicationController < Sinatra::Base
       end
     end
   end
-
 end
