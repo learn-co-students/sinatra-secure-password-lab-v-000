@@ -1,5 +1,21 @@
 <h1>Welcome</h1>
 
 <p>We are currently working on your account.</p>
+<p> <%= @user.username%> </p>
+<p> <%= @user.balance%> </p>
+
+<form method='post' action='/addmoney'>
+  <label>DEPOSIT Money</label>
+  <input type='integer' name='balance'>
+  <input type='submit' value="+">
+</form>
+
+<form method='post' action='/removemoney'>
+  <label>WITHDRAWL Money</label>
+  <input type='integer' name='balance'>
+  <input type='submit' value="-">
+</form>
+
+
 
 <p><a href="/logout">Log Out</a></p>
