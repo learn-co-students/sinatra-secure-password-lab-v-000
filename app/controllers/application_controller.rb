@@ -17,7 +17,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
+    user = User.new(:username => params[:username], :password => params[:password])
+
+    if user.save && user.username.size > 0  #leaving a blank username was giving me and empty string, which is truthy.  so I had to make sure the username sting is greater than one and that it saves
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
 
   end
 
@@ -32,7 +38,14 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    user = User.find_by(:username => params[:username])
+
+    if user && user.authenticate(params[:password])  # authenticate method to check encryption
+      session[:user_id] = user.id
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
   get "/success" do
