@@ -2,4 +2,20 @@
 
 <p>We are currently working on your account.</p>
 
+<p>In the meantime, your current balance is: $<%=@user.balance%></p>
+<h4>You can:</h4>
+<div>
+  <form action="/updated" method="post">
+    <label for="withdraw">Withdraw: </label>
+    <input id="withdraw" type="text" name="withdraw" value="0.00">
+    <input type="submit" value="Submit">
+  </form>
+
+  <form action="/updated" method="post">
+    <label for="deposit">Deposit: </label>
+    <input id="deposit" type="text" name="deposit" value="0.00">
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
 <p><a href="/logout">Log Out</a></p>
