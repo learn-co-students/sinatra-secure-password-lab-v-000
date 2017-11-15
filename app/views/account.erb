@@ -1,5 +1,13 @@
-<h1>Welcome</h1>
+<h1>Welcome <%=current_user[:username]%></h1>
 
-<p>We are currently working on your account.</p>
+<p>Your current balance is: <%=current_user[:balance]%></p>
 
+<form action="/deposit" method="POST">
+  <input type="text" name=":deposit" placeholder="Deposit:">
+  <input type="submit" value="Deposit">
+</form><br>
+<form action="/withdrawl" method="POST">
+  <input type="text" name=":withdrawl" placeholder="Withdrawl:">
+  <input type="submit" value="Withdrawl">
+</form><br>
 <p><a href="/logout">Log Out</a></p>
