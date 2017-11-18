@@ -18,3 +18,10 @@ group :development do
   gem 'rspec'
   gem 'tux'
 end
+
+group :test do
+  gem 'pry'
+  gem 'sqlite3'
+  gem 'rspec'
+  gem 'tux'
+end

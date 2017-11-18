@@ -20,6 +20,7 @@ describe 'App' do
 
     it "displays the failure page if no username is given" do
       post '/signup', {"username" => "", "password" => "hello"}
+      binding.pry
       follow_redirect!
       expect(last_response.body).to include('Flatiron Bank Error')
     end
