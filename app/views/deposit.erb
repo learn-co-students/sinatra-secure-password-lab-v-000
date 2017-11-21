@@ -1,0 +1,7 @@
+<h1>Welcome <%= @user.username %>!</h1>
+
+<h4>Your balance is currently <%= @user.balance_to_currency %>. How much would you like to deposit?</h4>
+<form action="/account/deposit" method="post">
+  <input type="text" name="deposit_amount" value="">
+  <input type="submit" name="submit" value="submit">
+</form>
