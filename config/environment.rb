@@ -1,5 +1,5 @@
 require 'bundler'
-Bundler.require
+Bundler.require(:default, :development)
 
 configure :development do
 	set :database, {adapter: "sqlite3", database: "db/database.sqlite3"}
