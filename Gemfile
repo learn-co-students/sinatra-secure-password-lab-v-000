@@ -11,6 +11,7 @@ gem 'capybara'
 gem 'rack_session_access'
 gem 'rack-test'
 gem 'shotgun'
+gem 'pry' # I added so Rakefile would work with pry
 
 group :development do
   gem 'pry'
