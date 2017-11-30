@@ -19,6 +19,20 @@ class ApplicationController < Sinatra::Base
   post "/signup" do
     #your code here
 
+    if params[:username] != "" && params[:password] != "" # Did this to get tests to pass, but not sure if
+      # this is the right way to handle
+      user = User.new(:username => params[:username], :password => params[:password])
+		  if user.save
+				redirect "/account"
+        # not sure how this works...the instance of User has a readable string from
+        # params[:password}...are we then saving THAT to the database?? At what point does it get encyrpted under
+        # :password_digest??
+        # BUT when I use sqlite3 to look at what's in database, it works -- there are the hashes, and no
+        # plain text passwords
+      end
+		else
+				redirect "/failure"
+    end
   end
 
   get '/account' do
@@ -33,10 +47,18 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect "/account"
+    else
+        redirect "/failure"
+    end
   end
 
   get "/success" do
     if logged_in?
+      @user = current_user # I added
       erb :success
     else
       redirect "/login"
