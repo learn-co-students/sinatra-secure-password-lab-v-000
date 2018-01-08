@@ -63,6 +63,14 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  patch '/deposit' do
+    #Needs to update user balance
+  end
+
+  patch '/withdraw' do
+    #Checks that balance has amt specified, then removes from balance
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]
