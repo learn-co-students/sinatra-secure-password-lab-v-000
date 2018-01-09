@@ -63,12 +63,30 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
-  patch '/deposit' do
-    #Needs to update user balance
+  patch '/deposit/:id' do
+    @account = User.find(params[:id])
+    if @account.balance == nil
+      @account.balance = params[:deposit]
+    else
+      @account.balance += params[:deposit].to_f
+    end
+    @account.save
+    redirect '/account'
   end
 
-  patch '/withdraw' do
-    #Checks that balance has amt specified, then removes from balance
+  patch '/withdraw/:id' do
+    @account = User.find(params[:id])
+    if @account.balance == nil || @account.balance < params[:withdraw].to_f
+      redirect '/error'
+    else
+      @account.balance = @account.balance - params[:withdraw].to_f
+      @account.save
+    end
+    redirect '/account'
+  end
+
+  get '/error' do
+    erb :error
   end
 
   helpers do

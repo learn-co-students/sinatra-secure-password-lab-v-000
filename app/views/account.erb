@@ -1,17 +1,17 @@
 <h1>Welcome <%= current_user.username %></h1>
 
-<p>Your Balance is $<%= current_user.balance %></p>
+<p>Your Balance is $<%= "%.2f" % current_user.balance %></p>
 
-<form class="" action="/deposit" method="post">
+<form class="" action="/deposit/<%= current_user.id %>" method="post">
   <input id="hidden" type="hidden" name="_method" value="patch">
-  <p>Make a Deposit:<input type="float" name="" value="$0.00"></p>
+  <p>Make a Deposit:<input type="float" name="deposit" value="$0.00"></p>
   <input type="submit" name="" value="Deposit">
 
 </form>
 
-<form class="" action="/withdraw" method="post">
+<form class="" action="/withdraw/<%= current_user.id %>" method="post">
   <input id="hidden" type="hidden" name="_method" value="patch">
-  <p>Make a Withdrawal:<input type="float" name="" value="$0.00"></p>
+  <p>Make a Withdrawal:<input type="float" name="withdraw" value="$0.00"></p>
   <input type="submit" name="" value="Withdraw">
 </form>
 
