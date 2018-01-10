@@ -29,6 +29,23 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
+  post '/transaction' do
+    # TODO add error message when transaction can't be completed
+
+    deposit = params["deposit"].to_i
+    withdrawal = params["withdrawal"].to_i
+    transaction = deposit - withdrawal
+    amount = current_user.balance
+
+    if amount + deposit >= withdrawal
+      amount += transaction
+    end
+
+    current_user.update(balance: amount)
+
+    redirect '/account'
+  end
+
 
   get "/login" do
     erb :login
