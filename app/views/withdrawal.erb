@@ -1,0 +1,7 @@
+<h3>Make a withdrawal:</h3>
+<h4>Current Balance: $<%= @user.balance %></h4>
+<form method="POST" action="/withdrawal">
+  <p>Withdrawal Amount: <input type="text" name="amount"></p>
+  <input type="submit" value="Make Withdrawal">
+</form>
+<p><a href="/account">Click here</a> to return to your account summary.</p>
