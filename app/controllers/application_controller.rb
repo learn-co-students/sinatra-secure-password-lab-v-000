@@ -34,14 +34,20 @@ class ApplicationController < Sinatra::Base
 
   post '/account/deposit' do
     @user = User.find(session[:user_id])
-    binding.pry
     new_balance = @user.balance.to_f + params[:deposit].to_f
     @user.update(balance: new_balance)
+    redirect '/account'
   end
 
   post '/account/withdrawal' do
     @user = User.find(session[:user_id])
-
+    if @user.balance.to_f >= params[:withdrawal].to_f
+      new_balance = @user.balance.to_f - params[:withdrawal].to_f
+      @user.update(balance: new_balance)
+      redirect '/account'
+    else
+      erb :withdrawal_failure
+    end
   end
 
 
