@@ -1,5 +1,15 @@
-<h1>Welcome</h1>
-
+<h1>Welcome <%=@user.username%></h1>
 <p>We are currently working on your account.</p>
+<p>Your account balance is: $<%=@user.balance%>.</p>
+<form method="post" action="/deposit/<%=@user.id%>">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <p> Make a deposit <input type="float" name="deposit"></p>
+  <input type="submit" name="" value="Deposit">
+</form>
 
+<form method="post" action="/withdrawal/<%=@user.id%>">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <p> Make a withdrawal <input type="float" name="withdrawal"></p>
+  <input type="submit" name="" value="Withdraw">
+</form>
 <p><a href="/logout">Log Out</a></p>
