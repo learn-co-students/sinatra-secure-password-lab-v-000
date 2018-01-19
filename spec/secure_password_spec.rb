@@ -1,10 +1,12 @@
 require 'spec_helper'
+require "pry"
 
 describe 'App' do
   include Rack::Test::Methods
 
   describe "GET '/'" do
     it "returns a 200 status code" do
+
       get '/'
       expect(last_response.status).to eq(200)
     end
