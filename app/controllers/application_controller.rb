@@ -1,5 +1,7 @@
 require "./config/environment"
 require "./app/models/user"
+require "pry"
+
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -8,17 +10,30 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "password_security"
   end
 
-  get "/" do
+  get '/' do
     erb :index
   end
 
-  get "/signup" do
+  get '/signup' do
     erb :signup
   end
 
-  post "/signup" do
+  post '/signup' do
     #your code here
-
+    if params[:username] != nil && params[:username] != ""
+      user = User.new(:username => params[:username], :password => params[:password])
+    elsif params[:password] == nil && params[:password] == "" 
+      redirect '/failure'
+    else
+      redirect '/failure'
+    end
+    
+    if user.save
+      user.save
+      redirect '/login'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/account' do
@@ -26,30 +41,35 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-
-  get "/login" do
+  get '/login' do
     erb :login
   end
 
-  post "/login" do
-    ##your code here
-  end
-
-  get "/success" do
-    if logged_in?
-      erb :success
+  post '/login' do
+    user = User.find_by(:username => params[:username])
+    if user && user.authenticate(params[:password]) 
+      session[:user_id] = user.id
+      redirect '/success'
     else
-      redirect "/login"
+      redirect '/failure'
     end
   end
 
-  get "/failure" do
+  get '/success' do
+    if logged_in?
+      redirect '/account'
+    else
+      redirect '/login'
+    end
+  end
+
+  get '/failure' do
     erb :failure
   end
 
-  get "/logout" do
+  get '/logout' do
     session.clear
-    redirect "/"
+    redirect '/'
   end
 
   helpers do
