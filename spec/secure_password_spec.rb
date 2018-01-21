@@ -65,28 +65,28 @@ describe 'App' do
     end
 
     it "displays the user's account page if username and password is given" do
-      @user = User.create(:username => "penelope", :password => "puppies")
+      @user = User.create(username: 'penelope', password: 'puppies')
       visit '/login'
-      fill_in "username", :with => "penelope"
-      fill_in "password", :with => "puppies"
-      click_button "Log In"
+      fill_in 'username', with: 'penelope'
+      fill_in 'password', with: 'puppies'
+      click_button 'Log In'
       expect(page.current_path).to eq('/account')
       expect(page.status_code).to eq(200)
-      expect(page.body).to include("We are currently working on your account.")
+      expect(page.body).to include('We are currently working on your account.')
     end
   end
 
   describe "GET '/logout'" do
-    it "clears the session" do
+    it 'clears the session' do
       get '/logout'
-      expect{page.get_rack_session_key("user_id")}.to raise_error(KeyError)
+      expect { page.get_rack_session_key('user_id') }.to raise_error(KeyError)
     end
   end
 
-  describe "User Model" do
-    it "responds to authenticate method from has_secure_password" do
-      @user = User.create(:username => "test123", :password => "test")
-      expect(@user.authenticate("test")).to be_truthy
+  describe 'User Model' do
+    it 'responds to authenticate method from has_secure_password' do
+      @user = User.create(username: 'test123', password: 'test')
+      expect(@user.authenticate('test')).to be_truthy
     end
   end
 
