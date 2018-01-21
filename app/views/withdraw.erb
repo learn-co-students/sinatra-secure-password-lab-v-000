@@ -1,0 +1,8 @@
+<h1>Welcome <%= current_user.username%>!! </h1>
+<p>We are currently working on your account.</p>
+<h3>Withdraw</h3>
+<form action="/withdraw" method="POST">
+  <input type="text" name="amount" placeholder="amount:">
+  <input type="submit" value="confirm">
+</form>
+<p><a href="/account">Home</a></p>
