@@ -1,0 +1,13 @@
+<% if @deposit != 0 %>
+  <h1>Previous Balance: $<%= @user.balance - @deposit %></h1></br>
+  <h1>Deposit Amount: +$<%= @deposit %></h1></br>
+  <h1>Updated Balance: $<%= @user.balance %></h1></br>
+<% elsif @withdrawal != 0 %>
+  <h1>Previous Balance: $<%= @user.balance + @withdrawal %></h1></br>
+  <h1>Withdrawal Amount: -$<%= @withdrawal %></h1></br>
+  <h1>Updated Balance: $<%= @user.balance %></h1></br>
+<% end %>
+
+<a href="/account">Click to return to your account homepage</a></br>
+<p> or <br>
+<a href="/transaction">Click to make a transaction</a>

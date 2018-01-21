@@ -1,5 +1,6 @@
-<h1>Welcome</h1>
+<h1>WELCOME <%=@user.username.upcase %></h1>
 
-<p>We are currently working on your account.</p>
-
+<h3>Your current balance is: $<%=@user.balance%></h3>
+<p>To make a transaction <a href="/transaction">click here</a></p>
 <p><a href="/logout">Log Out</a></p>
+<p>We are currently working on your account.</p>
