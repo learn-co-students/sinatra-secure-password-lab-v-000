@@ -90,4 +90,50 @@ describe 'App' do
     end
   end
 
+  describe "Balance and Transactions" do
+
+    before do
+      @user = User.create(:username => "tcruise", :password => "cthulu")
+      visit '/login'
+      fill_in "username", :with => "tcruise"
+      fill_in "password", :with => "cthulu"
+      click_button "Log In"
+    end
+
+    it "creates new users with 0 balance" do
+      expect(page.current_path).to eq('/account')
+      expect(page.status_code).to eq(200)
+      expect(page.body).to include("Current Balance: $0")
+    end
+    it "can deposit to a user's balance and return to account" do
+      fill_in "amount", :with => "339"
+      choose('transfer_type', option: 'Deposit')
+      click_button 'Submit'
+      expect(page.current_path).to eq('/account')
+      expect(page.status_code).to eq(200)
+      expect(page.body).to include("Current Balance: $339")
+    end
+    it "can withdraw from a user's balance" do
+      fill_in "amount", :with => "339"
+      choose('transfer_type', option: 'Deposit')
+      click_button 'Submit'
+      fill_in "amount", :with => "9"
+      choose('transfer_type', option: 'Withdrawal')
+      click_button 'Submit'
+      expect(page.body).to include("Current Balance: $330")
+    end
+    it "displays 'insufficient funds' page upon attempted overdraft" do
+      fill_in "amount", :with => "1"
+      choose('transfer_type', option: 'Withdrawal')
+      click_button 'Submit'
+      expect(page.current_path).to eq('/insufficient')
+      expect(page.body).to include("insufficient funds")
+    end
+
+    after do
+      @user = User.find_by(username: "tcruise")
+      @user.destroy
+    end
+  end
+
 end
