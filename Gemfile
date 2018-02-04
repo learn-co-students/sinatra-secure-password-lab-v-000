@@ -17,4 +17,5 @@ group :development do
   gem 'sqlite3'
   gem 'rspec'
   gem 'tux'
+  gem 'byebug'
 end
