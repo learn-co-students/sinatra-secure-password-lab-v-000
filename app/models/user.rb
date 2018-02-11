@@ -5,11 +5,16 @@ class User < ActiveRecord::Base
 
 
 	def deposit(amount)
-		self.balance += amount.to_i
+		balance = self.balance.to_i
+		transaction_balance = balance += (amount.to_i)
+		self.balance = sprintf("%.2f", transaction_balance)
+		#still not displaying decimals correctly 
 	end
 
 	def withdrawal(amount)
-		self.balance -= amount.to_i
+		balance = self.balance.to_i
+		balance -= (amount.to_i)
+		self.balance = balance
 	end
 
 end

@@ -27,8 +27,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    if logged_in?
+      @user = User.find(session[:user_id])
+      erb :account
+    else
+      redirect'/login'
+    end
   end
 
 
@@ -46,18 +50,9 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get "/account" do
-    if logged_in?
-      erb :account
-    else
-      redirect "/login"
-    end
-  end
-
   post '/deposit' do
     @user = User.find(session[:user_id])
-    deposit_amt = sprintf("%.2f", params[:deposit])
-    @user.deposit(deposit_amt)
+    @user.deposit(params[:deposit])
     @user.save
 
     redirect '/account'
@@ -65,7 +60,8 @@ class ApplicationController < Sinatra::Base
 
   post '/withdrawal' do
     @user = User.find(session[:user_id])
-    if @user.balance > params[:withdrawal].to_i
+    balance = @user.balance.to_i
+    if balance > params[:withdrawal].to_i
       @user.withdrawal(params[:withdrawal])
       @user.save
 
