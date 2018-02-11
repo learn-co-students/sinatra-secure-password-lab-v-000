@@ -54,6 +54,27 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  post '/deposit' do
+    @user = User.find(session[:user_id])
+    deposit_amt = sprintf("%.2f", params[:deposit])
+    @user.deposit(deposit_amt)
+    @user.save
+
+    redirect '/account'
+  end
+
+  post '/withdrawal' do
+    @user = User.find(session[:user_id])
+    if @user.balance > params[:withdrawal].to_i
+      @user.withdrawal(params[:withdrawal])
+      @user.save
+
+      redirect '/account'
+    else 
+      redirect '/failure'
+    end
+  end
+
   get "/failure" do
     erb :failure
   end
