@@ -1,5 +1,21 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<!-- <p>We are currently working on your account.</p> -->
+
+<h1>Welcome <%= @user.username%></h1>
+<% @balance = sprintf("%.2f", @user.balance)%>
+<h3>Your Balance: <%= @balance%></h3>
+
+<form method="POST" action="/deposit">
+<h4>Deposit</h4>
+<p>Deposit Amt: $<input type="float" name="deposit"></p>
+<input type="submit" value="Deposit">
+</form>
+
+<form method="POST" action="/withdrawal">
+<h5>Withdrawal</h5>
+<p>Withdrawal Amt: $<input type="float" name="withdrawal"></p>
+<input type="submit" value="Withdrawal">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
