@@ -6,3 +6,7 @@ configure :development do
 end
 require_relative '../app/controllers/application_controller.rb'
 require_all 'app/models'
+
+configure :development do
+  set :database, 'sqlite3:db/users.db'
+end
