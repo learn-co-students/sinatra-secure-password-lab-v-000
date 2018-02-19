@@ -1,5 +1,13 @@
-<h1>Welcome</h1>
+<h1>Welcome <%=current_user.username%></h1>
 
 <p>We are currently working on your account.</p>
+
+<% if current_user %>
+
+<p>Your Original Starting Balance was: $0 </p>
+
+
+<%end%>
+
 
 <p><a href="/logout">Log Out</a></p>
