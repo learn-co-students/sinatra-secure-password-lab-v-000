@@ -57,9 +57,8 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/account" do #in process for bonus
-    binding.pry
-    new_balance = current_user.balance.to_i + params[:deposit].to_i - params[:withdrawal]
-
+    # binding.pry
+    current_user.balance = params[:deposit].to_i - params[:withdrawal].to_i
 
   end
 

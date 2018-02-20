@@ -5,9 +5,10 @@
 
 <% if current_user %>
 <form action= "/account" method="POST">
+
 <label> Enter Your Deposit <input type="integer" name="deposit" placeholder="Amount"> <%=current_user.balance %></label></br></br>
 <label> Enter Your Withdrawal <input type="integer" name="withdrawal" placeholder="Amount"></label></br></br>
-<label> Your New And Ending Balance Is: <%= current_user.balance%> </label></br>
+<label> Your Ending Balance Is: <%= current_user.balance%> </label></br>
 <input type="submit" value="Calculate">
 </form>
 <%end%>
