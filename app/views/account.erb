@@ -2,15 +2,18 @@
 
 <p>We are currently working on your account.</p>
 
+
 <% if current_user %>
-
-<p>Your Original Starting Balance was: $0 </p>
-<label> Enter Your Deposit<input type="integer" name="Amount" placeholder="Amount"></label>
-
-
+<form action= "/account" method="POST">
+<p>Your Original Starting Balance was: $ <%= current_user.balance%> </p>
+<label> Enter Your Deposit <input type="integer" name="deposit" placeholder="Amount"> <%=current_user.balance %></label></br></br>
+<label> Enter Your Withdrawal <input type="integer" name="withdrawal" placeholder="Amount"></label></br></br>
+<label> Your New And Ending Balance Is: <%= current_user.balance%> </label></br>
 <input type="submit" value="Calculate">
-
+</form>
 <%end%>
 
 
 <p><a href="/logout">Log Out</a></p>
+
+<!-- #work in progress for bonus -->
