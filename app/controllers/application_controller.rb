@@ -22,6 +22,7 @@ class ApplicationController < Sinatra::Base
       redirect '/failure'
     else
     user = User.new(username: params[:username], password: params[:password])
+
     if user.save
       redirect '/login'
     end
@@ -57,8 +58,9 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/account" do #in process for bonus
-    # binding.pry
-    current_user.balance = params[:deposit].to_i - params[:withdrawal].to_i
+
+    new_balance = current_user.balance + params[:deposit].to_i - params[:withdrawal].to_i
+    current_user.update(balance: new_balance)
 
   end
 
