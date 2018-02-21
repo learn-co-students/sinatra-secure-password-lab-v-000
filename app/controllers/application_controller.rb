@@ -57,11 +57,15 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  post "/account" do #in process for bonus
-
+  # Bonus Code
+  post "/account" do
     new_balance = current_user.balance + params[:deposit].to_i - params[:withdrawal].to_i
+    if new_balance < 0
+      redirect '/account'
+    else
     current_user.update(balance: new_balance)
-
+    erb :account
+    end
   end
 
   get "/failure" do

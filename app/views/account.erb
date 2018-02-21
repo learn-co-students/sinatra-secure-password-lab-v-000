@@ -2,18 +2,17 @@
 
 <p>We are currently working on your account.</p>
 
-
+<!-- #work in progress for bonus -->
 <% if current_user %>
 <form action= "/account" method="POST">
 
-<label> Enter Your Deposit <input type="integer" name="deposit" placeholder="Amount"> <%=current_user.balance %></label></br></br>
+<label> Enter Your Deposit <input type="integer" name="deposit" placeholder="Amount"></label></br></br>
 <label> Enter Your Withdrawal <input type="integer" name="withdrawal" placeholder="Amount"></label></br></br>
-<label> Your Ending Balance Is: <%= current_user.balance%> </label></br>
+<label> When taken back to the start and balance does not change, you are overdrawn. Please re-enter.</label></br></br>
+<label> Your Ending Balance Is: $<%= current_user.balance%> </label></br>
 <input type="submit" value="Calculate">
 </form>
 <%end%>
 
 
 <p><a href="/logout">Log Out</a></p>
-
-<!-- #work in progress for bonus -->
