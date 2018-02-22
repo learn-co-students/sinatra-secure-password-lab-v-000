@@ -18,7 +18,7 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    binding.pry
   end
 
   get '/account' do
@@ -48,17 +48,21 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/logout" do
-    session.clear
+    logout!
     redirect "/"
   end
 
   helpers do
     def logged_in?
-      !!session[:user_id]
+      !!current_user
     end
 
     def current_user
-      User.find(session[:user_id])
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+
+    def logout!
+      session.clear
     end
   end
 
