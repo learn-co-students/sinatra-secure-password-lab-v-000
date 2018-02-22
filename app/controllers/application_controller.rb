@@ -31,7 +31,6 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-
   get "/login" do
     erb :login
   end
