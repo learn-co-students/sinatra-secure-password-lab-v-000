@@ -1,5 +1,20 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= current_user.username %></h1>
 
-<p>We are currently working on your account.</p>
+<p>We are currently working on your account.</p><br>
+
+  <form action="/balance" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <% if current_user.balance > 10 %>
+    <input type="text" name="withdraw" placeholder="Amout to Withdraw..">
+    <input type="text" name="deposite" placeholder="Amount to deposite..">
+    <% else %>
+    <input type="text" name="deposite" placeholder="Amount to deposite..">
+    <% end %>
+    <input type="submit" value="Submit">
+  </form>
+
+
+<p>Your account Balance is: $<%= current_user.balance %></p>
+
 
 <p><a href="/logout">Log Out</a></p>
