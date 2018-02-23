@@ -2,12 +2,17 @@
 
 <p>We are currently working on your account.</p><br>
 
-<% if current_user.balance > 0 %>
-  <a href="/withdraw">Make Withdraw</a>
-  <a href="/deposit">Make Deposite</a>
-  <% else %>
-    <a href="/deposit">Make Deposite</a>
-<% end %>
+  <form action="/balance" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <% if current_user.balance > 10 %>
+    <input type="text" name="withdraw" placeholder="Amout to Withdraw..">
+    <input type="text" name="deposite" placeholder="Amount to deposite..">
+    <% else %>
+    <input type="text" name="deposite" placeholder="Amount to deposite..">
+    <% end %>
+    <input type="submit" value="Submit">
+  </form>
+
 
 <p>Your account Balance is: $<%= current_user.balance %></p>
 

@@ -53,20 +53,17 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/withdraw' do
-    erb :withdraw
-  end
-
-  post '/withdraw' do
-    # code
-  end
-
-  get '/deposite' do
-    erb :deposite
-  end
-
-  post '/deposite' do
-    # code
+  patch '/balance' do
+    user = User.find_by(id: session[:user_id])
+    if !!params[:deposite]
+      amount = params[:deposite].to_i
+      total = user.balance.to_i + amount
+    else
+      amount = params[:withdraw].to_i
+      total = user.balance.to_i - amount
+    end
+    user.update(balance: total)
+    redirect '/account'
   end
 
   get "/failure" do
