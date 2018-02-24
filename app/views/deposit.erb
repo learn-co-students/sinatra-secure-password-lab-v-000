@@ -1,0 +1,9 @@
+<p>How much would you like to deposit?</p>
+
+<p>Your current balance is: $<%= current_user.balance %></p>
+
+<form action="/deposit" method="post">
+  <input type="number" name="amount">
+
+  <input type="submit" name="Deposit">
+</form>
