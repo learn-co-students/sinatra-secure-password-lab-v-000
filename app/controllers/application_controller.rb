@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require "pry"
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -17,34 +18,73 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
+    user = User.new(username: params[:username], password: params[:password])
 
+    if user.save
+      redirect to "/login"
+    else
+      redirect to "/failure"
+    end
   end
 
-  get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+  get "/account" do
+    if logged_in?
+      erb :account
+    else
+      redirect to "/login"
+    end
   end
-
 
   get "/login" do
     erb :login
   end
 
   post "/login" do
-    ##your code here
-  end
+    user = User.find_by(username: params[:username])
 
-  get "/success" do
-    if logged_in?
-      erb :success
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect to "/account"
     else
-      redirect "/login"
+      redirect to "/failure"
     end
   end
 
   get "/failure" do
     erb :failure
+  end
+
+  get "/withdraw" do
+    if logged_in?
+      erb :withdraw
+    else
+      redirect to "/login"
+    end
+  end
+
+  post "/withdraw" do
+    withdrawal = params[:amount].to_d
+    if withdrawal > current_user.balance
+      redirect to "/withdraw"
+    else
+      current_user.update(balance: current_user.balance - withdrawal)
+      redirect to "/account"
+    end
+  end
+
+  get "/deposit" do
+    if logged_in?
+      erb :deposit
+    else
+      redirect to "/login"
+    end
+  end
+
+  post "/deposit" do
+    deposit = params[:amount].to_d
+    current_user.update(balance: current_user.balance + deposit)
+
+    redirect to "/account"
   end
 
   get "/logout" do
