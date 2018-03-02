@@ -66,6 +66,23 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  patch '/transaction' do
+    user = current_user
+
+    case params[:type]
+    when 'add'
+      i = user.balance + params[:amount]
+      user.update(balance: i)
+      redirect '/account'
+    when 'remove'
+      amount = params[:amount]
+      redirect '/failure' if amount > user.balance
+      i = user.balance - amount
+      user.update(balance: i)
+      redirect '/account'
+    end
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]

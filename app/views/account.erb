@@ -1,5 +1,21 @@
-<h1>Welcome</h1>
+<% user = current_user %>
 
-<p>We are currently working on your account.</p>
+<h1>Welcome, <%= user.username %></h1>
+
+<h3>Current Balance: $<%= user.balance %></h3>
+
+<h4>We are currently working on your account.</h4>
+
+<form class="" action="/transaction" method="post">
+  <p>
+  <label for="add">Add <input type="radio" name="type" id="add" value="add" checked></label>
+  <label for="remove">Remove <input type="radio" name="type" id="remove" value="remove"></label>
+  </p>
+  <p>
+  <label for="amount">Amount: $ <input type="number" name="amount" id="amount" min="0" value="0"></label>
+  </p>
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="submit" name="submit" id="submit" value="Submit">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
