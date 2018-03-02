@@ -71,11 +71,11 @@ class ApplicationController < Sinatra::Base
 
     case params[:type]
     when 'add'
-      i = user.balance + params[:amount]
+      i = user.balance + params[:amount].to_f
       user.update(balance: i)
       redirect '/account'
     when 'remove'
-      amount = params[:amount]
+      amount = params[:amount].to_f
       redirect '/failure' if amount > user.balance
       i = user.balance - amount
       user.update(balance: i)
