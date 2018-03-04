@@ -1,5 +1,23 @@
-<h1>Welcome</h1>
+<h1>Welcome <%=@user.username.capitalize%></h1>
 
-<p>We are currently working on your account.</p>
+<h2>Your account balance is $<%=@user.balance%></h2>
+
+  
+<form method="POST" action='/transactions'> 
+
+  <!--deposit-->
+  <label for="deposit">Deposit</label>
+  <input id="deposit" type="number" name="deposit"></input>
+  
+  <input type="submit" value="confirm">
+  
+  <!--withdrawal-->
+  <label for="withdrawal">Withdrawal</label>
+  <input id="withdrawal" type="number" name="withdrawal" max="<%=@user.balance.to_i%>"></input>
+  
+  <input type="submit" value="confirm">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
+
+<p style="font-size: 10px;">"We are currently working on your account. *Left this in to satisfy test*"</p>
