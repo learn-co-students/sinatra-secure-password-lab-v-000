@@ -1,0 +1,10 @@
+<h2>Deposit</h2>
+
+<p>Current Account Balance: $<%= current_user.balance %></p>
+
+<form method="POST" action="/deposit">
+  <label for="deposit">Please enter the deposit amount: </label>
+  <input type="number" id="deposit" name="deposit">
+
+  <input type="submit" value="Submit">
+</form>
