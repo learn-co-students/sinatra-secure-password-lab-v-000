@@ -23,8 +23,8 @@ class ApplicationController < Sinatra::Base
     if params[:username] == "" || params[:password] == "" || params[:username] == nil || params[:password] == nil
       redirect '/failure'
     else
-      binding.pry
-      user = User.new(username: params[:username], password: params[:password])
+      #binding.pry
+      user = User.new(username: params[:username], password_digest: params[:password])
       if user.save
           redirect '/login'
       else
@@ -48,7 +48,7 @@ class ApplicationController < Sinatra::Base
 
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        redirect "/success"
+        redirect "/account"
     else
         redirect "/failure"
     end
