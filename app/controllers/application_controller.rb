@@ -66,13 +66,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/deposit" do
-    deposit = params[:amount].to_d
+    deposit = params[:deposit].to_d
     current_user.update(balance: current_user.balance + deposit)
     redirect "/account"
   end
 
   post "/withdrawal" do
-    withdraw = params[:amount].to_d
+    withdraw = params[:withdrawal].to_d
     if withdraw > current_user.balance
       redirect "/account"
     else
