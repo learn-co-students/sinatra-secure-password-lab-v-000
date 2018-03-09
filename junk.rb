@@ -40,7 +40,7 @@ class ApplicationController < Sinatra::Base
 
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        redirect "/account" #the success route not used here, there is no success.erb
+        redirect "/success"
     else
         redirect "/failure"
     end
@@ -48,7 +48,7 @@ class ApplicationController < Sinatra::Base
 
   get "/success" do
     if logged_in?
-      erb :success #vestigial
+      erb :success
     else
       redirect "/login"
     end

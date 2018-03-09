@@ -1,5 +1,6 @@
 require 'bundler'
 Bundler.require
+require 'capybara/dsl'
 
 configure :development do
 	set :database, {adapter: "sqlite3", database: "db/database.sqlite3"}
