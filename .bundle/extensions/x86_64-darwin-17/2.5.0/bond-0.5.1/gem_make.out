@@ -1,0 +1,16 @@
+current directory: /Users/mikekruszewski/Development/flatiron/Sinatra/sinatra-secure-password-lab/.bundle/gems/bond-0.5.1/ext/readline_line_buffer
+/Users/mikekruszewski/.rvm/rubies/ruby-2.5.0/bin/ruby -r ./siteconf20180310-76429-wu7z2t.rb extconf.rb
+
+current directory: /Users/mikekruszewski/Development/flatiron/Sinatra/sinatra-secure-password-lab/.bundle/gems/bond-0.5.1/ext/readline_line_buffer
+make "DESTDIR=" clean
+make: *** No rule to make target `clean'.  Stop.
+
+current directory: /Users/mikekruszewski/Development/flatiron/Sinatra/sinatra-secure-password-lab/.bundle/gems/bond-0.5.1/ext/readline_line_buffer
+make "DESTDIR="
+echo "This is a dummy extension"
+This is a dummy extension
+
+current directory: /Users/mikekruszewski/Development/flatiron/Sinatra/sinatra-secure-password-lab/.bundle/gems/bond-0.5.1/ext/readline_line_buffer
+make "DESTDIR=" install
+echo "This is a dummy extension"
+This is a dummy extension
