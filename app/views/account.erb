@@ -2,4 +2,20 @@
 
 <p>We are currently working on your account.</p>
 
+<h3>Current Balance: <%="$%0.2f" % @user.balance.to_f%></h3>
+
+<form action="/account" method="post">
+  <p>
+    <label for="deposit">Deposit:</label><br>
+    <input type="text" id="deposit" name="deposit" size="35" placeholder="0.00"/>
+  </p>
+  <p>
+    <label for="withdrawal">Withdrawal:</label><br>
+    <input type="text" id="withdrawal" name="withdrawal" size="35" placeholder="0.00"/>
+  </p>
+  <p>
+    <input type="submit" value="submit"/>
+  </p>
+</form>
+
 <p><a href="/logout">Log Out</a></p>
