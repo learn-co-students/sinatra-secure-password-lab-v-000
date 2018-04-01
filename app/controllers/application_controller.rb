@@ -17,8 +17,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    user = User.new
-
+    #if user doesn't put in a username or password redirect them to the failure page, if they do direct them to login page
       if params[:username] == "" || params[:password] == ""
         redirect "/failure"
       else
