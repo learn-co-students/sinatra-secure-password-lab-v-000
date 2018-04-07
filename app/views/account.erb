@@ -1,5 +1,30 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= current_user.username %></h1>
 
-<p>We are currently working on your account.</p>
+<h3>Your current balance is: <%= current_user.balance %> </h3>
+
+
+<h4><%= @message %> <%= "$#{@amount}" %> <%=@transaction%> </h4>
+
+
+<form action="/deposit" method="post">
+  <label for="amount">Enter Amount to Deposit:</label>
+  <input type="text" name="amount">
+  <input type="hidden" name="transaction" value="deposited">
+  <br>
+  <input type="submit" name="submit" value="submit">
+</form>
+<br>
+<br>
+<br>
+
+<form action="/withdrawal" method="post">
+  <label for="amount">Enter Amount to Withdraw:</label>
+  <input type="text" name="amount">
+  <input type="hidden" name="transaction" value="withdrawn">
+  <br>
+  <input type="submit" name="submit" value="submit">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
+
+"We are currently working on your account."
