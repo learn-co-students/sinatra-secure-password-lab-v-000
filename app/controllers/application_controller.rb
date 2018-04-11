@@ -19,11 +19,27 @@ class ApplicationController < Sinatra::Base
   post "/signup" do
     #your code here
 
+    user = User.new(:username => params[:username], :password => params[:password])
+
+    if user.username == ""
+      redirect "/failure"
+    elsif user.save
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
   end
 
+
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+
+    if logged_in?
+      @user = current_user
+
+      erb :account
+    else
+      redirect "/failure"
+    end
   end
 
 
@@ -32,8 +48,16 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
-  end
+    #your code here
+    user = User.find_by(:username => params[:username])
+
+     if user && user.authenticate(params[:password])
+       session[:user_id] = user.id
+       redirect "/account"
+     else
+       redirect "/failure"
+     end
+   end
 
   get "/failure" do
     erb :failure
@@ -42,6 +66,34 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  get '/deposit' do
+    erb :deposit
+  end
+
+  post '/deposit' do
+    if logged_in?
+      current_user.update(balance: current_user.balance + params[:amount].to_f)
+
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
+  end
+
+  get "/withdrawal" do
+    erb :withdrawal
+  end
+
+  post '/withdrawal' do
+    if logged_in? && current_user.balance >= params[:amount].to_f
+      current_user.update(balance: current_user.balance - params[:amount].to_f)
+
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
   helpers do
