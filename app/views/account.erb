@@ -2,4 +2,19 @@
 
 <p>We are currently working on your account.</p>
 
+
+<!-- <form action="/account" method="post" value="patch">
+<input type="text" name="deposit" placeholder="Deposit:">
+<input type="text" name="withdraw" placeholder="Withdraw:">
+<input type="submit" value="Submit">
+<br>
+<%if @user.balance + @deposit > 0%>
+<% @balance = @user.balance + @deposit %>
+<% elsif @user.balance - @withdraw > 0%>
+
+  <% @balance = @user.balance - @withdraw%>
+  <%end%>
+<h3>$<%=@balance%></h3> -->
+
+
 <p><a href="/logout">Log Out</a></p>
