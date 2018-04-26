@@ -17,18 +17,35 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-	    @user = User.new(:username => params[:username], :password => params[:password])
-
-	    if @user.save
+    @user = User.new(:username => params[:username], :password => params[:password], :balance => 0)
+    if params[:password] == ""
+      redirect '/failure'
+    elsif params[:username] == ""
+      redirect '/failure'
+    else
+      if @user.save
 	        redirect "/login"
 	    else
 	        redirect "/failure"
 	    end
+    end
 	end
 
   get '/account' do
     @user = User.find(session[:user_id])
     erb :account
+  end
+
+  patch '/account' do
+    @user = User.find(session[:user_id])
+    number = math(@user.balance, params[:deposit], params[:withdraw])
+    if number >= 0
+      @user.balance = number
+      @user.save
+      redirect '/account'
+    else
+      redirect '/account?error=You do not have enough to withdraw this amount'
+    end
   end
 
 
@@ -67,6 +84,12 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:user_id])
+    end
+
+    def math(start, add = 0, subtract = 0)
+      value = start.to_f + add.to_f
+      value -= subtract.to_f
+      return value
     end
   end
 
