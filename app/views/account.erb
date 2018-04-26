@@ -1,5 +1,12 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<% if logged_in? %>
+<h2>Welcome <%= @user.username %></h2>
+<h3>Your balance is: <%= @user.balance %></h3>
 
+<h4>Would you like to make a withdrawal or a deposit?</h4>
+<a href="/withdraw">Withdraw</a>
+<a href="/deposit">Deposit</a>
+
+<% end %>
 <p><a href="/logout">Log Out</a></p>
