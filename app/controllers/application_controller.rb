@@ -3,7 +3,7 @@ require "./app/models/user"
 require "pry"
 class ApplicationController < Sinatra::Base
 
-#hello world
+#hello world!
   configure do
     set :views, "app/views"
     enable :sessions
