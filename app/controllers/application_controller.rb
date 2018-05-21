@@ -17,7 +17,6 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
     user = User.new(:username => params[:username], :password => params[:password])
       if user.save
         redirect "/account"
@@ -42,7 +41,7 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(:username => params[:username])
 
     if user && user.authenticate(params[:password])
-# watch for authenticate
+# if it the user and there accounts matches the database
       session[:user_id] = user.id
       redirect"/account"
     else
@@ -61,6 +60,7 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
+    
     def logged_in?
       !!session[:user_id]
     end
