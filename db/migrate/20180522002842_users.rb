@@ -1,4 +1,4 @@
-class Users < ActiveRecord::Migration[5.2]
+class Users < ActiveRecord::Migration
   def up
     create_table :users do |t|
       t.string :username
