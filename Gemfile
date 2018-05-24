@@ -1,8 +1,7 @@
 # A sample Gemfile
 source 'https://rubygems.org'
-
 gem 'sinatra'
-gem 'activerecord'
+gem 'activerecord', '<=5.1'
 gem 'sinatra-activerecord'
 gem 'rake'
 gem 'bcrypt'
@@ -11,7 +10,6 @@ gem 'capybara'
 gem 'rack_session_access'
 gem 'rack-test'
 gem 'shotgun'
-
 group :development do
   gem 'pry'
   gem 'sqlite3'
