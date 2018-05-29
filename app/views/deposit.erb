@@ -1,0 +1,11 @@
+<h1>Deposit</h1>
+
+<h3><%=@user.username%>, your balance is $<%=@user.balance%></h3>
+
+<h5>How much would you like to deposit?</h5>
+
+<form action="/deposit" method="post">
+  <input type="hidden" id="hidden" name="_method" value="patch" />
+  <input type='number' name='deposit' />
+  <button>Deposit</button>
+</form>

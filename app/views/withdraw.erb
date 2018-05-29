@@ -1,0 +1,11 @@
+<h1>Withdraw</h1>
+
+<h3><%=@user.username%>, your balance is $<%=@user.balance%></h3>
+
+<h5>How much would you like to withdraw?</h5>
+
+<form action="/withdraw" method="post">
+  <input type="hidden" id="hidden" name="_method" value="patch" />
+  <input type='number' name='withdrawal' />
+  <button>Withdraw</button>
+</form>
