@@ -27,7 +27,6 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
     erb :account
   end
 
@@ -55,6 +54,24 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  patch "/deposit" do
+    session[:failed_withdrawal?] = false
+    balance = current_user.balance + params[:deposit].to_f
+    current_user.update(balance: balance)
+    redirect "/account"
+  end
+
+  patch "/withdraw" do
+    session[:failed_withdrawal?] = false
+    balance = current_user.balance - params[:withdrawal].to_f
+    if balance >= 0
+      current_user.update(balance: balance)
+    else
+      session[:failed_withdrawal?] = true
+    end
+    redirect "/account"
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]
@@ -66,6 +83,10 @@ class ApplicationController < Sinatra::Base
 
     def empty_input?(params)
       params.values.map(&:strip).include?("")
+    end
+
+    def withdrawal_error
+      "Withdrawal amount can't be greater than balance."
     end
   end
 
