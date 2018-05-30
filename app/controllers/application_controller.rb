@@ -18,7 +18,12 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    # binding.pry
+    if empty_input?(params)
+      redirect to "/failure"
+    else
+      redirect to "/login"
+    end
   end
 
   get '/account' do
@@ -32,7 +37,11 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    if empty_input?(params)
+      redirect to "/failure"
+    else
+      erb :login
+    end
   end
 
   get "/failure" do
@@ -51,6 +60,10 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:user_id])
+    end
+
+    def empty_input?(params)
+      params.values.map(&:strip).include?("")
     end
   end
 
