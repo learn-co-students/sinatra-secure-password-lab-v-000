@@ -1,5 +1,19 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<% if session[:failed_withdrawal?] %>
+  <%= withdrawal_error %>
+  <br><br>
+<% end %>
 
+Balance: <%= current_user.balance %><br><br>
+<form method="POST" action="/deposit">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  Deposit: <input type="float" name="deposit">
+  <input type="submit">
+</form>
+<form method="POST" action="/withdraw">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  Withdraw: <input type="float" name="withdrawal">
+  <input type="submit">
+</form>
 <p><a href="/logout">Log Out</a></p>
