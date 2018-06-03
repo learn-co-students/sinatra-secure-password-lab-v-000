@@ -8,7 +8,7 @@ require 'capybara/dsl'
 require 'rack_session_access/capybara'
 
 
-if ActiveRecord::Migrator.needs_migration?
+if ActiveRecord::Migration.check_pending!
   raise 'Migrations are pending. Run `rake db:migrate SINATRA_ENV=test` to resolve the issue.'
 end
 
@@ -20,7 +20,6 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods
   config.include Capybara::DSL
-
 
   config.order = 'default'
 end
