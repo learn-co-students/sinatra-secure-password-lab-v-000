@@ -1,5 +1,20 @@
 <h1>Welcome</h1>
 
 <p>We are currently working on your account.</p>
+<p> Welcome to your account, <%= current_user.username %>!</p>
+<p> Your balance is: $<%= current_user.balance.round(2) %></p>
+<form action='/account' method='POST'>
+  <input name="_method" type="hidden" value="patch"
+
+  <label for="deposit">Deposit Money: </label>
+  <input type="number" step="0.01" value=0.00 name="deposit">
+  <button type="submit">Deposit</button>
+  <br>
+  <label for="withdraw">Withdraw Money: </label>
+  <input type="number" step="0.01" value=0.00 name="withdraw">
+  <button type="submit">Withdraw</button>
+
+  <br>
+</form>
 
 <p><a href="/logout">Log Out</a></p>
