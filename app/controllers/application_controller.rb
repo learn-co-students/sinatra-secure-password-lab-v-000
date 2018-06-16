@@ -37,12 +37,17 @@ end
 
   post "/login" do
     ##your code here
-    binding.pry
     if !params[:username] || !params[:password]
       redirect "/failure"
     else
-      redirect "/account"
+      user = User.find_by(:username => params[:username])
+      if user && authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect "/account"
+      else
+        redirect "/failure"
      end
+   end
   end
 
   get "/failure" do
