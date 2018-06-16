@@ -1,7 +1,9 @@
 require "./config/environment"
 require "./app/models/user"
+require "pry"
 class ApplicationController < Sinatra::Base
-
+#erb take with it any variables I create inside the method, sinatra shortcut
+#redirect to that path doesn't take variables
   configure do
     set :views, "app/views"
     enable :sessions
@@ -16,9 +18,16 @@ class ApplicationController < Sinatra::Base
     erb :signup
   end
 
-  post "/signup" do
-    #your code here
+  post '/signup' do
+    #binding.pry
+    if params[:username] == "" || params[:password] == ""
+      redirect '/failure'
 
+    else
+      user = User.new(:username => params[:username], :password => params[:password])
+      user.save
+      redirect '/login'
+    end
   end
 
   get '/account' do
@@ -27,31 +36,39 @@ class ApplicationController < Sinatra::Base
   end
 
 
-  get "/login" do
+  get '/login' do
     erb :login
   end
 
+
   post "/login" do
-    ##your code here
+    user = User.find_by(:username => params[:username])
+    
+    if user && user.authenticate(params[:password]) 
+      session[:user_id] = user.id
+      redirect "/account"
+    else
+      redirect "/failure"
+    end  
   end
 
-  get "/failure" do
-    erb :failure
-  end
-
-  get "/logout" do
-    session.clear
-    redirect "/"
-  end
-
-  helpers do
-    def logged_in?
-      !!session[:user_id]
+    get "/failure" do
+      erb :failure
     end
 
-    def current_user
-      User.find(session[:user_id])
+    get "/logout" do
+      session.clear
+      redirect "/"
     end
-  end
 
-end
+    helpers do
+      def logged_in?
+        !!session[:user_id]
+      end
+
+      def current_user
+        User.find(session[:user_id])
+      end
+    end
+
+  end
