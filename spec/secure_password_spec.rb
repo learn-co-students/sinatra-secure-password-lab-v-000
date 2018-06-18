@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe 'App' do
+puts describe 'App' do
   include Rack::Test::Methods
 
-  describe "GET '/'" do
+  puts describe "GET '/'" do
     it "returns a 200 status code" do
       get '/'
       expect(last_response.status).to eq(200)
     end
   end
 
-  describe "Signing Up" do
+puts  describe "Signing Up" do
 
     it "displays Sign Up Page" do
       get '/signup'
@@ -38,7 +38,7 @@ describe 'App' do
 
   end
 
-  describe "Logging In" do
+  puts describe "Logging In" do
     it "displays Log In Page" do
       get '/login'
       expect(last_response.body).to include('Username:')
