@@ -1,5 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
+require "pry"
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -17,22 +18,42 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    @user = User.new(username: params[:username], password: params[:password])
+    if @user.username != "" && @user.password != "" && @user.save
+      # redirect '/login'
+      redirect '/login'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    if logged_in?
+      @user = User.find(session[:user_id])
+      erb :account
+    else
+      redirect to '/login'
+    end
   end
 
 
   get "/login" do
+    # binding.pry
     erb :login
   end
 
   post "/login" do
     ##your code here
+    # binding.pry
+    # try recloning the lab and making sure that has_secure_password is in the user model from the beginning
+    # nothing's wrong with the labs code itself but for some reason authenticate method isn't working
+    @user = User.find_by(username: params[:username])
+    if !!@user && @user.username != "" && @user.password != "" && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect to '/account'
+    else
+      redirect to '/failure'
+    end
   end
 
   get "/failure" do
