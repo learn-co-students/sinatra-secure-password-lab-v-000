@@ -33,7 +33,7 @@ describe 'App' do
     it "displays the log in page if username and password is given" do
       post '/signup', {"username" => "avi", "password" => "I<3Ruby"}
       follow_redirect!
-      expect(last_response.body).to include('Login')
+      expect(last_response.body).to include('Log In')
     end
 
   end
