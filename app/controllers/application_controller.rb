@@ -29,8 +29,27 @@ class ApplicationController < Sinatra::Base
     @user = User.find(session[:user_id])
     erb :account
   end
-
-
+  
+  post '/deposit' do
+    @user = User.find(session[:user_id])
+    @old_balance = @user.balance.to_f
+    @deposit = params[:deposit].to_f
+    @user.update(balance: @old_balance + @deposit)
+    redirect '/account'
+  end
+  
+  post '/withdraw' do
+    @user = User.find(session[:user_id])
+    @old_balance = @user.balance.to_f
+    @withdraw = params[:withdraw].to_f
+    if @withdraw <= @old_balance
+      @user.update(balance: @old_balance - @withdraw)
+      redirect '/account'
+    else
+      redirect '/account'
+    end
+  end
+  
   get "/login" do
     erb :login
   end
