@@ -1,5 +1,19 @@
 <h1>Welcome</h1>
-
 <p>We are currently working on your account.</p>
+<p>What would you like to do today?*</p>
+
+Balance: <%= @user.balance %><br><br>
+<form method="POST" action="/deposit">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  Deposit: <input type="text" name="deposit">
+  <input type="submit">
+</form>
+<form method="POST" action="/withdraw">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  Withdraw: <input type="text" name="withdrawal">
+  <input type="submit">
+</form>
+
 
 <p><a href="/logout">Log Out</a></p>
+*please note, the bank will charge $25 for all actions
