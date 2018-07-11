@@ -2,4 +2,23 @@
 
 <p>We are currently working on your account.</p>
 
+<% if logged_in? %>
+  <h2>Username: <%= current_user.username %></h2>
+  <h2>Current Balance: <%= current_user.balance %></h2>
+<% end %>
+
+<h3>To make a deposit or a withdrawal, please enter your amount in the appropriate field below.</h3>
+
+<form method="post" action="/deposit">
+  <label for="deposit">Deposit: </label>
+  <input type="text" name="deposit">
+  <input type="submit" value="Deposit">
+</form>
+
+<form method="post" action="/withdraw">
+  <label for="withdraw">Withdraw: </label>
+  <input type="text" name="withdraw">
+  <input type="submit" value="Withdraw">
+</form>
+
 <p><a href="/logout">Log Out</a></p>
