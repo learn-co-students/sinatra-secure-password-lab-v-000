@@ -18,7 +18,13 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
+    user = User.new(:username => params[:username], :password => params[:password])
 
+        if params[:username] == "" || params[:password] == ""
+            redirect "/failure"
+    		else user.save #only true if has a password and can save
+            redirect "/login"
+        end
   end
 
   get '/account' do
@@ -33,6 +39,13 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(:username => params[:username]) #look for user with this username
+		if user && user.authenticate(params[:password]) #authenticate is a bcrypt method
+        session[:user_id] = user.id  #compares string against password digest 
+        redirect "/account"
+    else
+        redirect "/failure"
+    end
   end
 
   get "/failure" do
