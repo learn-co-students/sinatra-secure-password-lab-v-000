@@ -14,6 +14,7 @@ gem 'shotgun'
 
 group :development do
   gem 'pry'
+  gem 'rb-readline'
   gem 'sqlite3'
   gem 'rspec'
   gem 'tux'
