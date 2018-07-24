@@ -50,6 +50,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/failure" do
+    binding.pry
     erb :failure
   end
 
