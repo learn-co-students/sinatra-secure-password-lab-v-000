@@ -18,7 +18,7 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    
   end
 
   get '/account' do
