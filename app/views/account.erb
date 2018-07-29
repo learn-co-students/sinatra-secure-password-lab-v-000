@@ -2,4 +2,15 @@
 
 <p>We are currently working on your account.</p>
 
+
+    <h1>Welcome <%= "#{@user[:username]}, #{@message}" %> your current balance is $<%= sprintf "%.2f", "#{@user[:balance]}" %></h1>
+
+
+
+
+<a href='/deposit'>Deposit</a>
+<a href='/withdrawal'>Withdrawal</a>
+
+
+
 <p><a href="/logout">Log Out</a></p>
