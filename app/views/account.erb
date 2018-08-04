@@ -1,5 +1,15 @@
-<h1>Welcome</h1>
+<h1>Welcome <%= @user.username %></h1>
 
-<p>We are currently working on your account.</p>
+<h2>Balance: <%= @user.balance %></h2>
+
+<form action="/account/deposit" method="post">
+  <p>Deposit: <input type="text" name="deposit" value=""></p>
+  <input type="submit" value="Deposit">
+</form>
+
+<form action="/account/withdraw" method="post">
+  <p>Withdraw: <input type="text" name="withdraw" value=""></p>
+  <input type="submit" value="Withdraw">
+</form>
 
 <p><a href="/logout">Log Out</a></p>

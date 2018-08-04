@@ -18,6 +18,13 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
+    if params[:username].empty? || params[:password].empty?
+      redirect '/failure'
+    else
+      user = User.new(username: params[:username], password: params[:password], balance: 0)
+      user.save
+      redirect '/login'
+    end
 
   end
 
@@ -26,6 +33,21 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
+  post '/account/withdraw' do
+    @user = User.find(session[:user_id])
+    if @user.balance > params[:withdraw].to_i
+      @user.balance -= params[:withdraw].to_i
+    end
+    @user.save
+    erb :account
+  end
+
+  post '/account/deposit' do
+    @user = User.find(session[:user_id])
+    @user.balance += params[:deposit].to_i
+    @user.save
+    erb :account
+  end
 
   get "/login" do
     erb :login
@@ -33,6 +55,14 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(username: params[:username])
+
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   get "/failure" do
