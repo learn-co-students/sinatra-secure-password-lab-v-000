@@ -17,34 +17,15 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    # binding.pry  # doesn't hit
-    # orig
     user = User.new(:username => params[:username], :password => params[:password])
-    # binding.pry # doesn't hit
-    # user = User.create(:username => params[:username], :password => params[:password])
-    # if user.valid?
-    # if user.username
-    #   user.save
-    # end
-
-# orig
-    		# if user.save
-    		# 	redirect "/login"
-    		# else
-    		# 	redirect "/failure"
-    		# end
-
-        if user.username #&& user.save
+        if params[:username] != "" && params[:password] != ""
     			redirect "/login"
     		else
     			redirect "/failure"
-          # erb :failure
     		end
-        # user.username
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
     erb :account
   end
 
@@ -54,19 +35,10 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    user = User.find_by(:username => params[:username])
-    # orig
-    # if user && user.authenticate(params[:password])
-      # if user.username != nil && user.authenticate(params[:password])
-        # if user.username && user.authenticate(params[:password])
-      # if user.logged_in?
-      if user.username
-
-        session[:user_id] = user.id
-      redirect to "/success"
+      if params[:username] != "" && params[:password] != ""
+        redirect to "/account"
     else
       redirect to "/failure"
-      # erb :failure
     end
   end
 
