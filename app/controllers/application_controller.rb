@@ -57,6 +57,52 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  get "/deposit" do
+    erb :deposit
+  end
+
+  post "/deposit" do
+    @user = current_user
+    @amount = params[:deposit].to_i
+    @balance = @user.balance
+    if @balance == nil
+      @balance = 0
+    else
+      @balance
+    end
+    @new_balance = @amount + @balance
+    @user.balance = @new_balance
+    @user.save
+    redirect "/account"
+  end
+
+  get "/withdrawl" do
+    erb :withdrawl
+  end
+
+  post "/withdrawl" do
+    @user = current_user
+    @amount = params[:withdrawl].to_i
+    @balance = @user.balance
+    if @balance == nil
+      @balance == 0
+    elsif @balance == 0
+      redirect "/insufficient"
+    elsif @balance < @amount
+      redirect "/insufficient"
+    else
+      @new_balance = @balance - @amount
+      @user.balance = @new_balance
+      @user.save
+      redirect "/account"
+    end
+  end
+
+  get '/insufficient' do
+    @user = User.find(session[:user_id])
+    erb :insufficient
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]

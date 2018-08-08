@@ -1,5 +1,13 @@
-<h1>Welcome</h1>
+<h1>Welcome <%=current_user.username%></h1>
 
-<p>We are currently working on your account.</p>
+<% if current_user.balance == nil %>
+<p> Your current balance is $0.</p>
+<% else %>
+<p> Your current balance is $<%=current_user.balance%></p>
+<%end%>
+
+<p><a href="/deposit">Deposit Money</a></p>
+<p><a href="/withdrawl">Withdrawl Money</a></p>
+
 
 <p><a href="/logout">Log Out</a></p>
