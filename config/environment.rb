@@ -6,3 +6,7 @@ configure :development do
 end
 require_relative '../app/controllers/application_controller.rb'
 require_all 'app/models'
+
+task :console do
+  Pry.start
+end
