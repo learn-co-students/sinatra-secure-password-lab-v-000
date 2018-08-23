@@ -2,4 +2,12 @@
 
 <p>We are currently working on your account.</p>
 
+<p>Your current balance is $<%= @user.balance %></p>
+  
+<form>
+    Deposit Amount: <input type="decimal" min="0" step="any" name="balance"></br>
+    Withdrawl Amount: <input type="decimal" min="0" step="any" name="balance"></br>
+    <input type='submit' value='submit'>
+</form>
+
 <p><a href="/logout">Log Out</a></p>
