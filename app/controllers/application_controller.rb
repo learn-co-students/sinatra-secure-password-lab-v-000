@@ -2,56 +2,77 @@ require "./config/environment"
 require "./app/models/user"
 class ApplicationController < Sinatra::Base
 
-  configure do
-    set :views, "app/views"
-    enable :sessions
-    set :session_secret, "password_security"
-  end
+   configure do
+      set :views, "app/views"
+      enable :sessions
+      set :session_secret, "password_security"
+   end
 
-  get "/" do
-    erb :index
-  end
+   get "/" do
+      erb :index
+   end
 
-  get "/signup" do
-    erb :signup
-  end
+   get "/signup" do
+      erb :signup
+   end
 
-  post "/signup" do
-    #your code here
+   post "/signup" do
+      #your code here
+      @user = User.new(username: params[:username], password: params[:password], balance: params[:balance])
+      if !@user.username.empty? && @user.save
+         redirect '/login'
+      else
+         redirect '/failure'
+      end
+   end
 
-  end
+   get '/account' do
+      # @user = User.find(session[:user_id])
+      if logged_in?
+         erb :account
+      else
+         erb :login
+      end
+   end
 
-  get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
-  end
+   post '/accountmanagement' do
+      # binding.pry
+      erb :accountmanagement
+   end
 
 
-  get "/login" do
-    erb :login
-  end
+   get "/login" do
+      erb :login
+   end
 
-  post "/login" do
-    ##your code here
-  end
+   post "/login" do
+      ##your code here
+      @user = User.find_by(username: params[:username])
+      if  @user && @user.authenticate(params[:password])
+         session[:user_id] = @user.id
+         redirect '/account'
+      else
+         redirect '/failure'
+      end
+   end
 
-  get "/failure" do
-    erb :failure
-  end
+   get "/failure" do
+      erb :failure
+   end
 
-  get "/logout" do
-    session.clear
-    redirect "/"
-  end
+   get "/logout" do
+      session.clear
+      redirect "/"
+   end
 
-  helpers do
-    def logged_in?
-      !!session[:user_id]
-    end
+   helpers do
+      def logged_in?
+         !!session[:user_id]
+      end
 
-    def current_user
-      User.find(session[:user_id])
-    end
-  end
+      def current_user
+         User.find(session[:user_id])
+      end
+   end
 
 end
