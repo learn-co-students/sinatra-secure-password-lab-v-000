@@ -1,5 +1,11 @@
-<h1>Welcome</h1>
+<h1>Welcome, <%= current_user.username %></h1>
 
 <p>We are currently working on your account.</p>
-
+<p>You have: $<%= current_user.balance %> on your account.</p>
+<p>Please choose one of these actions: </p>
+<form class="" action="/accountmanagement" method="post">
+   Deposit: <input type="integer" name="deposit" placeholder="Deposit: ">
+   Withdraw: <input type="integer" name="withdraw" placeholder="Withdraw: ">
+   <input type="submit" name="submit" value="Continue">
+</form>
 <p><a href="/logout">Log Out</a></p>

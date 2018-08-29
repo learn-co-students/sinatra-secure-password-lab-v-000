@@ -1,0 +1,9 @@
+<h1>Welcome, <%= current_user.username %></h1>
+<% current_user.balance += params[:deposit].to_i %>
+<% if current_user.balance < params[:withdraw].to_i %>
+  <p>Sorry, you do not have enough money in your account.</p>
+  <% else %>
+    <p>You have: <%= current_user.balance - params[:withdraw].to_i%> on your account.</p>
+<% end %>
+<a href="/account">Back To Main Account</a><br>
+<a href="/logout">Log Out</a>
