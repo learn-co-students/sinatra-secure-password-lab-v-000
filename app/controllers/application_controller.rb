@@ -9,21 +9,26 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :index
+    erb :index #renders index
   end
 
   get "/signup" do
-    erb :signup
+    erb :signup #renders signup form for a new user that include User and PW 
   end
 
   post "/signup" do
     #your code here
-
+    user = User.new(:username => params[:username], :password => params[:password]) #creating the user 
+    if user.save #save and is legit, login and go to accountpage
+      redirect '/account'
+    else 
+      redirect '/failure'
+    end
   end
 
   get '/account' do
     @user = User.find(session[:user_id])
-    erb :account
+    erb :account #renders and account page for the new user that just signed up
   end
 
 
@@ -33,10 +38,17 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(:username => params[:username])
+      if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect '/account'
+      else
+        redirect 'failure'
+      end
   end
 
   get "/failure" do
-    erb :failure
+    erb :failure #renders if error occurs in signup
   end
 
   get "/logout" do
@@ -46,11 +58,11 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def logged_in?
-      !!session[:user_id]
+      !!session[:user_id]#returns true or false based on the presence of a session[:user_id]
     end
 
     def current_user
-      User.find(session[:user_id])
+      User.find(session[:user_id])#returns and instance of the logged in user, based on the session[:user_id]
     end
   end
 
