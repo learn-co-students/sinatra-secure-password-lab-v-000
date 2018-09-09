@@ -2,4 +2,19 @@
 
 <p>We are currently working on your account.</p>
 
+<form action="/account" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="integer" name="withdrawl" placeholder="withdrawl amount"/>
+  <input type="submit" value="withdrawl"/>
+</form>
+
+<form action="/account" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="integer" name="deposit" placeholder="deposit amount"/>
+  <input type="submit" value="deposit"/>
+</form>
+
+<p>Your balance is $<%= @user.balance %></p>
+
+
 <p><a href="/logout">Log Out</a></p>
