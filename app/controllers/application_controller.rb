@@ -21,8 +21,8 @@ class ApplicationController < Sinatra::Base
     if params[:username].blank? || params[:password].blank?
       redirect '/failure'
     elsif user.save
-      session[:user_id] = params[:password]
-      redirect '/account'
+      session[:user_id] = user.id
+      redirect '/login'
     end
 
     # if params[:username].blank? || params[:password].blank? || !user.save
@@ -35,7 +35,7 @@ class ApplicationController < Sinatra::Base
 
   get '/account' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      # @user = User.find(session[:user_id])
       erb :account
     else
       redirect '/failure'
