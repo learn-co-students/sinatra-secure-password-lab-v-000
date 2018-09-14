@@ -49,14 +49,20 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     user = User.find_by(:username => params[:username])
-    if user && user.authenticate(params[:password])
+# binding.pry
+    if params[:username].blank? || params[:password].blank?
+      redirect '/failure'
+    elsif user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect '/account'
-    else
-      redirect '/failure'
     end
 
-    # user = User.find_by(:username => params[:username])
+    # if user && user.authenticate(params[:password])
+    #   session[:user_id] = user.id
+    #   redirect '/account'
+    # else
+    #   redirect '/failure'
+    # end
   end
 
   get "/failure" do
