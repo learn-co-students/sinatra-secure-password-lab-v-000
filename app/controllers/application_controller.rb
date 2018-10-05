@@ -18,7 +18,9 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
 
-    if (params[:username] != "") && (params[:password] != "")
+    if !params[:username].empty? && !params[:password].empty?
+      user = User.new(username: params[:username], password: params[:password], balance: 0)
+      user.save
       redirect to '/login'
     else
       redirect to '/failure'
@@ -31,12 +33,26 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
+  patch '/account/:id' do
+    @user = User.find(params[:id])
+
+    if @user.balance < params[:withdrawl].to_i
+      puts "Error. Please enter an amount that is less than current balance"
+    elsif !params[:deposit].empty? || !params[:withdrawl].empty?
+      new_balance = @user.balance + params[:deposit].to_i - params[:withdrawl].to_i
+      @user.update(balance: new_balance)
+    end
+
+    erb :account
+  end
+
 
   get "/login" do
     erb :login
   end
 
   post "/login" do
+    binding.pry
     user = User.find_by(username: params[:username])
 
     if user && user.authenticate(params[:password])
