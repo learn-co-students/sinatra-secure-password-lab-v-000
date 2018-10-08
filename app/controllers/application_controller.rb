@@ -17,13 +17,24 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    # binding.pry
+    @user = User.new(:username => params[:username], :password => params[:password], :balance => 0, :acct_num => rand(10**10))
+    
+    if @user.username == "" || @user.password == ""
+      redirect "/failure"
+    elsif @user.save
+      redirect "/login"
+    else 
+      redirect "/failure"
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    if logged_in?
+      erb :account
+    else 
+      redirect '/failure'
+    end
   end
 
 
@@ -32,7 +43,17 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    session.clear
+    @user = User.find_by(:username => params[:username])
+    
+    if params[:username] == "" || params[:password] == ""
+      redirect '/failure'
+    elsif @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect '/account'
+    else 
+      redirect '/failure'
+    end
   end
 
   get "/failure" do
@@ -42,6 +63,27 @@ class ApplicationController < Sinatra::Base
   get "/logout" do
     session.clear
     redirect "/"
+  end
+
+  get "/badwithdraw" do
+    erb :badwithdraw
+  end
+
+  post "/deposit" do
+    binding.pry
+    current_user.update(balance: (current_user.balance + params[:deposit].to_i))
+    
+    redirect '/account'
+  end
+
+  post "/withdraw" do
+    binding.pry
+    if current_user.balance - params[:withdraw].to_i >= 0
+      current_user.update(balance: (current_user.balance - params[:withdraw].to_i))
+      redirect '/account'
+    else 
+      redirect '/badwithdraw'
+    end
   end
 
   helpers do

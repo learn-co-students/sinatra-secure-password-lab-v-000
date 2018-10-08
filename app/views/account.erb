@@ -1,5 +1,23 @@
 <h1>Welcome</h1>
 
+<h2>Account Number Ending In: <%= current_user.acct_num.to_s.gsub(/(?=\d{5})\d/, '*') %></h2>
+
 <p>We are currently working on your account.</p>
+
+<p>Your current account balance is: $<%= current_user.balance %></p>
+
+<form action="/deposit" method="post">
+    <h2>Deposit Funds:</h2>
+    <p><label for "deposit">Deposit:</label>
+    <input type="text" name="deposit"></p>
+    <input type="submit" id="button">
+</form> 
+
+<form action="/withdraw" method="post">
+    <h2>Withdraw Funds:</h2>
+    <p><label for "withdraw">Withdraw:</label>
+    <input type="text" name="withdraw"></p>
+    <input type="submit" id="button">
+</form> 
 
 <p><a href="/logout">Log Out</a></p>
