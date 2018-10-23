@@ -17,9 +17,17 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+  	if params[:username] == nil || params[:username] == ""
+      redirect '/failure'
+    elsif params[:password] == nil || params[:password] == ""
+      redirect "/failure"
+    else
+      redirect '/login'
+    end
+    @user = User.create(:username => params[:username], :password => params[:password])
+    session[:user_id] = @user.id #This is a good thing to keep, despite the lab not requiring it.
   end
+
 
   get '/account' do
     @user = User.find(session[:user_id])
@@ -32,8 +40,19 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
-  end
+    # if params[:username].empty?
+    #   redirect '/failure'
+    # elsif params[:password].empty?
+    #   redirect '/failure'
+    # else
+      @user = User.find_by(:username => params[:username])
+        if @user && @user.authenticate(params[:password])
+          session[:user_id] = @user.id
+          redirect '/account'
+        else
+          redirect '/failure'
+        end
+    end
 
   get "/failure" do
     erb :failure
