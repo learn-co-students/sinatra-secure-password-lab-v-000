@@ -25,6 +25,7 @@ class ApplicationController < Sinatra::Base
       redirect '/login'
     end
     @user = User.create(:username => params[:username], :password => params[:password])
+    session[:user_id] = @user.id #This is a good thing to keep, despite the lab not requiring it.
   end
 
 
@@ -39,13 +40,19 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    @user = User.find_by(:username => params[:username])
-    if !@user
-      redirect '/failure'
-    elsif @user.password == nil || @user.password == ""
-      redirect '/failure'
+    # if params[:username].empty?
+    #   redirect '/failure'
+    # elsif params[:password].empty?
+    #   redirect '/failure'
+    # else
+      @user = User.find_by(:username => params[:username])
+        if @user && @user.authenticate(params[:password])
+          session[:user_id] = @user.id
+          redirect '/account'
+        else
+          redirect '/failure'
+        end
     end
-  end
 
   get "/failure" do
     erb :failure
