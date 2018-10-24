@@ -35,7 +35,6 @@ describe 'App' do
       follow_redirect!
       expect(last_response.body).to include('Login')
     end
-
   end
 
   describe "Logging In" do
