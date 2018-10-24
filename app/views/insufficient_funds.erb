@@ -1,0 +1,8 @@
+<% if logged_in? %>
+
+  <h1>Insufficient Funds</h1>
+
+  <h3>The withdrawal amount of $<%= @amount %> exceeds your account balance of $<%= current_user.balance %></h3>
+  <h3><a href="/account">Return to account overview</a></h3>
+
+<% end %>

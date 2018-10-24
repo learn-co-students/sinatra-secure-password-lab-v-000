@@ -1,0 +1,9 @@
+<% if logged_in? %>
+  <h1>Withdraw from <%= current_user.username %></h1>
+  <h3>Available Balance: <%= current_user.balance %></h3>
+  <p><form class="withdraw" action="/withdraw" method="post">
+    <label for="withdraw">Withdrawal Amount: </label>
+    <input type="number" name="amount" placeholder="0"><br>
+    <input type="submit" value="Withdraw">
+  </form></p>
+<% end %>

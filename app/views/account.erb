@@ -1,5 +1,12 @@
-<h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<% if logged_in? %>
 
-<p><a href="/logout">Log Out</a></p>
+  <h1>Welcome, <%= current_user.username %>!</h1>
+
+  <h3>Current Balance: $<%= current_user.balance %></h3>
+
+  <h4><a href="/deposit">Deposit</a> | <a href="/withdraw">Withdraw</a></h4>
+
+  <p><a href="/logout">Log Out</a></p>
+
+<% end %>
