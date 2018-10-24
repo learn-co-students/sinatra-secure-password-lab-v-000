@@ -1,0 +1,8 @@
+
+<% if logged_in? %>
+<h1>Make a deposit for account: <%= current_user.username %></h1>
+<form class="deposit" action="/deposit" method="post">
+  <label for="deposit_amount">Amount:</label> <input type="number" name="deposit_amount" placeholder="0.00">
+  <input type="submit" value="Deposit">
+</form>
+<% end %>
