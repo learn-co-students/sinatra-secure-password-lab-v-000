@@ -1,3 +1,4 @@
+require 'pry'
 require "./config/environment"
 require "./app/models/user"
 class ApplicationController < Sinatra::Base
@@ -17,8 +18,16 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
-
+    #binding.pry
+    user = User.new(:username => params[:username], :password => params[:password])
+		if !user.username.empty? && user.save  #user can only be save via bycrpt gem when a password is given
+      redirect "/login"
+    #elsif user.password.empty?
+    #  redirect "/failure"
+  else 
+      redirect "/failure"
+	 #	else #user.username == nil && user != nil
+	 	end
   end
 
   get '/account' do
@@ -32,7 +41,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    user = User.find_by(:username => params[:username])
+	  if user  && user.authenticate(params[:password])
+	    session[:user_id] = user.id
+	    redirect "/account"
+	  else
+	    redirect "/failure"
+	  end
   end
 
   get "/failure" do
