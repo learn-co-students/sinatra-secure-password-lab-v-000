@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
       redirect "/failure"
     end
   end
-  
+
   get '/account' do
     @user = User.find(session[:user_id])
     erb :account
@@ -34,16 +34,13 @@ class ApplicationController < Sinatra::Base
 
 
   get "/login" do
-    if params[:password] != "" && params[:username] != ""
-      erb :login
-    else
-      erb :failure
-    end
+    erb :login
   end
 
   post "/login" do
     user = User.find_by(:username => params[:username])
-    if user
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
       #binding.pry
       redirect "/account"
     else
