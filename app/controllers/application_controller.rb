@@ -57,6 +57,29 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  post '/deposit' do
+    @user = current_user
+    @user.balance += params["deposit"].to_f
+    @user.save
+    redirect '/account'
+  end
+
+  post '/withdrawl' do
+    @user = current_user
+    if @user.balance > params["withdrawl"].to_f
+      @user.balance -= params["withdrawl"].to_f 
+      @user.save
+      redirect '/account'
+    else
+      redirect '/transaction_failure'
+    end
+  end
+
+    get '/transaction_failure' do
+      erb :transaction_failure
+    end
+
+
   helpers do
     def logged_in?
       !!session[:user_id]
