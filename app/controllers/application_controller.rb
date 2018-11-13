@@ -19,10 +19,10 @@ class ApplicationController < Sinatra::Base
   post "/signup" do
     #your code here
       @user = User.new(username: params[:username],password: params[:password])
-    if @user.save #save method always runs validations - if any fail then the action is cancelled and returns false
-      redirect '/account'
-    else
+    if params[:username] == "" || params[:password] == ""
       redirect '/failure'
+    else
+      redirect '/login'
     end
   end
 
@@ -37,7 +37,6 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    #your code here
     user = User.find_by(username: params[:username])
     #binding.pry
     if user && user.authenticate(params[:password])
