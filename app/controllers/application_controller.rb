@@ -18,11 +18,16 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+      @user = User.new(username: params[:username],password: params[:password])
+    if @user.save #save method always runs validations - if any fail then the action is cancelled and returns false
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
+    @user = User.find(session[:id])
     erb :account
   end
 
@@ -32,7 +37,15 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    #your code here
+    user = User.find_by(username: params[:username])
+    #binding.pry
+    if user && user.authenticate(params[:password])
+      session[:id] = user.id
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
   end
 
   get "/failure" do
