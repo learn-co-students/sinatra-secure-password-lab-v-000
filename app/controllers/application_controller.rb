@@ -25,22 +25,30 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/account' do
+  get '/account' do        
     @user = User.find(session[:user_id])
     erb :account
   end
 
   patch '/account' do 
-    binding.pry
     @user = User.find(session[:user_id])
-    @user.update(balance: params[:balance])
-    # @current_balance = @original_balance + @balance.to_i()
-    # raise params.inspect
-
-    redirect '/show'
+    
+     if params[:deposit_amount] != ""
+       @user.update(balance: @user.balance + params[:deposit_amount].to_i)
+       redirect '/show'
+     elsif params[:withdrawal_amount] != "" && params[:withdrawal_amount].to_i < @user.balance
+       new_balance = @user.balance - params[:withdrawal_amount].to_i
+       @user.update(balance: new_balance)
+ 
+       redirect '/show'
+     else
+       @error = "The amount you entered to withdrawal is greater than the amount in your account. Please re-enter."
+       erb :account
+     end
   end
 
   get '/show' do
+    @user = User.find(session[:user_id])
     erb :show
   end
 

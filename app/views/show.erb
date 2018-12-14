@@ -1,5 +1,6 @@
 <p>Here is your current balance.</p>
-<%= params[:balance] %>
+
+$<%= '%.2f' % @user.balance.to_s %>
 
 <p><a href="/logout">Log Out</a></p>
 

@@ -4,13 +4,17 @@
 
 <p>We are currently working on your account.</p>
 
-<p>Your current balance is $ <%= @user.balance%>.</p>
+<p>Your current balance is $ <%= '%.2f' % @user.balance.to_s %>.</p>
+
+<h3><%= @error %></h3>
 <form action="/account" method="POST">
   <input type="hidden" name="_method" value="patch">
-  <input type="integer" name="balance" placeholder="Amount to deposit:">
-  <input type="submit" value="Deposit"><br>
-  <input type="integer" name="balance" placeholder="Amount to withdrawal:">
-  <input type="submit" value="Withdrawal">
+  <input type="integer" name="deposit_amount" placeholder="Amount to deposit:">
+  <input type="integer" name="withdrawal_amount" placeholder="Amount to withdrawal:">
+
+  <input type="submit" value="Submit"><br>
 </form>
+
+
 
 <p><a href="/logout">Log Out</a></p>
