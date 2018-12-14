@@ -1,6 +1,16 @@
 
 <h1>Welcome, <%=@user.username %></h1>
 
+
 <p>We are currently working on your account.</p>
+
+<p>Your current balance is $ <%= @user.balance%>.</p>
+<form action="/account" method="POST">
+  <input type="hidden" name="_method" value="patch">
+  <input type="integer" name="balance" placeholder="Amount to deposit:">
+  <input type="submit" value="Deposit"><br>
+  <input type="integer" name="balance" placeholder="Amount to withdrawal:">
+  <input type="submit" value="Withdrawal">
+</form>
 
 <p><a href="/logout">Log Out</a></p>

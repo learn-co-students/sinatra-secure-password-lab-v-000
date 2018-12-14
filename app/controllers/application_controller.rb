@@ -8,15 +8,15 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "password_security"
   end
 
-  get "/" do
+  get '/' do
     erb :index
   end
 
-  get "/signup" do
+  get '/signup' do
     erb :signup
   end
 
-  post "/signup" do
+  post '/signup' do
     if params[:username] == "" || params[:password] == ""
       redirect '/failure'
     else
@@ -30,11 +30,26 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-  get "/login" do
+  patch '/account' do 
+    binding.pry
+    @user = User.find(session[:user_id])
+    @user.update(balance: params[:balance])
+    # @current_balance = @original_balance + @balance.to_i()
+    # raise params.inspect
+
+    redirect '/show'
+  end
+
+  get '/show' do
+    erb :show
+  end
+
+
+  get '/login' do
     erb :login
   end
 
-  post "/login" do
+  post '/login' do
     @user = User.find_by(:username => params[:username])
  
      if @user && @user.authenticate(params[:password])
