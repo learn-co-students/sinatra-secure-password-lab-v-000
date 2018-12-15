@@ -1,6 +1,6 @@
 <h1>Welcome <%= current_user.username %></h1>
 
-<h3>Your current balance is: $<%= [@deposit, current_balance].sum %></h3>
+<h3>Your current balance is: $<%= current_balance %></h3>
 
 <br>
 
@@ -19,3 +19,10 @@
 <br>
 
 <p><a href="/logout">Log Out</a></p>
+
+
+<!-- <h1>Welcome</h1>
+
+<p>We are currently working on your account.</p>
+
+<p><a href="/logout">Log Out</a></p> -->

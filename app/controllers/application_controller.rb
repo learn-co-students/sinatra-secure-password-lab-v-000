@@ -30,7 +30,6 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
-
   get "/login" do
     erb :login
   end
@@ -55,12 +54,14 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/deposit" do
-    @deposit = params[:deposit].to_f
-    redirect '/account'
-  end
+    @deposit = params[:deposit].to_d
+    puts current_user.balance + @deposit
+    # redirect '/account'
+   end
 
   post "/withdrawal" do
-    redirect '/account'
+    puts params[:withdrawal]
+    # redirect '/account'
   end
 
   helpers do
@@ -73,8 +74,10 @@ class ApplicationController < Sinatra::Base
     end
 
     def current_balance
-      balance = current_user.balance
-      sprintf("%.2f", balance)
+      # balance = current_user.balance + deposit - withdrawal
+      # sprintf("%.2f", balance)
+
+
     end
   end
 
