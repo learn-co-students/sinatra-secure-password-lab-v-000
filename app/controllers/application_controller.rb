@@ -53,9 +53,20 @@ class ApplicationController < Sinatra::Base
     redirect '/'
   end
 
-  patch "/users/:id" do
-      balance = deposit(params[:deposit].to_d)
-      puts balance
+  patch "/account" do
+
+
+
+    current_user = User.find(session[:user_id])
+    # current_user.balance = current_user.balance + deposit(params[:deposit])
+    current_user.update(params[:balance])
+    redirect '/account'
+
+    # redirect "/articles/#{article.id}"
+    # user = User.find(params[:id])
+    # puts user.name
+      # balance = deposit(params[:deposit].to_d)
+      # puts balance
     #   # redirect '/account'
   end
 
