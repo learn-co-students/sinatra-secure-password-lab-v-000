@@ -53,16 +53,22 @@ class ApplicationController < Sinatra::Base
     redirect '/'
   end
 
-  post "/deposit" do
-    @deposit = params[:deposit].to_d
-    puts current_user.balance + @deposit
-    # redirect '/account'
-   end
-
-  post "/withdrawal" do
-    puts params[:withdrawal]
-    # redirect '/account'
+  patch "/users/:id" do
+      balance = deposit(params[:deposit].to_d)
+      puts balance
+    #   # redirect '/account'
   end
+
+  # post "/deposit" do
+  #   current_user.balance = deposit(params[:deposit].to_d)
+  #   puts current_user.balance
+  #   # redirect '/account'
+  #  end
+  #
+  # post "/withdrawal" do
+  #   withdrawal(params[:withdrawal].to_d)
+  #   # redirect '/account'
+  # end
 
   helpers do
     def logged_in?
@@ -73,12 +79,26 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
 
-    def current_balance
-      # balance = current_user.balance + deposit - withdrawal
-      # sprintf("%.2f", balance)
-
-
+    def deposit(amount)
+      balance = current_user.balance + amount
+      sprintf("%.2f", balance)
     end
+
+    def withdrawal(amount)
+      if current_user.balance >= amount
+        current_user.balance = current_user.balance - amount
+      else
+        current_user.balance = current_user.balance
+      end
+      sprintf("%.2f", balance)
+    end
+
+    # def current_balance
+    #   # balance = current_user.balance + deposit - withdrawal
+    #   # sprintf("%.2f", balance)
+    #
+    #
+    # end
   end
 
 end
