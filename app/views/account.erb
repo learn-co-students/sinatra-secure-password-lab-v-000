@@ -5,19 +5,11 @@
 <br>
 
 <p>Make a deposit or withdrawal below:</p>
-<form action='/account' method="PATCH">
-<!-- <form action='/users/<%= @user.id %>' method="PATCH"> -->
-  <input id="hidden" type="hidden" name="_method" value="patch">
+<form action='/deposit' method="POST">
   <input type="text" name="deposit" placeholder="Deposit:"><br>
-  <input type="text" name="withdrawal" placeholder="Withdrawal:"><br>
-  <input type="submit" value="Submit">
-</form>
-
-<!-- <p>Make a withdrawal below:</p>
-<form action='/users/:id' method="PATCH">
   <input type="text" name="withdrawal" placeholder="Withdrawal:">
   <input type="submit" value="Submit">
-</form> -->
+</form>
 
 <br>
 
