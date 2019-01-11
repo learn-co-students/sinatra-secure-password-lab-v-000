@@ -1,2 +1,5 @@
 class User < ActiveRecord::Base
-end
+
+    has_secure_password
+  end
+  
