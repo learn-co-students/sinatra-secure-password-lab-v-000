@@ -32,6 +32,26 @@ class ApplicationController < Sinatra::Base
     erb :account
   end
 
+  post '/account/deposit' do
+    deposit_amount = params[:amount].to_i
+    user = User.find(session[:user_id])
+    user.balance += deposit_amount
+    user.save
+    redirect '/account'
+  end
+
+  post '/account/withdraw' do
+    withdraw_amount = params[:amount].to_i
+    user = User.find(session[:user_id])
+    if user.balance > withdraw_amount
+      user.balance -= withdraw_amount
+      user.save
+      redirect '/account'
+    else
+      redirect '/failure'
+    end
+  end
+
 
   get "/login" do
     erb :login
@@ -65,6 +85,19 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       User.find(session[:user_id])
+    end
+
+    def deposit(money)
+      current_user.balance += money
+      current_user.save
+    end
+
+    def withdraw(amount)
+      if amount < current_user.balance
+        current_user.balance -= amount
+      else
+        "Amount exceeds your available funds"
+      end
     end
   end
 
