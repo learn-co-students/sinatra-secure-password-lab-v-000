@@ -86,18 +86,4 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
 
-    def deposit(money)
-      current_user.balance += money
-      current_user.save
-    end
-
-    def withdraw(amount)
-      if amount < current_user.balance
-        current_user.balance -= amount
-      else
-        "Amount exceeds your available funds"
-      end
-    end
-  end
-
 end
