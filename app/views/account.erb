@@ -1,5 +1,56 @@
-<h1>Welcome</h1>
+<% if logged_in? %>
+    <h1>Hello, <%= current_user.username %>!</h1>
+    <h4 id="balance">Current Balance: $<%= current_user.balance %></h4>
 
-<p>We are currently working on your account.</p>
+    <p id="status">We are currently working on your account.</p>
 
-<p><a href="/logout">Log Out</a></p>
+    <input type="text" name="amount" id="withdrawl_amount" placeholder="Enter amount to withdrawl">
+    <button onclick="sendWithdrawlAmount()">Withdrawl</button>
+
+    <input type="text" name="amount" id="deposit_amount" placeholder="Enter amount to deposit">
+    <button onclick="sendDepositAmount()">Deposit</button>
+
+    <p><a href="/logout">Log Out</a></p>
+<% else %>
+    <h2>Go to the <a href="/">home page</a> to login!</h2>
+<% end %>
+<script>
+function sendWithdrawlAmount() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("status").innerHTML =
+      this.responseText;
+      updateBalance()
+    }
+  };
+  xhttp.open("POST", "/withdrawl", true);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.send(`amount=${document.getElementById("withdrawl_amount").value}`);
+}
+
+function sendDepositAmount() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("status").innerHTML =
+      this.responseText;
+      updateBalance()
+    }
+  };
+  xhttp.open("POST", "/deposit", true);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.send(`amount=${document.getElementById("deposit_amount").value}`);
+}
+
+function updateBalance() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("balance").innerHTML = `Current Balance: $${this.responseText}`;
+      }
+    };
+    xhttp.open("get", "/ajaxrequest/balance", true);
+    xhttp.send();
+}
+</script>
