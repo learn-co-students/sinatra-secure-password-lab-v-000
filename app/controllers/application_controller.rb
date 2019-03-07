@@ -18,7 +18,8 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    user = User.new(username: params[:username], password: params[:password])
+    user.save ? redirect("/login") : redirect("/failure")
   end
 
   get '/account' do
@@ -33,6 +34,14 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(username: params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/account"
+
+    else
+      redirect "/failure"
+    end
   end
 
   get "/failure" do
@@ -43,6 +52,34 @@ class ApplicationController < Sinatra::Base
     session.clear
     redirect "/"
   end
+
+  post "/withdrawl" do
+    begin
+      withdrawn = current_user.withdrawl(params[:amount])
+      withdrawn ? "successful withdrawl" : "Insufficent Funds"
+    rescue => exception
+      "enter only numbers"
+    end
+  end
+
+  post "/deposit" do
+    begin
+      deposit = current_user.deposit(params[:amount])
+      deposit ? "successful deposit" : "Error occured"
+    rescue => exception
+      "enter only numbers"
+    end
+  end
+
+  get "/ajaxrequest/balance" do
+    if logged_in?
+      "#{current_user.balance}"
+    else
+      "ERROR: Not logged in."
+    end
+  end
+
+
 
   helpers do
     def logged_in?
