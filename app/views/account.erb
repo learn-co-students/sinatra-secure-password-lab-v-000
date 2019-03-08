@@ -2,4 +2,14 @@
 
 <p>We are currently working on your account.</p>
 
+<h3>Balance: <%= @user.balance %></h3>
+
+<form action="/account" method="post">
+    <label for="withdraw">Withdraw:</label>
+    <input id="withdraw" type="text" name="withdraw">
+    <label for="deposit">Deposit:</label>
+    <input id="deposit" type="text" name="deposit">
+    <input type="submit">
+</form>
+
 <p><a href="/logout">Log Out</a></p>
