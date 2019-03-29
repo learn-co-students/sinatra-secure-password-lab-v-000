@@ -1,6 +1,5 @@
 require "./config/environment"
 require "./app/models/user"
-
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -9,29 +8,25 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "password_security"
   end
 
-
   get "/" do
     erb :index
   end
-
 
   get "/signup" do
     erb :signup
   end
 
-
   post "/signup" do
-    # user = User.new(:username => params[:username], :password => params[:password])
-    if  params[:username] == "" ||  params[:password] == ""
-      redirect to "/failure"
+    if params[:username] == "" ||  params[:password] == ""
+      redirect '/failure'
     else
       User.create(username: params[:username], password: params[:password])
-      redirect to "/login"
-      end
+      redirect '/login'
+    end
+
   end
 
-
-  get "/account" do
+  get '/account' do
     @user = User.find(session[:user_id])
     erb :account
   end
@@ -41,18 +36,18 @@ class ApplicationController < Sinatra::Base
     erb :login
   end
 
+  post "/login" do
+# binding.pry
+    @user = User.find_by(username: params[:username])
 
-post "/login" do
-  binding.pry
-   @user = User.find_by(username: params[:username])
-   if @user && @user.authenticate(params[:password])
-     session[:user_id] = @user.id
-     redirect to "/account"
-   else
-     redirect to "/failure"
-   end
- end
-
+    if !!@user  && @user.authenticate(params[:password])
+      puts params
+      session[:user_id] = @user.id
+      redirect to "/account"
+    elsif @user == nil
+      redirect to "/failure"
+    end
+  end
 
   get "/failure" do
     erb :failure
@@ -63,17 +58,14 @@ post "/login" do
     redirect "/"
   end
 
-
   helpers do
     def logged_in?
       !!session[:user_id]
     end
 
-
     def current_user
       User.find(session[:user_id])
     end
-
   end
 
 end
