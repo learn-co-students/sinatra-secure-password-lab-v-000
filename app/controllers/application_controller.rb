@@ -21,10 +21,18 @@ class ApplicationController < Sinatra::Base
 
 
   post "/signup" do
-    user = User.new(:username => params[:username], :password => params[:password])
-    erb :signup
+    puts params
+    @user = User.new(username: params["username"], password: params["password"])
+    if  params ([:username][:password]) == ""
+    redirect to "/failure"
+
     # In a post request, I should be re-directing, not rendering. will need if statement possibly failure.erb
-  end
+    else
+      @user.save
+      session[:user_id] = @user.id
+      redirect to "/signup"
+      end
+    end
 # Don;t forget to pry and use params
 
   get "/account" do
@@ -43,7 +51,7 @@ class ApplicationController < Sinatra::Base
     session[:user_id] = @user.id
         if @user != nil && @user.password.authenticate(params[:password]) == params[:password]
           session[:user_id] = @user.id
-                # if params([:username][:password]) == ""
+
 
         redirect to "/account"
         else
