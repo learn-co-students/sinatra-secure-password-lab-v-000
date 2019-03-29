@@ -23,7 +23,7 @@ class ApplicationController < Sinatra::Base
   post "/signup" do
     @params = params
     puts params
-    @user = User.new(username: params["username"], password: params["password"])
+    @user = User.new(name: params["username"], password: params["password"])
       if  params ([:username]) == "" || params([:password]) == ""
     redirect to "/failure"
 
@@ -38,7 +38,7 @@ class ApplicationController < Sinatra::Base
       end
     end
 
-binding.pry
+# binding.pry
 
 
   get "/account" do

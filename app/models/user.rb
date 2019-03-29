@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
 end
 
 
-def initialize(params)
-  @username = params[:username]
-  @password = params[:password]
-end
+# def initialize
+#   @params = params
+#   @username = params[:username]
+#   @password = params[:password]
+# end
