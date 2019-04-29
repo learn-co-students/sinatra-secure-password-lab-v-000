@@ -1,5 +1,13 @@
 <h1>Welcome</h1>
-
+<h3>Your balance is $<%=@user.balance%></h3>
 <p>We are currently working on your account.</p>
+<form action="/withdraw" method="post">
+  <label for="withdrawal">Make a withdrawal: </label><input type="number" step="1.00" placeholder="0.00" min="0" name="withdrawal">
+  <input type="submit" value="Withdraw">
+</form>
+<form action="/deposit" method="post">
+  <label for="deposit">Make a deposit: </label><input type="number" step="1.00" placeholder="0.00" min="0" name="deposit">
+  <input type="submit" value="Deposit">
+</form>
 
 <p><a href="/logout">Log Out</a></p>
