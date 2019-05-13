@@ -17,8 +17,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    redirect to "/failure" #your code here
-    redirect to "/login"
+    # need to keep it from saving user if username is blank and pw is filled
+    user = User.new(:username => params[:username], :password => params[:password])
+    if user.username != nil && user.password != nil
+      redirect to "/login"
+    else
+      redirect to "/failure"
+    end
   end
 
   get '/account' do
@@ -33,7 +38,8 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     user = User.find_by(:username => params[:username])
-      if user
+      if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
         redirect to "/account"
       else
         redirect to "/failure"
