@@ -17,12 +17,11 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    # need to keep it from saving user if username is blank and pw is filled
-    user = User.new(:username => params[:username], :password => params[:password])
-    if user.username != nil && user.password != nil
-      redirect to "/login"
-    else
+    if params[:username] == "" || params[:password] == ""
       redirect to "/failure"
+    else
+      user = User.new(:username => params[:username], :password => params[:password])
+      redirect to "/login"
     end
   end
 
