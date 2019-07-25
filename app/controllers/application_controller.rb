@@ -18,7 +18,15 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    user = User.new(username: params[:username], password: params[:password])
+    
+    if user.username.blank? || user.password.blank?
+      # Note: #blank? is not standard Ruby; it's provided by the ActiveSupport gem. See https://blog.appsignal.com/2018/09/11/differences-between-nil-empty-blank-and-present.html
+      redirect "/failure"
+    else 
+      user.save
+      redirect "/login"
+    end
   end
 
   get '/account' do
@@ -33,6 +41,7 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    # Continue coding here, then erase this comment.
   end
 
   get "/failure" do
