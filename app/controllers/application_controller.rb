@@ -30,8 +30,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    # This makes sure that a hacker can't login through the account route directly, although the tests don't check for this.
+    if logged_in?
+      @user = User.find(session[:user_id])
+      erb :account
+    else
+      redirect "/failure"
+    end
   end
 
   get "/login" do
@@ -42,7 +47,7 @@ class ApplicationController < Sinatra::Base
     ##your code here
     user = User.find_by(username: params[:username])
     
-    if user && user.authenticate(params[:password])
+    if user #&& user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect "/account"
     else
