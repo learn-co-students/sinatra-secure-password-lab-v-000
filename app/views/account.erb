@@ -1,4 +1,16 @@
-<h1>Welcome</h1>
+<!-- NOTE: I am still editing this! -->
+
+<h1>Welcome, <%= current_user.username %>!</h1>
+
+<h3>Your Balance: $0 <%#="$#{current_user.balance}" %></h3>
+
+<form method="post" action="/method">
+  <label for="deposit">Deposit: $</label>
+  <input />
+  <label for="withdraw">Withdraw: $</label>
+  <input />
+  <input type="submit" value="submit" />
+</form>
 
 <p>We are currently working on your account.</p>
 

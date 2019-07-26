@@ -18,14 +18,26 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    user = User.new(username: params[:username], password: params[:password])
+    
+    if user.username.blank? || user.password.blank?
+      # Note: #blank? is not standard Ruby; it's provided by the ActiveSupport gem. See https://blog.appsignal.com/2018/09/11/differences-between-nil-empty-blank-and-present.html
+      redirect "/failure"
+    else 
+      user.save
+      redirect "/login"
+    end
   end
 
   get '/account' do
-    @user = User.find(session[:user_id])
-    erb :account
+    # This makes sure that a hacker can't login through the account route directly, although the tests don't check for this.
+    if logged_in?
+      @user = User.find(session[:user_id])
+      erb :account
+    else
+      redirect "/failure"
+    end
   end
-
 
   get "/login" do
     erb :login
@@ -33,6 +45,14 @@ class ApplicationController < Sinatra::Base
 
   post "/login" do
     ##your code here
+    user = User.find_by(username: params[:username])
+    
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
   get "/failure" do
