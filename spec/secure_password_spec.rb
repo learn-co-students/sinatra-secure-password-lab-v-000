@@ -56,7 +56,7 @@ describe 'App' do
 
     it "displays the failure page if no password is given" do
       visit '/login'
-      fill_in "username", with: "avi"
+      fill_in "username", with: "sophie"
       fill_in "password", with: ""
       click_button "Log In"
       expect(page.body).to include('Flatiron Bank Error')
