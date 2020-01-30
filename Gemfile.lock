@@ -105,6 +105,7 @@ DEPENDENCIES
   bcrypt
   capybara
   pry
+  rack
   rack-test
   rack_session_access
   rake
@@ -117,4 +118,4 @@ DEPENDENCIES
   tux
 
 BUNDLED WITH
-   2.0.1
+   2.0.2
