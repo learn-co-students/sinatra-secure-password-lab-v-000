@@ -1,5 +1,24 @@
-<h1>Welcome</h1>
+<% if @user %>
+  <h1>Welcome</h1>
+  <p>Hello <%= @user.username %>! We are currently working on your account.</p>
+  <% if @user.balance %>
+    <p>Your balance is $<%= "%.2f" % @user.balance %>.</p>
+  <% end %>
+  <form method="post" action="/deposit">
+    <p>Deposit amount:</p>
+    <p><input type="text" name="deposit_amount"></p>
+    <input type="submit" value="Deposit">
+  </form>
+  <form method="post" action="/withdrawal">
+    <p>Withdrawal amount:</p>
+    <input type="text" name="withdrawal_amount">
+    <p>Withdrawals that exceed your account balance will not be processed.</p>
+    <input type="submit" value="Withdrawal">
+  </form>
 
-<p>We are currently working on your account.</p>
-
-<p><a href="/logout">Log Out</a></p>
+  <p><a href="/logout">Log Out</a></p>
+<% else %>
+  <h1>You are not logged in! Please sign up or log in.</h1>
+  <p><a href="/signup">Sign Up</a></p>
+  <p><a href="/login">Log In</a></p>
+<% end %>
