@@ -1,5 +1,23 @@
 <h1>Welcome</h1>
 
+<h3>Hi, <%= @user.username %>!</h3>
 <p>We are currently working on your account.</p>
+
+<p>You have a balance of: $<%= @user.balance.round(2) %></p>
+
+<p><strong>Make A Deposit</strong></p>
+<form action="/account/deposit" method="POST">
+  <p><label>Amount: </label><input type="number" step="any" min="0" name="deposit_amount"></p>
+  <p><input type="submit" value="Deposit"></p>
+</form>
+
+<p><strong>Make A Withdrawal</strong></p>
+<% if session[:withdrawal_error] == "code:1" %>
+  <p><em>You have insufficient funds to complete this transaction. Enter an ammount less than $<%= @user.balance.round(2) %>.</em></p>
+<% end %>
+<form action="/account/withdrawal" method="POST">
+  <p><label>Amount: </label><input type="number" step="any" min="0" name="withdrawal_amount"></p>
+  <p><input type="submit" value="Withdraw"></p>
+</form>
 
 <p><a href="/logout">Log Out</a></p>
