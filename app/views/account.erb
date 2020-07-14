@@ -1,5 +1,21 @@
 <h1>Welcome</h1>
 
-<p>We are currently working on your account.</p>
+<h3>Balance Amount</h3>
+<p><%= current_user.balance %></p>
 
+<h3>Deposit Amount</h3>
+<form method="post" action="/users/deposit/<%= current_user.id %>">
+  <input type="hidden" id="dhidden" name="_method" value="patch">
+  <label for="amount">Amount</label>
+  <input type="text" name="amount">
+  <input type="submit" value="deposit">
+</form>
+
+<h3>Withdrawl Amount</h3>
+<form method="post" action="/users/withdrawl/<%= current_user.id %>">
+  <input type="hidden" id="whidden" name="_method" value="patch">
+  <label for="amount">Amount</label>
+  <input type="text" name="amount">
+  <input type="submit" value="withdrawl">
+</form>
 <p><a href="/logout">Log Out</a></p>
