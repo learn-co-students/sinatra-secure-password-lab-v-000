@@ -17,8 +17,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-    #your code here
+    user = User.new(username: params[:username], password: params[:password])
 
+    if user.save
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
   end
 
   get '/account' do
@@ -32,7 +37,14 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    ##your code here
+    @user = User.find_by(username: params[:username])
+
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect "/account"
+    else
+      redirect "/failure"
+    end
   end
 
   get "/failure" do
@@ -44,6 +56,38 @@ class ApplicationController < Sinatra::Base
     redirect "/"
   end
 
+  post '/withdraw' do
+    amount = params[:amount].to_f
+    @user = current_user
+
+    if @user && @user.balance > amount
+      @user.withdraw(amount)
+      @user.save
+
+      @message = "You just took out $#{amount}."
+      redirect '/account'
+    else
+      @message = "An error occurred, please try again."
+      redirect '/account'
+    end
+  end
+
+  post '/deposit' do
+    amount = params[:amount].to_f
+    @user = current_user
+
+    if @user
+      @user.deposit(amount)
+      @user.save
+
+      @message = "You just deposited $#{amount}."
+      redirect '/account'
+    else
+      @message = "An error occurred, please try again."
+      redirect '/account'
+    end
+  end
+
   helpers do
     def logged_in?
       !!session[:user_id]
@@ -53,5 +97,4 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
   end
-
 end
