@@ -51,6 +51,7 @@ describe 'App' do
       fill_in "password", with: "test"
       click_button "Log In"
       expect(page.body).to include('Flatiron Bank Error')
+      expect(page.current_path).to eq("/failure")
       expect{page.get_rack_session_key("user_id")}.to raise_error(KeyError)
     end
 
