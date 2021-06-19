@@ -53,7 +53,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/failure" do
-    erb :failure
+    erb :failure 
   end
 
   get "/logout" do
